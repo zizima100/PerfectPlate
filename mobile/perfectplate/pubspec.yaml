@@ -33,6 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^7.3.0
+  http: ^0.13.4
   sizer: ^2.0.15
 
 dev_dependencies:

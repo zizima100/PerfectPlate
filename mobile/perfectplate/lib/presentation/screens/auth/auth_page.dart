@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:perfectplate/logic/bloc/auth/auth_bloc.dart';
-import 'package:perfectplate/presentation/router/routes.dart';
+import 'package:perfectplate/data/models/auth/auth_models.dart';
+import 'package:perfectplate/logic/bloc/auth_form/auth_form_bloc.dart';
+import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:sizer/sizer.dart';
 
@@ -63,9 +64,10 @@ class AuthFormWidget extends StatefulWidget {
 class _AuthFormWidgetState extends State<AuthFormWidget> {
   @override
   Widget build(BuildContext context) {
-    AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+    AuthFormBloc authFormBloc = BlocProvider.of<AuthFormBloc>(context);
+    AuthUserBloc authUserBloc = BlocProvider.of(context);
 
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AuthFormBloc, AuthFormState>(
       builder: (context, state) {
         return Column(
           children: [
@@ -81,7 +83,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                           hintText: TextFieldConstants.username,
                         ),
                         onChanged: (value) {
-                          authBloc
+                          authFormBloc
                               .add(AuthUsernameChangedEvent(username: value));
                         },
                       ),
@@ -90,7 +92,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                         hintText: TextFieldConstants.email,
                       ),
                       onChanged: (value) {
-                        authBloc.add(AuthEmailChangedEvent(email: value));
+                        authFormBloc.add(AuthEmailChangedEvent(email: value));
                       },
                     ),
                     TextField(
@@ -98,7 +100,31 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                         hintText: TextFieldConstants.password,
                       ),
                       onChanged: (value) {
-                        authBloc.add(AuthPasswordChangedEvent(password: value));
+                        authFormBloc
+                            .add(AuthPasswordChangedEvent(password: value));
+                      },
+                    ),
+                    BlocBuilder<AuthUserBloc, AuthUserState>(
+                      buildWhen: (previousState, actualState) =>
+                          previousState != actualState,
+                      builder: (context, authUserState) {
+                        if (authUserState is AuthMandatoryFieldsEmpty) {
+                          return Container(
+                            margin: EdgeInsets.all(5.w),
+                            padding: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                              color: Colors.red[50],
+                              borderRadius: BorderRadius.circular(1.w),
+                            ),
+                            child: Text(
+                              'Por favor, preencha os campos obrigatórios',
+                              style: TextStyle(
+                                color: Colors.red[800],
+                              ),
+                            ),
+                          );
+                        }
+                        return const SizedBox();
                       },
                     ),
                   ],
@@ -110,7 +136,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                   ? ButtonConstants.switchToSignupMode
                   : ButtonConstants.switchToLoginMode),
               onPressed: () {
-                authBloc.add(AuthModeSwitchedEvent());
+                authFormBloc.add(AuthModeSwitchedEvent());
               },
             ),
             Padding(
@@ -120,12 +146,15 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                     ? ButtonConstants.login
                     : ButtonConstants.singup),
                 onPressed: () async {
-                  await authBloc.authenticate();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Routes.home,
-                    (Route<dynamic> route) => false,
-                  );
+                  if (authFormBloc.state.mode.isLogin()) {
+                    authUserBloc.add(LoginUserStarted(
+                        LoginUser(state.email, state.password)));
+                  }
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //   context,
+                  //   Routes.home,
+                  //   (Route<dynamic> route) => false,
+                  // );
                 },
               ),
             )

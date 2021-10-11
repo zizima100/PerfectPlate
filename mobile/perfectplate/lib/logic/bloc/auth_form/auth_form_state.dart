@@ -1,12 +1,12 @@
-part of 'auth_bloc.dart';
+part of 'auth_form_bloc.dart';
 
-class AuthState extends Equatable {
+class AuthFormState extends Equatable {
   final String email;
   final String password;
   final String username;
   final AuthMode mode;
 
-  const AuthState({
+  const AuthFormState({
     required this.email,
     required this.password,
     required this.username,
@@ -16,13 +16,13 @@ class AuthState extends Equatable {
   @override
   List<Object?> get props => [email, password, username, mode];
 
-  AuthState copyWith({
-    String? email,
-    String? password,
-    String? username,
-    AuthMode? mode,
-  }) {
-    return AuthState(
+  AuthFormState copyWith(
+      {String? email,
+      String? password,
+      String? username,
+      AuthMode? mode,
+      bool? mandatoryFieldsEmpty}) {
+    return AuthFormState(
       email: email ?? this.email,
       password: password ?? this.password,
       username: username ?? this.username,
@@ -31,7 +31,7 @@ class AuthState extends Equatable {
   }
 }
 
-class AuthInitial extends AuthState {
+class AuthInitial extends AuthFormState {
   AuthInitial()
       : super(
           email: '',

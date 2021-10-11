@@ -1,4 +1,4 @@
-part of 'auth_bloc.dart';
+part of 'auth_form_bloc.dart';
 
 @immutable
 abstract class AuthEvent extends Equatable {
