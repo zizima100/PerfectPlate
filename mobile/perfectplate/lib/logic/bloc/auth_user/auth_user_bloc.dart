@@ -21,6 +21,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     try {
       _validateLoginUser(event, emit);
       await respository.loginUser(event.user);
+      emit(AuthSuccessful());
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
     }

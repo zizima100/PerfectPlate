@@ -4,6 +4,7 @@ import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_form/auth_form_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
+import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:sizer/sizer.dart';
 
 class AuthPage extends StatelessWidget {
@@ -28,24 +29,35 @@ class AuthWidget extends StatefulWidget {
 class _AuthWidgetState extends State<AuthWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.green[50],
-      ),
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(3.w),
-          child: Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  ImageConstants.logoImage,
-                  fit: BoxFit.fill,
-                  height: 30.h,
-                ),
-                AuthFormWidget(),
-              ],
+    return BlocListener<AuthUserBloc, AuthUserState>(
+      listener: (context, state) {
+        if (state is AuthSuccessful) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.home,
+            (Route<dynamic> route) => false,
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.green[50],
+        ),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.all(3.w),
+            child: Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    ImageConstants.logoImage,
+                    fit: BoxFit.fill,
+                    height: 30.h,
+                  ),
+                  AuthFormWidget(),
+                ],
+              ),
             ),
           ),
         ),
@@ -117,7 +129,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                               borderRadius: BorderRadius.circular(1.w),
                             ),
                             child: Text(
-                              'Por favor, preencha os campos obrigatórios',
+                              ErrorMessagesConstants.mandatoryFieldsEmpty,
                               style: TextStyle(
                                 color: Colors.red[800],
                               ),

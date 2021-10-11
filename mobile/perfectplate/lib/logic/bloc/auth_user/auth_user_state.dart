@@ -6,3 +6,5 @@ abstract class AuthUserState {}
 class AuthUserInitial extends AuthUserState {}
 
 class AuthMandatoryFieldsEmpty extends AuthUserState {}
+
+class AuthSuccessful extends AuthUserState {}

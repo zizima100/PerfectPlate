@@ -17,3 +17,9 @@ class TextFieldConstants {
   static const email = 'E-mail';
   static const password = 'Senha';
 }
+
+class ErrorMessagesConstants {
+  ErrorMessagesConstants._();
+  static const mandatoryFieldsEmpty =
+      'Por favor, preencha os campos obrigatórios';
+}
