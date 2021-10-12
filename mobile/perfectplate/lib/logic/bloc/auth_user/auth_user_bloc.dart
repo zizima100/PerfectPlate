@@ -12,6 +12,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
 
   AuthUserBloc() : super(AuthUserInitial()) {
     on<LoginUserStarted>(_onLoginUserStarted);
+    on<SingUpUserStarted>(_onSignUpUserStarted);
   }
 
   Future<void> _onLoginUserStarted(
@@ -19,7 +20,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     Emitter<AuthUserState> emit,
   ) async {
     try {
-      _validateLoginUser(event, emit);
+      _validateLoginUser(event);
       await respository.loginUser(event.user);
       emit(AuthSuccessful());
     } on MandatoryAuthFieldsEmptyException catch (_) {
@@ -27,26 +28,28 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     }
   }
 
-  void _validateLoginUser(LoginUserStarted event, Emitter<AuthUserState> emit) {
+  void _validateLoginUser(LoginUserStarted event) {
     if (event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
       throw MandatoryAuthFieldsEmptyException();
     }
   }
 
-  // Future<void> signUpUser() async {
-  //   if (state.username.trim().isEmpty ||
-  //       state.email.trim().isEmpty ||
-  //       state.password.trim().isEmpty) {
-  //     add(AuthMandatoryFieldsEmpty());
-  //   }
-  //   try {
-  //     await respository.singupUser(SingUpUser(
-  //       state.username,
-  //       state.email,
-  //       state.password,
-  //     ));
-  //   } on Exception catch (e) {
-  //     // TODO
-  //   }
-  // }
+  Future<void> _onSignUpUserStarted(
+      SingUpUserStarted event, Emitter<AuthUserState> emit) async {
+    try {
+      _validateSignUpUser(event);
+      await respository.singupUser(event.user);
+      emit(AuthSuccessful());
+    } on MandatoryAuthFieldsEmptyException catch (_) {
+      emit(AuthMandatoryFieldsEmpty());
+    }
+  }
+
+  void _validateSignUpUser(SingUpUserStarted event) {
+    if (event.user.email.trim().isEmpty ||
+        event.user.email.trim().isEmpty ||
+        event.user.password.trim().isEmpty) {
+      throw MandatoryAuthFieldsEmptyException();
+    }
+  }
 }

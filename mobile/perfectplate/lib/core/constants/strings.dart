@@ -8,7 +8,7 @@ class ButtonConstants {
   static const switchToSignupMode = 'Não possui uma conta? Crie uma';
   static const switchToLoginMode = 'Já possui uma conta? Faça login';
   static const login = 'Login';
-  static const singup = 'Cadastrar';
+  static const signup = 'Cadastrar';
 }
 
 class TextFieldConstants {

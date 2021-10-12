@@ -13,7 +13,7 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: AuthWidget(),
     );
   }
@@ -31,9 +31,22 @@ class _AuthWidgetState extends State<AuthWidget> {
   Widget build(BuildContext context) {
     return BlocListener<AuthUserBloc, AuthUserState>(
       listener: (context, state) {
+        if (state is AuthMandatoryFieldsEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red.shade100,
+              duration: Duration(milliseconds: 1500),
+              content: Text(
+                ErrorMessagesConstants.mandatoryFieldsEmpty,
+                style: TextStyle(
+                  color: Colors.red.shade900,
+                ),
+              ),
+            ),
+          );
+        }
         if (state is AuthSuccessful) {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
+          Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.home,
             (Route<dynamic> route) => false,
           );
@@ -103,6 +116,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                       decoration: InputDecoration(
                         hintText: TextFieldConstants.email,
                       ),
+                      keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
                         authFormBloc.add(AuthEmailChangedEvent(email: value));
                       },
@@ -111,32 +125,10 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                       decoration: InputDecoration(
                         hintText: TextFieldConstants.password,
                       ),
+                      obscureText: true,
                       onChanged: (value) {
                         authFormBloc
                             .add(AuthPasswordChangedEvent(password: value));
-                      },
-                    ),
-                    BlocBuilder<AuthUserBloc, AuthUserState>(
-                      buildWhen: (previousState, actualState) =>
-                          previousState != actualState,
-                      builder: (context, authUserState) {
-                        if (authUserState is AuthMandatoryFieldsEmpty) {
-                          return Container(
-                            margin: EdgeInsets.all(5.w),
-                            padding: EdgeInsets.all(3.w),
-                            decoration: BoxDecoration(
-                              color: Colors.red[50],
-                              borderRadius: BorderRadius.circular(1.w),
-                            ),
-                            child: Text(
-                              ErrorMessagesConstants.mandatoryFieldsEmpty,
-                              style: TextStyle(
-                                color: Colors.red[800],
-                              ),
-                            ),
-                          );
-                        }
-                        return const SizedBox();
                       },
                     ),
                   ],
@@ -156,17 +148,19 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
               child: ElevatedButton(
                 child: Text(state.mode.isLogin()
                     ? ButtonConstants.login
-                    : ButtonConstants.singup),
+                    : ButtonConstants.signup),
                 onPressed: () async {
                   if (authFormBloc.state.mode.isLogin()) {
-                    authUserBloc.add(LoginUserStarted(
-                        LoginUser(state.email, state.password)));
+                    authUserBloc.add(
+                      LoginUserStarted(LoginUser(state.email, state.password)),
+                    );
+                  } else {
+                    authUserBloc.add(
+                      SingUpUserStarted(
+                        SingUpUser(state.username, state.email, state.password),
+                      ),
+                    );
                   }
-                  // Navigator.pushNamedAndRemoveUntil(
-                  //   context,
-                  //   Routes.home,
-                  //   (Route<dynamic> route) => false,
-                  // );
                 },
               ),
             )
