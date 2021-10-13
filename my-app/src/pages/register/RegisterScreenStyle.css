@@ -1,0 +1,8 @@
+.inputRow {
+    flex-direction: row;
+    padding-top: 2ch;
+}
+
+.main {
+    text-align: center;
+}
