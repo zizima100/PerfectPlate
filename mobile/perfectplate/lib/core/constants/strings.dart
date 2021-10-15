@@ -20,6 +20,6 @@ class TextFieldConstants {
 
 class ErrorMessagesConstants {
   ErrorMessagesConstants._();
-  static const mandatoryFieldsEmpty =
-      'Por favor, preencha os campos obrigatórios';
+  static const mandatoryFieldsEmpty = 'Por favor, preencha os campos obrigatórios';
+  static const userNotFound = 'Nenhum usuário encontrado com essas credenciais';
 }

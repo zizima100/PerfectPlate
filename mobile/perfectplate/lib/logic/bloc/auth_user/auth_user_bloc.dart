@@ -22,9 +22,10 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     try {
       _validateLoginUser(event);
       await respository.loginUser(event.user);
-      emit(AuthSuccessful());
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
+    } on UserNotFoundException catch (_) {
+      emit(UserNotFound());
     }
   }
 
@@ -34,8 +35,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     }
   }
 
-  Future<void> _onSignUpUserStarted(
-      SingUpUserStarted event, Emitter<AuthUserState> emit) async {
+  Future<void> _onSignUpUserStarted(SingUpUserStarted event, Emitter<AuthUserState> emit) async {
     try {
       _validateSignUpUser(event);
       await respository.singupUser(event.user);
@@ -46,9 +46,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   }
 
   void _validateSignUpUser(SingUpUserStarted event) {
-    if (event.user.email.trim().isEmpty ||
-        event.user.email.trim().isEmpty ||
-        event.user.password.trim().isEmpty) {
+    if (event.user.email.trim().isEmpty || event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
       throw MandatoryAuthFieldsEmptyException();
     }
   }

@@ -45,8 +45,7 @@ class SingUpUser {
 
   String toJson() => json.encode(toMap());
 
-  factory SingUpUser.fromJson(String source) =>
-      SingUpUser.fromMap(json.decode(source));
+  factory SingUpUser.fromJson(String source) => SingUpUser.fromMap(json.decode(source));
 }
 
 class LoginUser {
@@ -55,7 +54,7 @@ class LoginUser {
 
   LoginUser(this.email, this.password);
 
-  Map<String, dynamic> toMap() {
+  Map<String, String> toMap() {
     return {
       'email': email,
       'password': password,
@@ -71,6 +70,5 @@ class LoginUser {
 
   String toJson() => json.encode(toMap());
 
-  factory LoginUser.fromJson(String source) =>
-      LoginUser.fromMap(json.decode(source));
+  factory LoginUser.fromJson(String source) => LoginUser.fromMap(json.decode(source));
 }

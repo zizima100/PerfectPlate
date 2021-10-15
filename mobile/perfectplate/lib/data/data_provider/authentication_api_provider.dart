@@ -1,23 +1,28 @@
 import 'package:http/http.dart' as http;
-import 'package:perfectplate/data/models/auth/auth_models.dart';
 
 class AuthenticationApiProvider {
   final http.Client _client = http.Client();
+  late String _user;
 
-  Future<String> signup(SingUpUser user) async {
-    // TODO: -> Converter result de String para AuthResponse
-    final response = await _client.post(
-      Uri.parse(''),
-      body: user.toJson(),
-    );
+  static const String host = 'https://perfect-plate.herokuapp.com';
 
-    return response.body;
+  Future<String> signup(String user) async {
+    _user = user;
+    return await _authenticateUser('/users/signup');
   }
 
-  Future<String> login(LoginUser user) async {
+  Future<String> login(String user) async {
+    _user = user;
+    return await _authenticateUser('/users/login');
+  }
+
+  Future<String> _authenticateUser(String route) async {
     final response = await _client.post(
-      Uri.parse(''),
-      body: user.toJson(),
+      Uri.parse(host + route),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: _user,
     );
 
     return response.body;

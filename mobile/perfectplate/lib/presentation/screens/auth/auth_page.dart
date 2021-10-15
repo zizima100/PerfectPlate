@@ -27,23 +27,30 @@ class AuthWidget extends StatefulWidget {
 }
 
 class _AuthWidgetState extends State<AuthWidget> {
+  void _showSnackBarError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red.shade100,
+        duration: Duration(milliseconds: 1500),
+        content: Text(
+          message,
+          style: TextStyle(
+            color: Colors.red.shade900,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthUserBloc, AuthUserState>(
       listener: (context, state) {
         if (state is AuthMandatoryFieldsEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red.shade100,
-              duration: Duration(milliseconds: 1500),
-              content: Text(
-                ErrorMessagesConstants.mandatoryFieldsEmpty,
-                style: TextStyle(
-                  color: Colors.red.shade900,
-                ),
-              ),
-            ),
-          );
+          _showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
+        }
+        if (state is UserNotFound) {
+          _showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
         if (state is AuthSuccessful) {
           Navigator.of(context).pushNamedAndRemoveUntil(
@@ -97,22 +104,23 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
         return Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 3.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
               child: AnimatedSize(
                 duration: Duration(milliseconds: 200),
                 child: Column(
                   children: [
                     if (state.mode.isSignup())
                       TextField(
+                        key: ValueKey('username'),
                         decoration: InputDecoration(
                           hintText: TextFieldConstants.username,
                         ),
                         onChanged: (value) {
-                          authFormBloc
-                              .add(AuthUsernameChangedEvent(username: value));
+                          authFormBloc.add(AuthUsernameChangedEvent(username: value));
                         },
                       ),
                     TextField(
+                      key: ValueKey('email'),
                       decoration: InputDecoration(
                         hintText: TextFieldConstants.email,
                       ),
@@ -122,13 +130,13 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                       },
                     ),
                     TextField(
+                      key: ValueKey('password'),
                       decoration: InputDecoration(
                         hintText: TextFieldConstants.password,
                       ),
                       obscureText: true,
                       onChanged: (value) {
-                        authFormBloc
-                            .add(AuthPasswordChangedEvent(password: value));
+                        authFormBloc.add(AuthPasswordChangedEvent(password: value));
                       },
                     ),
                   ],
@@ -136,9 +144,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
               ),
             ),
             TextButton(
-              child: Text(state.mode.isLogin()
-                  ? ButtonConstants.switchToSignupMode
-                  : ButtonConstants.switchToLoginMode),
+              child: Text(state.mode.isLogin() ? ButtonConstants.switchToSignupMode : ButtonConstants.switchToLoginMode),
               onPressed: () {
                 authFormBloc.add(AuthModeSwitchedEvent());
               },
@@ -146,9 +152,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
             Padding(
               padding: EdgeInsets.only(bottom: 4.w),
               child: ElevatedButton(
-                child: Text(state.mode.isLogin()
-                    ? ButtonConstants.login
-                    : ButtonConstants.signup),
+                child: Text(state.mode.isLogin() ? ButtonConstants.login : ButtonConstants.signup),
                 onPressed: () async {
                   if (authFormBloc.state.mode.isLogin()) {
                     authUserBloc.add(
