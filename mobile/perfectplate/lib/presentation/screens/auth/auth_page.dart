@@ -53,6 +53,7 @@ class _AuthWidgetState extends State<AuthWidget> {
           _showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
         if (state is AuthSuccessful) {
+          debugPrint('userId = ${state.id}');
           Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.home,
             (Route<dynamic> route) => false,

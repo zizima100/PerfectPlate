@@ -14,22 +14,19 @@ class AuthFormBloc extends Bloc<AuthEvent, AuthFormState> {
     on<AuthModeSwitchedEvent>(_onModeSwitched);
   }
 
-  void _onUsernameChanged(
-      AuthUsernameChangedEvent event, Emitter<AuthFormState> emit) {
+  void _onUsernameChanged(AuthUsernameChangedEvent event, Emitter<AuthFormState> emit) {
     emit(
       state.copyWith(username: event.username),
     );
   }
 
-  void _onEmailChanged(
-      AuthEmailChangedEvent event, Emitter<AuthFormState> emit) {
+  void _onEmailChanged(AuthEmailChangedEvent event, Emitter<AuthFormState> emit) {
     emit(
       state.copyWith(email: event.email),
     );
   }
 
-  void _onPasswordChanged(
-      AuthPasswordChangedEvent event, Emitter<AuthFormState> emit) {
+  void _onPasswordChanged(AuthPasswordChangedEvent event, Emitter<AuthFormState> emit) {
     emit(
       state.copyWith(password: event.password),
     );

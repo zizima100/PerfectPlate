@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:perfectplate/core/exceptions/auth_exceptions.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
@@ -21,7 +22,8 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   ) async {
     try {
       _validateLoginUser(event);
-      await respository.loginUser(event.user);
+      int userId = await respository.loginUser(event.user);
+      emit(AuthSuccessful(userId));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
     } on UserNotFoundException catch (_) {
@@ -38,8 +40,8 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   Future<void> _onSignUpUserStarted(SingUpUserStarted event, Emitter<AuthUserState> emit) async {
     try {
       _validateSignUpUser(event);
-      await respository.singupUser(event.user);
-      emit(AuthSuccessful());
+      int userId = await respository.singupUser(event.user);
+      emit(AuthSuccessful(userId));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
     }
