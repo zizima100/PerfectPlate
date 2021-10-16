@@ -14,6 +14,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   AuthUserBloc() : super(AuthUserInitial()) {
     on<LoginUserStarted>(_onLoginUserStarted);
     on<SingUpUserStarted>(_onSignUpUserStarted);
+    on<LogoutStarted>(_onLogoutStarted);
   }
 
   Future<void> _onLoginUserStarted(
@@ -51,5 +52,9 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     if (event.user.email.trim().isEmpty || event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
       throw MandatoryAuthFieldsEmptyException();
     }
+  }
+
+  _onLogoutStarted(_, Emitter<AuthUserState> emit) {
+    emit(UserLogout());
   }
 }

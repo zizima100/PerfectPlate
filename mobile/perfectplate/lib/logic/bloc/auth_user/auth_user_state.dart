@@ -28,3 +28,8 @@ class AuthSuccessful extends AuthUserState {
         id
       ];
 }
+
+class UserLogout extends AuthUserState {
+  @override
+  List<Object?> get props => [];
+}

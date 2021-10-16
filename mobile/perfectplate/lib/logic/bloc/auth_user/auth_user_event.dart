@@ -12,3 +12,6 @@ class SingUpUserStarted extends AuthUserEvent {
   final SingUpUser user;
   SingUpUserStarted(this.user);
 }
+
+@immutable
+class LogoutStarted extends AuthUserEvent {}

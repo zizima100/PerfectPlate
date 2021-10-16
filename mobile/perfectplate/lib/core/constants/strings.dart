@@ -9,6 +9,7 @@ class ButtonConstants {
   static const switchToLoginMode = 'Já possui uma conta? Faça login';
   static const login = 'Login';
   static const signup = 'Cadastrar';
+  static const leave_app = 'Sair';
 }
 
 class TextFieldConstants {
