@@ -1,6 +1,27 @@
 .inputRow {
     flex-direction: row;
+    justify-content: center;
+    display: flex;
     padding-top: 2ch;
+}
+
+.inputWithIcon {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}
+
+.passwordVisibleIcon {
+    padding-top: 1ch;
+}
+
+.inputWrapper {
+    padding-left: 2ch;
+    padding-right: 2ch;
+}
+
+.selectInputWrapper {
+    padding-right: 4ch;
 }
 
 .main {
