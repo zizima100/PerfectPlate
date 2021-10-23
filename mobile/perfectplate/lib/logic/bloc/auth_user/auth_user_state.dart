@@ -18,6 +18,11 @@ class UserNotFound extends AuthUserState {
   List<Object?> get props => [];
 }
 
+class EmailInvalid extends AuthUserState {
+  @override
+  List<Object?> get props => [];
+}
+
 class AuthSuccessful extends AuthUserState {
   final int id;
 

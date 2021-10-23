@@ -23,8 +23,8 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   ) async {
     try {
       _validateLoginUser(event);
-      int userId = await respository.loginUser(event.user);
-      emit(AuthSuccessful(userId));
+      int? userId = await respository.loginUser(event.user);
+      emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
     } on UserNotFoundException catch (_) {
@@ -41,10 +41,12 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   Future<void> _onSignUpUserStarted(SingUpUserStarted event, Emitter<AuthUserState> emit) async {
     try {
       _validateSignUpUser(event);
-      int userId = await respository.singupUser(event.user);
-      emit(AuthSuccessful(userId));
+      int? userId = await respository.singupUser(event.user);
+      emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
+    } on EmailAlreadyExists catch (_) {
+      emit(EmailInvalid());
     }
   }
 

@@ -52,6 +52,9 @@ class _AuthWidgetState extends State<AuthWidget> {
         if (state is UserNotFound) {
           _showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
+        if(state is EmailInvalid) {
+          _showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
+        }
         if (state is AuthSuccessful) {
           debugPrint('userId = ${state.id}');
           Navigator.of(context).pushNamedAndRemoveUntil(
