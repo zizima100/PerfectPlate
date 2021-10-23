@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
-import 'package:perfectplate/logic/bloc/meals_bloc/meals_bloc.dart';
+import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/app_drawer.dart';
 import 'package:perfectplate/presentation/utils/router/route_helper.dart';
@@ -26,11 +26,11 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Text('user id = ${BlocProvider.of<MealsBloc>(context).userId.toString()}'),
+              Text('user id = ${BlocProvider.of<PlatesBloc>(context).userId.toString()}'),
               ElevatedButton(
                 child: Text('Insira um prato'),
                 onPressed: () {
-                  BlocProvider.of<MealsBloc>(context).add(MealsInsertionStarted());
+                  BlocProvider.of<PlatesBloc>(context).add(PlateInsertionStartedEvent());
                 },
               )
             ],

@@ -3,23 +3,23 @@ import 'package:equatable/equatable.dart';
 import 'package:perfectplate/data/models/meals/plates.dart';
 import 'package:perfectplate/data/repositories/meals_repository.dart';
 
-part 'meals_event.dart';
-part 'meals_state.dart';
+part 'plates_event.dart';
+part 'plates_state.dart';
 
-class MealsBloc extends Bloc<MealsEvent, MealsState> {
+class PlatesBloc extends Bloc<PlatesEvent, MealsState> {
   int? _userId;
-  MealsRepository _repository = MealsRepository();
+  final MealsRepository _repository = MealsRepository();
 
-  MealsBloc() : super(MealsInitial()) {
+  PlatesBloc() : super(MealsInitial()) {
     on<UserAuthenticated>(_onUserAuthenticated);
-    on<MealsInsertionStarted>(_onMealsInsertionStarted);
+    on<PlateInsertionStartedEvent>(_onPlateInsertionStarted);
   }
 
   void _onUserAuthenticated(UserAuthenticated event, _) {
     _userId = event.userId;
   }
 
-  Future<void> _onMealsInsertionStarted(MealsInsertionStarted event, _) async {
+  Future<void> _onPlateInsertionStarted(PlateInsertionStartedEvent event, _) async {
     int? plateId = await _repository.insertPlate(
       Plate(_userId!, 'Teste pelo flutter', DateTime.now())
     );

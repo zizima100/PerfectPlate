@@ -1,4 +1,4 @@
-part of 'meals_bloc.dart';
+part of 'plates_bloc.dart';
 
 abstract class MealsState extends Equatable {
   const MealsState();

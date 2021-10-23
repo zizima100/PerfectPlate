@@ -3,15 +3,15 @@ part of 'auth_user_bloc.dart';
 @immutable
 abstract class AuthUserEvent {}
 
-class LoginUserStarted extends AuthUserEvent {
+class LoginUserStartedEvent extends AuthUserEvent {
   final LoginUser user;
-  LoginUserStarted(this.user);
+  LoginUserStartedEvent(this.user);
 }
 
-class SingUpUserStarted extends AuthUserEvent {
+class SingUpUserStartedEvent extends AuthUserEvent {
   final SingUpUser user;
-  SingUpUserStarted(this.user);
+  SingUpUserStartedEvent(this.user);
 }
 
 @immutable
-class LogoutStarted extends AuthUserEvent {}
+class LogoutStartedEvent extends AuthUserEvent {}

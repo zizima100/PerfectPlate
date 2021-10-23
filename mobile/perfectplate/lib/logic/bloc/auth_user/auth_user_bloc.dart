@@ -9,21 +9,21 @@ part 'auth_user_event.dart';
 part 'auth_user_state.dart';
 
 class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
-  final AuthenticationRespository respository = AuthenticationRespository();
+  final AuthenticationRepository _respository = AuthenticationRepository();
 
   AuthUserBloc() : super(AuthUserInitial()) {
-    on<LoginUserStarted>(_onLoginUserStarted);
-    on<SingUpUserStarted>(_onSignUpUserStarted);
-    on<LogoutStarted>(_onLogoutStarted);
+    on<LoginUserStartedEvent>(_onLoginUserStarted);
+    on<SingUpUserStartedEvent>(_onSignUpUserStarted);
+    on<LogoutStartedEvent>(_onLogoutStarted);
   }
 
   Future<void> _onLoginUserStarted(
-    LoginUserStarted event,
+    LoginUserStartedEvent event,
     Emitter<AuthUserState> emit,
   ) async {
     try {
       _validateLoginUser(event);
-      int? userId = await respository.loginUser(event.user);
+      int? userId = await _respository.loginUser(event.user);
       emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
@@ -32,16 +32,16 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     }
   }
 
-  void _validateLoginUser(LoginUserStarted event) {
+  void _validateLoginUser(LoginUserStartedEvent event) {
     if (event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
       throw MandatoryAuthFieldsEmptyException();
     }
   }
 
-  Future<void> _onSignUpUserStarted(SingUpUserStarted event, Emitter<AuthUserState> emit) async {
+  Future<void> _onSignUpUserStarted(SingUpUserStartedEvent event, Emitter<AuthUserState> emit) async {
     try {
       _validateSignUpUser(event);
-      int? userId = await respository.singupUser(event.user);
+      int? userId = await _respository.singupUser(event.user);
       emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
@@ -50,7 +50,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     }
   }
 
-  void _validateSignUpUser(SingUpUserStarted event) {
+  void _validateSignUpUser(SingUpUserStartedEvent event) {
     if (event.user.email.trim().isEmpty || event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
       throw MandatoryAuthFieldsEmptyException();
     }

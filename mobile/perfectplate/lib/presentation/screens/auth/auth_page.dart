@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
-import 'package:perfectplate/logic/bloc/auth_form/auth_form_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
-import 'package:perfectplate/logic/bloc/meals_bloc/meals_bloc.dart';
+import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:sizer/sizer.dart';
 
@@ -53,11 +52,12 @@ class _AuthWidgetState extends State<AuthWidget> {
         if (state is UserNotFound) {
           _showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
-        if(state is EmailInvalid) {
+        if (state is EmailInvalid) {
           _showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
         }
         if (state is AuthSuccessful) {
-          BlocProvider.of<MealsBloc>(context).add(UserAuthenticated(userId: state.id));
+          BlocProvider.of<PlatesBloc>(context)
+              .add(UserAuthenticated(userId: state.id));
           Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.home,
             (Route<dynamic> route) => false,
@@ -99,83 +99,96 @@ class AuthFormWidget extends StatefulWidget {
 }
 
 class _AuthFormWidgetState extends State<AuthFormWidget> {
+  late String email;
+  late String password;
+  late String username;
+  late AuthMode mode;
+  late AuthUserBloc authUserBloc;
+
+  @override
+  void initState() {
+    email = '';
+    password = '';
+    username = '';
+    mode = AuthMode(Mode.login);
+    authUserBloc = BlocProvider.of<AuthUserBloc>(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    AuthFormBloc authFormBloc = BlocProvider.of<AuthFormBloc>(context);
-    AuthUserBloc authUserBloc = BlocProvider.of(context);
-
-    return BlocBuilder<AuthFormBloc, AuthFormState>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
-              child: AnimatedSize(
-                duration: Duration(milliseconds: 200),
-                child: Column(
-                  children: [
-                    if (state.mode.isSignup())
-                      TextField(
-                        key: ValueKey('username'),
-                        decoration: InputDecoration(
-                          hintText: TextFieldConstants.username,
-                        ),
-                        onChanged: (value) {
-                          authFormBloc.add(AuthUsernameChangedEvent(username: value));
-                        },
-                      ),
-                    TextField(
-                      key: ValueKey('email'),
-                      decoration: InputDecoration(
-                        hintText: TextFieldConstants.email,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) {
-                        authFormBloc.add(AuthEmailChangedEvent(email: value));
-                      },
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
+          child: AnimatedSize(
+            duration: Duration(milliseconds: 200),
+            child: Column(
+              children: [
+                if (mode.isSignup())
+                  TextField(
+                    key: ValueKey('username'),
+                    decoration: InputDecoration(
+                      hintText: TextFieldConstants.username,
                     ),
-                    TextField(
-                      key: ValueKey('password'),
-                      decoration: InputDecoration(
-                        hintText: TextFieldConstants.password,
-                      ),
-                      obscureText: true,
-                      onChanged: (value) {
-                        authFormBloc.add(AuthPasswordChangedEvent(password: value));
-                      },
-                    ),
-                  ],
+                    onChanged: (value) {
+                      setState(() => username = value);
+                    },
+                  ),
+                TextField(
+                  key: ValueKey('email'),
+                  decoration: InputDecoration(
+                    hintText: TextFieldConstants.email,
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    setState(() => email = value);
+                  },
                 ),
-              ),
+                TextField(
+                  key: ValueKey('password'),
+                  decoration: InputDecoration(
+                    hintText: TextFieldConstants.password,
+                  ),
+                  obscureText: true,
+                  onChanged: (value) {
+                    setState(() => password = value);
+                  },
+                ),
+              ],
             ),
-            TextButton(
-              child: Text(state.mode.isLogin() ? ButtonConstants.switchToSignupMode : ButtonConstants.switchToLoginMode),
-              onPressed: () {
-                authFormBloc.add(AuthModeSwitchedEvent());
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 4.w),
-              child: ElevatedButton(
-                child: Text(state.mode.isLogin() ? ButtonConstants.login : ButtonConstants.signup),
-                onPressed: () async {
-                  if (authFormBloc.state.mode.isLogin()) {
-                    authUserBloc.add(
-                      LoginUserStarted(LoginUser(state.email, state.password)),
-                    );
-                  } else {
-                    authUserBloc.add(
-                      SingUpUserStarted(
-                        SingUpUser(state.username, state.email, state.password),
-                      ),
-                    );
-                  }
-                },
-              ),
-            )
-          ],
-        );
-      },
+          ),
+        ),
+        TextButton(
+          child: Text(mode.isLogin()
+              ? ButtonConstants.switchToSignupMode
+              : ButtonConstants.switchToLoginMode),
+          onPressed: () {
+            setState(() => mode = mode.switchMode());
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 4.w),
+          child: ElevatedButton(
+            child: Text(mode.isLogin()
+                ? ButtonConstants.login
+                : ButtonConstants.signup),
+            onPressed: () async {
+              if (mode.isLogin()) {
+                authUserBloc.add(
+                  LoginUserStartedEvent(LoginUser(email, password)),
+                );
+              } else {
+                authUserBloc.add(
+                  SingUpUserStartedEvent(
+                    SingUpUser(username, email, password),
+                  ),
+                );
+              }
+            },
+          ),
+        )
+      ],
     );
   }
 }
