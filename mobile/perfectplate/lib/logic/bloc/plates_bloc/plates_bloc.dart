@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:perfectplate/data/models/meals/plates.dart';
-import 'package:perfectplate/data/repositories/meals_repository.dart';
+import 'package:perfectplate/data/repositories/plates_repository.dart';
 
 part 'plates_event.dart';
 part 'plates_state.dart';
 
-class PlatesBloc extends Bloc<PlatesEvent, MealsState> {
+class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   int? _userId;
-  final MealsRepository _repository = MealsRepository();
+  final PlatesRepository _repository = PlatesRepository();
 
   PlatesBloc() : super(MealsInitial()) {
     on<UserAuthenticated>(_onUserAuthenticated);

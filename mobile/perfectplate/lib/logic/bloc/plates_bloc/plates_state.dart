@@ -1,10 +1,10 @@
 part of 'plates_bloc.dart';
 
-abstract class MealsState extends Equatable {
-  const MealsState();
+abstract class PlatesState extends Equatable {
+  const PlatesState();
   
   @override
   List<Object> get props => [];
 }
 
-class MealsInitial extends MealsState {}
+class MealsInitial extends PlatesState {}
