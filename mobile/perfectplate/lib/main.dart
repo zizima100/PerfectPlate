@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_form/auth_form_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
+import 'package:perfectplate/logic/bloc/meals_bloc/meals_bloc.dart';
 import 'package:perfectplate/presentation/router/generate_routes.dart';
 import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:sizer/sizer.dart';
@@ -24,6 +25,9 @@ class PerfectPlateApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AuthUserBloc(),
+          ),
+          BlocProvider(
+            create: (context) => MealsBloc(),
           )
         ],
         child: MaterialApp(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
+import 'package:perfectplate/logic/bloc/meals_bloc/meals_bloc.dart';
 import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/app_drawer.dart';
 import 'package:perfectplate/presentation/utils/router/route_helper.dart';
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
           }
         },
         child: Center(
-          child: Text('Home page'),
+          child: Text('user id = ${BlocProvider.of<MealsBloc>(context).userId.toString()}'),
         ),
       ),
     );

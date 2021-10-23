@@ -4,6 +4,7 @@ import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_form/auth_form_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
+import 'package:perfectplate/logic/bloc/meals_bloc/meals_bloc.dart';
 import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:sizer/sizer.dart';
 
@@ -56,7 +57,7 @@ class _AuthWidgetState extends State<AuthWidget> {
           _showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
         }
         if (state is AuthSuccessful) {
-          debugPrint('userId = ${state.id}');
+          BlocProvider.of<MealsBloc>(context).add(UserAuthenticated(userId: state.id));
           Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.home,
             (Route<dynamic> route) => false,
