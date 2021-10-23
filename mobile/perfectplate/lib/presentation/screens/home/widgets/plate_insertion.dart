@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 
 class PlateInsertionWidget extends StatefulWidget {
   const PlateInsertionWidget({Key? key}) : super(key: key);
@@ -16,6 +13,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
   late ScrollController _scrollController;
   late String _plateName;
   late List<Widget> _ingredientsWidgets;
+  late int _platesCount;
 
   @override
   void initState() {
@@ -23,6 +21,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
     _scrollController = ScrollController();
     _plateName = '';
     _ingredientsWidgets = [];
+    _platesCount = 0;
     super.initState();
   }
 
@@ -45,6 +44,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DropdownButton(
                 items: const <DropdownMenuItem<dynamic>>[
@@ -54,11 +54,21 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
               IconButton(
                 onPressed: () {
                   setState(() {
+                    _platesCount++;
+                  });
+                  var ingredientKey = ValueKey('plate$_platesCount');
+                  setState(() {
                     _ingredientsWidgets.add(
                       IngredientWidget(
+                        key: ValueKey(ingredientKey),
                         type: 'Carboidratos',
                         name: 'Arroz',
                         onePortionQuantity: 200,
+                        onDeleteTap: () {
+                          setState(() => _ingredientsWidgets.removeWhere((i) {
+                            return i.key == ValueKey(ingredientKey);
+                          }));
+                        },
                       ),
                     );
                   });
@@ -73,7 +83,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
             ],
           ),
           ElevatedButton(
-            child: Text('Inserir'),
+            child: Text('Registrar prato'),
             onPressed: () {
               print('plateName = $_plateName');
               // BlocProvider.of<PlatesBloc>(context)
@@ -87,12 +97,14 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
 }
 
 class IngredientWidget extends StatefulWidget {
+  final Function onDeleteTap;
   final String type;
   final String name;
   final double onePortionQuantity;
 
   const IngredientWidget({
     Key? key,
+    required this.onDeleteTap,
     required this.type,
     required this.name,
     required this.onePortionQuantity,
@@ -107,58 +119,78 @@ class _IngredientWidgetState extends State<IngredientWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
-      child: Column(
+      child: Row(
         children: [
-          Text(widget.type),
-          _SquareContainer(child: Text(widget.name)),
-          SizedBox(height: 0.8.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Flexible(
-                flex: 6,
-                child: Column(
+          Flexible(
+            flex: 9,
+            child: Column(
+              children: [
+                Text(widget.type),
+                _SquareContainer(child: Text(widget.name)),
+                SizedBox(height: 0.8.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text('Uma porção'),
-                    _SquareContainer(child: Text(widget.onePortionQuantity.toString())),
-                  ],
-                ),
-              ),
-              Flexible(
-                flex: 4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Quantidade de porções'),
-                    SizedBox(height: 0.5.h),
-                    TextField(
-                      style: TextStyle(
-                        fontSize: 12.sp,
+                    Flexible(
+                      flex: 6,
+                      child: Column(
+                        children: [
+                          Text('Uma porção'),
+                          _SquareContainer(child: Text(widget.onePortionQuantity.toString())),
+                        ],
                       ),
-                      maxLength: 3,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        counterText: '',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        constraints: BoxConstraints(
-                          maxHeight: 3.5.h,
-                          maxWidth: 14.w,
-                        )
+                    ),
+                    Flexible(
+                      flex: 5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Quantidade de porções',
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 0.5.h),
+                          TextField(
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                            ),
+                            maxLength: 3,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              counterText: '',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1, color: Colors.black),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1, color: Colors.black),
+                              ),
+                              constraints: BoxConstraints(
+                                maxHeight: 3.5.h,
+                                maxWidth: 14.w,
+                              )
+                            ),
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {},
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {},
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          Flexible(
+            flex: 1,
+            child: IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: Colors.red.shade300,
+              ),
+              onPressed: () => widget.onDeleteTap(),
+            ),
+          )
         ],
       ),
     );
