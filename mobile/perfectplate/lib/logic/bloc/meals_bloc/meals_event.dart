@@ -10,3 +10,8 @@ class UserAuthenticated extends MealsEvent {
   @override
   List<Object?> get props => [userId];
 }
+
+class MealsInsertionStarted extends MealsEvent {
+  @override
+  List<Object?> get props => [];
+}

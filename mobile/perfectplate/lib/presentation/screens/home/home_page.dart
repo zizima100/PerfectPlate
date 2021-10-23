@@ -24,7 +24,17 @@ class HomePage extends StatelessWidget {
           }
         },
         child: Center(
-          child: Text('user id = ${BlocProvider.of<MealsBloc>(context).userId.toString()}'),
+          child: Column(
+            children: [
+              Text('user id = ${BlocProvider.of<MealsBloc>(context).userId.toString()}'),
+              ElevatedButton(
+                child: Text('Insira um prato'),
+                onPressed: () {
+                  BlocProvider.of<MealsBloc>(context).add(MealsInsertionStarted());
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
