@@ -12,6 +12,10 @@ class UserAuthenticated extends PlatesEvent {
 }
 
 class PlateInsertionStartedEvent extends PlatesEvent {
+  final String name;
+
+  PlateInsertionStartedEvent({required this.name});
+
   @override
   List<Object?> get props => [];
 }
