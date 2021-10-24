@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
+import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/app_drawer.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/plate_insertion.dart';
@@ -23,7 +25,18 @@ class HomePage extends StatelessWidget {
             RouteHelper.removeAllAndPushTo(context, Routes.auth);
           }
         },
-        child: PlateInsertionWidget(),
+        child: FutureBuilder<List<Ingredient>>(
+          future: BlocProvider.of<PlatesBloc>(context).retrieveAllIngredients(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Ocorreu um erro :('));
+            }
+            return PlateInsertionWidget(ingredients: snapshot.data!);
+          },
+        ),
       ),
     );
   }

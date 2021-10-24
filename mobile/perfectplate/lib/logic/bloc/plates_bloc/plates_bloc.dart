@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:perfectplate/core/utils/plate_utils.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/data/repositories/plates_repository.dart';
 
@@ -25,11 +26,27 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
     for (var plateIngredient in plate.plateIngredients) {
       await _repository.insertPlateIngredient(
         RawPlateIngredient(
-          ingredientId: plateIngredient.ingredientId,
+          ingredientId: plateIngredient.ingredientId!,
           plateId: plateId!,
           numberOfPortions: plateIngredient.numberOfPortions!,
         ),
       );
     }
+  }
+
+  Future<List<Ingredient>> retrieveAllIngredients() async {
+    List<RawIngredient>? ingredients =
+        await _repository.retrieveAllIngredients();
+
+    if (ingredients == null) {
+      throw Exception();
+    }
+
+    return ingredients.map((i) {
+      return Ingredient(
+          id: i.id,
+          name: i.name,
+          classification: PlateUtils.parseStringEnumToEnum(i.classification));
+    }).toList();
   }
 }

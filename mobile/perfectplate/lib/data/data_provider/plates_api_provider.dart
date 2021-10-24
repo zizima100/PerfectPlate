@@ -28,4 +28,14 @@ class PlatesApiProvider {
 
     return response.body;
   }
+
+  Future<String> retrieveAllIngredients() async {
+    final response = await _client.get(
+      Uri.parse(ApisHosts.meals + '/ingredients/query_all'),
+    );
+
+    print('response = ${response.body}');
+
+    return response.body;
+  }
 }

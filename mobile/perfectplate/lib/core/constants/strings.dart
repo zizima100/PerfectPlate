@@ -1,5 +1,3 @@
-import 'package:perfectplate/core/exceptions/auth_exceptions.dart';
-
 class ImageConstants {
   ImageConstants._();
   static const logoImage = 'assets/logo.png';
@@ -23,7 +21,9 @@ class TextFieldConstants {
 
 class ErrorMessagesConstants {
   ErrorMessagesConstants._();
-  static const mandatoryFieldsEmpty = 'Por favor, preencha os campos obrigatórios';
+  static const mandatoryFieldsEmpty =
+      'Por favor, preencha os campos obrigatórios';
   static const userNotFound = 'Nenhum usuário encontrado com essas credenciais';
-  static const emailAlreadyExists = 'Já existe uma conta cadastrada com esse e-mail';
+  static const emailAlreadyExists =
+      'Já existe uma conta cadastrada com esse e-mail';
 }

@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfectplate/core/utils/plate_utils.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/ingredients_modal.dart';
-import 'package:sizer/sizer.dart';
 
 class PlateInsertionWidget extends StatefulWidget {
-  const PlateInsertionWidget({Key? key}) : super(key: key);
+  final List<Ingredient> ingredients;
+
+  const PlateInsertionWidget({
+    Key? key,
+    required this.ingredients,
+  }) : super(key: key);
 
   @override
   _PlateInsertionWidgetState createState() => _PlateInsertionWidgetState();
@@ -19,8 +26,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
   late List<Widget> _ingredientsWidgets;
   late int _platesCount;
   late List<PlateIngredient> _plateIngredients;
-  late String _ingredientType;
-  final List<String> _ingredientsType = ['Carboidrato', 'Vegetal', 'Proteína'];
+  late IngredientClassification _ingredientType;
 
   @override
   void initState() {
@@ -30,7 +36,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
     _ingredientsWidgets = [];
     _platesCount = 0;
     _plateIngredients = [];
-    _ingredientType = 'Carboidrato';
+    _ingredientType = IngredientClassification.carbohydrate;
     super.initState();
   }
 
@@ -42,7 +48,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
         children: [
           TextField(
             controller: _placeNameController,
-            decoration: InputDecoration(hintText: 'Digite aqui o que comeu'),
+            decoration: InputDecoration(hintText: 'Digite o nome do seu prato'),
             onChanged: (value) {
               _plateName = value;
             },
@@ -55,17 +61,19 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButton<String>(
+              DropdownButton<IngredientClassification>(
                 value: _ingredientType,
                 onChanged: (value) {
                   setState(() {
-                    _ingredientType = value ?? '';
+                    _ingredientType =
+                        value ?? IngredientClassification.carbohydrate;
                   });
                 },
-                items: _ingredientsType.map((value) {
+                items: IngredientClassification.values.map((value) {
                   return DropdownMenuItem(
                     value: value,
-                    child: Text(value),
+                    child:
+                        Text(PlateUtils.parseClassificationEnumToTitle(value)),
                   );
                 }).toList(),
               ),
@@ -80,7 +88,6 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                     _platesCount++;
                   });
                   var ingredient = PlateIngredient(ingredientId: 1);
-                  // TODO: set ingredient id according to selected
                   _plateIngredients.add(ingredient);
                   var ingredientKey = ValueKey('plate$_platesCount');
                   setState(() {
@@ -88,8 +95,8 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                       IngredientWidget(
                         key: ingredientKey,
                         type: _ingredientType,
-                        name: 'Arroz',
                         onePortionQuantity: 200,
+                        ingredients: widget.ingredients,
                         onDeleteTap: () {
                           setState(
                             () => _ingredientsWidgets.removeWhere(
@@ -104,7 +111,9 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                           ingredient.numberOfPortions =
                               int.tryParse(value) ?? 0;
                         },
-                        onIngredientChanged: (int previousId, int currentId) {},
+                        onIngredientChanged: (int id) {
+                          ingredient.ingredientId = id;
+                        },
                       ),
                     );
                   });
@@ -134,19 +143,19 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
 class IngredientWidget extends StatefulWidget {
   final Function onDeleteTap;
   final void Function(String) onNumberOfPortionsChanged;
-  final void Function(int, int) onIngredientChanged;
-  final String type;
-  final String name;
+  final void Function(int) onIngredientChanged;
+  final IngredientClassification type;
   final double onePortionQuantity;
+  final List<Ingredient> ingredients;
 
   const IngredientWidget({
     Key? key,
     required this.onDeleteTap,
-    required this.type,
-    required this.name,
-    required this.onePortionQuantity,
     required this.onNumberOfPortionsChanged,
     required this.onIngredientChanged,
+    required this.type,
+    required this.onePortionQuantity,
+    required this.ingredients,
   }) : super(key: key);
 
   @override
@@ -154,6 +163,8 @@ class IngredientWidget extends StatefulWidget {
 }
 
 class _IngredientWidgetState extends State<IngredientWidget> {
+  String? _nameSelected;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -164,23 +175,39 @@ class _IngredientWidgetState extends State<IngredientWidget> {
             flex: 9,
             child: Column(
               children: [
-                Text(widget.type),
+                Text(PlateUtils.parseClassificationEnumToTitle(widget.type)),
                 GestureDetector(
-                    child: _SquareContainer(child: Text(widget.name)),
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) {
-                          return IngredientsModal(
-                            onIngredinetTap: (int newId) {
-                              widget.onIngredientChanged(1, newId);
-                            },
-                          );
-                        },
-                        useSafeArea: true,
-                        barrierDismissible: true,
-                      );
-                    }),
+                  child: _SquareContainer(
+                      child: _nameSelected == null
+                          ? SizedBox(
+                              width: 4.h,
+                              height: 2.h,
+                            )
+                          : Text(_nameSelected!)),
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return IngredientsModal(
+                          ingredients: widget.ingredients,
+                          type: widget.type,
+                          onIngredinetTap: (int id) {
+                            widget.onIngredientChanged(id);
+                            var name = widget.ingredients
+                                .firstWhere((i) => i.id == id,
+                                    orElse: () => Ingredient())
+                                .name;
+                            setState(() {
+                              _nameSelected = name;
+                            });
+                          },
+                        );
+                      },
+                      useSafeArea: true,
+                      barrierDismissible: true,
+                    );
+                  },
+                ),
                 SizedBox(height: 0.8.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -79,15 +79,107 @@ class Plate {
 }
 
 class PlateIngredient {
-  final int ingredientId;
+  int? ingredientId;
   int? numberOfPortions;
 
   PlateIngredient({
-    required this.ingredientId,
+    this.ingredientId,
     this.numberOfPortions,
   });
 
   @override
   String toString() =>
       'PlateIngredient(ingredientId: $ingredientId, numberOfPortions: $numberOfPortions)';
+}
+
+class RawIngredient {
+  final int id;
+  final String name;
+  final double onePortionWeight;
+  final String classification;
+  final double energeticValue;
+  final double carbohydrate;
+  final double protein;
+  final double saturatedFat;
+  final double totalFat;
+  final double transFat;
+  final double fibre;
+  final double sodium;
+
+  RawIngredient({
+    required this.id,
+    required this.name,
+    required this.onePortionWeight,
+    required this.classification,
+    required this.energeticValue,
+    required this.carbohydrate,
+    required this.protein,
+    required this.saturatedFat,
+    required this.totalFat,
+    required this.transFat,
+    required this.fibre,
+    required this.sodium,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'one_portion_weight': onePortionWeight,
+      'classification': classification,
+      'energetic_value': energeticValue,
+      'carbohydrate': carbohydrate,
+      'protein': protein,
+      'saturated_fat': saturatedFat,
+      'total_fat': totalFat,
+      'trans_fat': transFat,
+      'fibre': fibre,
+      'sodium': sodium,
+    };
+  }
+
+  factory RawIngredient.fromMap(dynamic map) {
+    print('map = $map');
+    return RawIngredient(
+      id: map['id'],
+      name: map['name'].toString(),
+      onePortionWeight: double.tryParse(map['one_portion_weight']) ?? 0,
+      classification: map['classification'].toString(),
+      energeticValue: double.tryParse(map['energetic_value']) ?? 0,
+      carbohydrate: double.tryParse(map['carbohydrate']) ?? 0,
+      protein: double.tryParse(map['protein']) ?? 0,
+      saturatedFat: double.tryParse(map['saturated_fat']) ?? 0,
+      totalFat: double.tryParse(map['total_fat']) ?? 0,
+      transFat: double.tryParse(map['trans_fat']) ?? 0,
+      fibre: double.tryParse(map['fibre']) ?? 0,
+      sodium: double.tryParse(map['sodium']) ?? 0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RawIngredient.fromJson(String source) =>
+      RawIngredient.fromMap(json.decode(source));
+}
+
+class Ingredient {
+  int? id;
+  String? name;
+  final IngredientClassification? classification;
+
+  Ingredient({
+    this.classification,
+    this.id,
+    this.name,
+  });
+
+  @override
+  String toString() =>
+      'Ingredient(id: $id, name: $name, classification: $classification)';
+}
+
+enum IngredientClassification {
+  carbohydrate,
+  vegetable,
+  protein,
 }

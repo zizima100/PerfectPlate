@@ -20,4 +20,18 @@ class PlatesRepository {
       return bodyDecoded['data'];
     }
   }
+
+  Future<List<RawIngredient>?> retrieveAllIngredients() async {
+    String body = await _provider.retrieveAllIngredients();
+    Map<String, dynamic> bodyDecoded = json.decode(body);
+    if (bodyDecoded['ok']) {
+      var data = bodyDecoded['data'];
+      List<RawIngredient> ingredients = [];
+      for (var i in data) {
+        ingredients.add(RawIngredient.fromMap(i));
+      }
+      print('ingredients= $ingredients');
+      return ingredients;
+    }
+  }
 }
