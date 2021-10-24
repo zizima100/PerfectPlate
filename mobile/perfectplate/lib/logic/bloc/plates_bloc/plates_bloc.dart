@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:perfectplate/data/models/meals/plates.dart';
+import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/data/repositories/plates_repository.dart';
 
 part 'plates_event.dart';
@@ -12,21 +12,24 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
 
   PlatesBloc() : super(MealsInitial()) {
     on<UserAuthenticated>(_onUserAuthenticated);
-    on<PlateInsertionStartedEvent>(_onPlateInsertionStarted);
   }
 
   void _onUserAuthenticated(UserAuthenticated event, _) {
     _userId = event.userId;
   }
 
-  Future<void> _onPlateInsertionStarted(PlateInsertionStartedEvent event, _) async {
+  Future<void> insertPlate(Plate plate) async {
     int? plateId = await _repository.insertPlate(
-      Plate(_userId!, 'Teste pelo flutter', DateTime.now())
-    );
+        RawPlate(userId: _userId!, name: plate.name, date: plate.date));
 
-    print('plateId = $plateId');
-
+    for (var plateIngredient in plate.plateIngredients) {
+      await _repository.insertPlateIngredient(
+        RawPlateIngredient(
+          ingredientId: plateIngredient.ingredientId,
+          plateId: plateId!,
+          numberOfPortions: plateIngredient.numberOfPortions!,
+        ),
+      );
+    }
   }
-
-  int? get userId => _userId;
 }

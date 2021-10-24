@@ -10,12 +10,3 @@ class UserAuthenticated extends PlatesEvent {
   @override
   List<Object?> get props => [userId];
 }
-
-class PlateInsertionStartedEvent extends PlatesEvent {
-  final String name;
-
-  PlateInsertionStartedEvent({required this.name});
-
-  @override
-  List<Object?> get props => [];
-}
