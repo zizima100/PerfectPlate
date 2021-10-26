@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
 import 'package:sizer/sizer.dart';
@@ -46,12 +47,28 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
       controller: _scrollController,
       child: Column(
         children: [
-          TextField(
-            controller: _placeNameController,
-            decoration: InputDecoration(hintText: 'Digite o nome do seu prato'),
-            onChanged: (value) {
-              _plateName = value;
-            },
+          Padding(
+            padding: EdgeInsets.all(2.h),
+            child: TextField(
+              style: TextStyle(
+                fontSize: 13.sp,
+              ),
+              controller: _placeNameController,
+              decoration: InputDecoration(
+                hintText: 'Digite o nome do seu prato',
+                border: InputBorder.none,
+                counterText: '',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+              onChanged: (value) {
+                _plateName = value;
+              },
+            ),
           ),
           Column(
             children: [
@@ -79,7 +96,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
               ),
               IconButton(
                 onPressed: () async {
-                  _scrollController.animateTo(
+                  await _scrollController.animateTo(
                     _scrollController.position.maxScrollExtent,
                     duration: Duration(seconds: 1),
                     curve: Curves.fastOutSlowIn,
@@ -169,113 +186,123 @@ class _IngredientWidgetState extends State<IngredientWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
-      child: Row(
+      child: Column(
         children: [
-          Flexible(
-            flex: 9,
-            child: Column(
-              children: [
-                Text(PlateUtils.parseClassificationEnumToTitle(widget.type)),
-                GestureDetector(
-                  child: _SquareContainer(
-                      child: _nameSelected == null
-                          ? SizedBox(
-                              width: 4.h,
-                              height: 2.h,
-                            )
-                          : Text(_nameSelected!)),
-                  onTap: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return IngredientsModal(
-                          ingredients: widget.ingredients,
-                          type: widget.type,
-                          onIngredinetTap: (int id) {
-                            widget.onIngredientChanged(id);
-                            var name = widget.ingredients
-                                .firstWhere((i) => i.id == id,
-                                    orElse: () => Ingredient())
-                                .name;
-                            setState(() {
-                              _nameSelected = name;
-                            });
+          Row(
+            children: [
+              Flexible(
+                flex: 9,
+                child: Column(
+                  children: [
+                    Text(PlateUtils.parseClassificationEnumToTitle(widget.type)),
+                    GestureDetector(
+                      child: _SquareContainer(
+                          child: _nameSelected == null
+                              ? SizedBox(
+                                  width: 4.h,
+                                  height: 2.h,
+                                )
+                              : Text(_nameSelected!)),
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return IngredientsModal(
+                              ingredients: widget.ingredients,
+                              type: widget.type,
+                              onIngredinetTap: (int id) {
+                                widget.onIngredientChanged(id);
+                                var name = widget.ingredients
+                                    .firstWhere((i) => i.id == id,
+                                        orElse: () => Ingredient())
+                                    .name;
+                                setState(() {
+                                  _nameSelected = name;
+                                });
+                              },
+                            );
                           },
+                          useSafeArea: true,
+                          barrierDismissible: true,
                         );
                       },
-                      useSafeArea: true,
-                      barrierDismissible: true,
-                    );
-                  },
-                ),
-                SizedBox(height: 0.8.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Flexible(
-                      flex: 6,
-                      child: Column(
-                        children: [
-                          Text('Uma porção'),
-                          _SquareContainer(
-                              child:
-                                  Text(widget.onePortionQuantity.toString())),
-                        ],
-                      ),
                     ),
-                    Flexible(
-                      flex: 5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Quantidade de porções',
-                            textAlign: TextAlign.center,
+                    SizedBox(height: 0.8.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Flexible(
+                          flex: 6,
+                          child: Column(
+                            children: [
+                              Text('Uma porção'),
+                              _SquareContainer(
+                                  child:
+                                      Text(widget.onePortionQuantity.toString())),
+                            ],
                           ),
-                          SizedBox(height: 0.5.h),
-                          TextField(
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                            ),
-                            maxLength: 3,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                counterText: '',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 1, color: Colors.black),
+                        ),
+                        Flexible(
+                          flex: 5,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Quantidade de porções',
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 0.5.h),
+                              TextField(
+                                style: TextStyle(
+                                  fontSize: 12.sp,
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 1, color: Colors.black),
+                                maxLength: 3,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(width: 1, color: Colors.black),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(width: 1, color: Colors.black),
+                                  ),
+                                  constraints: BoxConstraints(
+                                    maxHeight: 3.5.h,
+                                    maxWidth: 14.w,
+                                  ),
                                 ),
-                                constraints: BoxConstraints(
-                                  maxHeight: 3.5.h,
-                                  maxWidth: 14.w,
-                                )),
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) =>
-                                widget.onNumberOfPortionsChanged(value),
+                                textAlign: TextAlign.center,
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) =>
+                                    widget.onNumberOfPortionsChanged(value),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: IconButton(
-              icon: Icon(
-                Icons.delete,
-                color: Colors.red.shade300,
               ),
-              onPressed: () => widget.onDeleteTap(),
-            ),
-          )
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red.shade300,
+                  ),
+                  onPressed: () => widget.onDeleteTap(),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 1.h),
+            child: Divider(),
+          ),
         ],
       ),
     );
