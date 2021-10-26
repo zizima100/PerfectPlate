@@ -1,8 +1,10 @@
 .inputRow {
     flex-direction: row;
+    justify-content: center;
+    display: flex;
     padding-top: 2ch;
 }
 
-.main {
+.mainLogin {
     text-align: center;
 }
