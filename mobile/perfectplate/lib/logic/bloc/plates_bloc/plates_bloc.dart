@@ -44,9 +44,11 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
 
     return ingredients.map((i) {
       return Ingredient(
-          id: i.id,
-          name: i.name,
-          classification: PlateUtils.parseStringEnumToEnum(i.classification));
+        id: i.id,
+        name: i.name,
+        classification: PlateUtils.parseStringEnumToEnum(i.classification),
+        onePortionQuantity: i.onePortionWeight,
+      );
     }).toList();
   }
 }

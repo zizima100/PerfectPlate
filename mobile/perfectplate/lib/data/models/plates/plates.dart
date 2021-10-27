@@ -166,11 +166,13 @@ class Ingredient {
   int? id;
   String? name;
   final IngredientClassification? classification;
+  final double? onePortionQuantity;
 
   Ingredient({
     this.classification,
     this.id,
     this.name,
+    this.onePortionQuantity,
   });
 
   @override

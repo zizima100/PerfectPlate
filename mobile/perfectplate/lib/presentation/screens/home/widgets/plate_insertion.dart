@@ -104,7 +104,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                   setState(() {
                     _platesCount++;
                   });
-                  var ingredient = PlateIngredient(ingredientId: 1);
+                  var ingredient = PlateIngredient();
                   _plateIngredients.add(ingredient);
                   var ingredientKey = ValueKey('plate$_platesCount');
                   setState(() {
@@ -112,7 +112,6 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                       IngredientWidget(
                         key: ingredientKey,
                         type: _ingredientType,
-                        onePortionQuantity: 200,
                         ingredients: widget.ingredients,
                         onDeleteTap: () {
                           setState(
@@ -162,7 +161,6 @@ class IngredientWidget extends StatefulWidget {
   final void Function(String) onNumberOfPortionsChanged;
   final void Function(int) onIngredientChanged;
   final IngredientClassification type;
-  final double onePortionQuantity;
   final List<Ingredient> ingredients;
 
   const IngredientWidget({
@@ -171,7 +169,6 @@ class IngredientWidget extends StatefulWidget {
     required this.onNumberOfPortionsChanged,
     required this.onIngredientChanged,
     required this.type,
-    required this.onePortionQuantity,
     required this.ingredients,
   }) : super(key: key);
 
@@ -181,6 +178,7 @@ class IngredientWidget extends StatefulWidget {
 
 class _IngredientWidgetState extends State<IngredientWidget> {
   String? _nameSelected;
+  double? onePortionQuantitySelected;
 
   @override
   Widget build(BuildContext context) {
@@ -212,12 +210,14 @@ class _IngredientWidgetState extends State<IngredientWidget> {
                               type: widget.type,
                               onIngredinetTap: (int id) {
                                 widget.onIngredientChanged(id);
-                                var name = widget.ingredients
+                                var selected = widget.ingredients
                                     .firstWhere((i) => i.id == id,
-                                        orElse: () => Ingredient())
-                                    .name;
+                                        orElse: () => Ingredient());
+
+                                print('selected = $selected');
                                 setState(() {
-                                  _nameSelected = name;
+                                  _nameSelected = selected.name;
+                                  onePortionQuantitySelected = selected.onePortionQuantity;
                                 });
                               },
                             );
@@ -238,7 +238,7 @@ class _IngredientWidgetState extends State<IngredientWidget> {
                               Text('Uma porção'),
                               _SquareContainer(
                                   child:
-                                      Text(widget.onePortionQuantity.toString())),
+                                      Text(onePortionQuantitySelected?.toString() ?? '')),
                             ],
                           ),
                         ),
