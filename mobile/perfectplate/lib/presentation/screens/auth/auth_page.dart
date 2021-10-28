@@ -170,9 +170,22 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
         Padding(
           padding: EdgeInsets.only(bottom: 4.w),
           child: ElevatedButton(
-            child: Text(mode.isLogin()
-                ? ButtonConstants.login
-                : ButtonConstants.signup),
+            child: BlocBuilder<AuthUserBloc, AuthUserState>(
+              builder: (context, state) {
+                if (state is AuthLoading) {
+                  return SizedBox(
+                    height: 2.5.h,
+                    width: 2.5.h,
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  );
+                }
+                return Text(mode.isLogin()
+                    ? ButtonConstants.login
+                    : ButtonConstants.signup);
+              },
+            ),
             onPressed: () async {
               if (mode.isLogin()) {
                 authUserBloc.add(

@@ -22,6 +22,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     Emitter<AuthUserState> emit,
   ) async {
     try {
+      emit(AuthLoading());
       _validateLoginUser(event);
       int? userId = await _respository.loginUser(event.user);
       emit(AuthSuccessful(userId!));
@@ -40,6 +41,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
 
   Future<void> _onSignUpUserStarted(SingUpUserStartedEvent event, Emitter<AuthUserState> emit) async {
     try {
+      emit(AuthLoading());
       _validateSignUpUser(event);
       int? userId = await _respository.singupUser(event.user);
       emit(AuthSuccessful(userId!));
