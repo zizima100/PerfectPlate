@@ -1,0 +1,5 @@
+module.exports = {
+    MASCULINO: "MASCULINO",
+    FEMININO: "FEMININO",
+    NAO_DECLARADO: "NAO_DECLARADO",
+};
