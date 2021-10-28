@@ -2,6 +2,7 @@ import './LoginScreenStyle.css';
 import React, {useState} from "react";
 import {Button, Card, CardContent, IconButton, Link, TextField} from "@material-ui/core";
 import {Lock, Visibility} from "@material-ui/icons";
+import ApiService from "../../api/ApiService"
 
 const INITIAL_STATE = {
     value: "",
@@ -10,6 +11,7 @@ const INITIAL_STATE = {
 };
 
 export default function LoginScreen() {
+    const apiInstance = ApiService();
     const [email, setEmail] = useState(INITIAL_STATE);
     const [password, setPassword] = useState(INITIAL_STATE);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -28,9 +30,14 @@ export default function LoginScreen() {
             return setPassword({
                 ...password,
                 touched: true,
-                hasError: value.length < 6
+                hasError: value.length < 4
             });
         }
+    }
+
+    const login = async () => {
+        const result = await apiInstance.userLogin(email.value, password.value);
+        console.log(result);
     }
 
     return (
@@ -79,7 +86,7 @@ export default function LoginScreen() {
                                 (email.hasError && !(!email.touched && email.value !== "")) ||
                                 (password.hasError && !(!password.touched && password.value !== ""))
                             }
-                            onClick={() => console.log(email, password)}
+                            onClick={() => login()}
                             variant="contained"
                             endIcon={<Lock />}
                         >
