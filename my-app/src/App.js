@@ -8,6 +8,7 @@ import {
 import LoginScreen from "./pages/login/LoginScreen";
 import HomeScreen from "./pages/home/HomeScreen";
 import RegisterScreen from "./pages/register/RegisterScreen";
+import TutorialScreen from "./pages/tutorial/TutorialScreen";
 
 export default function App() {
   return (
@@ -24,11 +25,14 @@ export default function App() {
               <li>
                 <Link to="/login">Login</Link>
               </li>
+              <li>
+                <Link to="/tutorial">Tutorial</Link>
+              </li>
             </ul>
           </nav>
 
           {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+            renders the first one that matches the exact current URL. */}
           <Switch>
             <Route exact path="/">
               <HomeScreen />
@@ -41,6 +45,9 @@ export default function App() {
             </Route>
             <Route exact path="/register">
               <RegisterScreen />
+            </Route>
+            <Route exact path="/tutorial">
+              <TutorialScreen />
             </Route>
           </Switch>
         </div>

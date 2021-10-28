@@ -36,4 +36,4 @@ export default function LoginScreen() {
             </div>
         </div>
     );
-}
+};
