@@ -15,6 +15,7 @@ import UserType from "../../enums/UserTypeEnum";
 import UserSex from "../../enums/UserSexEnum";
 import { Visibility, Check } from '@material-ui/icons';
 import {useHistory} from "react-router-dom";
+import ApiService from "../../api/ApiService";
 
 const INITIAL_STATE = {
   value: "",
@@ -24,6 +25,7 @@ const INITIAL_STATE = {
 
 export default function RegisterScreen() {
     let history = useHistory();
+    const apiInstance = ApiService();
     const [email, setEmail] = useState(INITIAL_STATE);
     const [password, setPassword] = useState(INITIAL_STATE);
     const [name, setName] = useState(INITIAL_STATE);
@@ -32,7 +34,6 @@ export default function RegisterScreen() {
     const [weight, setWeight] = useState(INITIAL_STATE);
     const [height, setHeight] = useState(INITIAL_STATE);
     const [userType, setUserType] = useState(INITIAL_STATE);
-    const [setUserData] = useState({});
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const validateField = (value, field) => {
@@ -100,18 +101,18 @@ export default function RegisterScreen() {
         }
     }
 
-    const submit = () => {
-        //FALTA INTEGRAÇÃO COM A API
-        // setUserData({
-        //     email: email.value,
-        //     password: password.value,
-        //     name: name.value,
-        //     age: age.value,
-        //     sex: sex.value,
-        //     weight: weight.value,
-        //     height: height.value,
-        //     userType: userType.value
-        // });
+    const submit = async () => {
+        const result = await apiInstance.userRegister({
+            email: email.value,
+            password: password.value,
+            name: name.value,
+            age: age.value,
+            sex: sex.value,
+            weight: weight.value,
+            height: height.value,
+            userType: userType.value
+        });
+        console.log(result);
         history.push("/login")
     }
     return (
