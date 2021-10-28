@@ -53,7 +53,14 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   }
 
   void _validateSignUpUser(SingUpUserStartedEvent event) {
-    if (event.user.email.trim().isEmpty || event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
+    if (event.user.name.isEmpty 
+      || event.user.email.isEmpty 
+      || event.user.password.isEmpty
+      || event.user.age.isEmpty
+      || event.user.height.isEmpty
+      || event.user.weight.isEmpty
+      || event.user.sex.isEmpty
+    ) {
       throw MandatoryAuthFieldsEmptyException();
     }
   }

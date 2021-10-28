@@ -14,9 +14,12 @@ class ButtonConstants {
 
 class TextFieldConstants {
   TextFieldConstants._();
-  static const username = 'Nome de usuário';
+  static const name = 'Nome de usuário';
   static const email = 'E-mail';
   static const password = 'Senha';
+  static const age = 'Idade';
+  static const weight = 'Peso';
+  static const height = 'Altura';
 }
 
 class ErrorMessagesConstants {
