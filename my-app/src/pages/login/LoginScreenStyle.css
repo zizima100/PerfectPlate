@@ -1,0 +1,21 @@
+.inputRow {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    padding-top: 2ch;
+}
+
+.inputRowWithIcon {
+    padding-left: 4.7vh;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    padding-top: 2ch;
+}
+
+.mainLogin {
+    padding-top: 10vh;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}

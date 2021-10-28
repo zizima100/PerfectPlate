@@ -1,4 +1,4 @@
-import './RegisterScreenStyle.module.css';
+import './RegisterScreenStyle.css';
 import React, {useState} from "react";
 import {
     Button,
@@ -67,21 +67,21 @@ export default function RegisterScreen() {
             return setAge({
                 ...age,
                 touched: true,
-                hasError: value < 0 || value > 120
+                hasError: value < 0 || value > 120 || value === ""
             });
         }
         if (field === "peso") {
             return setWeight({
                 ...weight,
                 touched: true,
-                hasError: value < 0
+                hasError: value < 0 || value === ""
             });
         }
         if (field === "altura") {
             return setHeight({
                 ...height,
                 touched: true,
-                hasError: value < 0 || value > 300
+                hasError: value < 0 || value > 300 || value === ""
             });
         }
         if (field === "sexo") {
@@ -102,16 +102,16 @@ export default function RegisterScreen() {
 
     const submit = () => {
         //FALTA INTEGRAÇÃO COM A API
-        setUserData({
-            email: email.value,
-            password: password.value,
-            name: name.value,
-            age: age.value,
-            sex: sex.value,
-            weight: weight.value,
-            height: height.value,
-            userType: userType.value
-        });
+        // setUserData({
+        //     email: email.value,
+        //     password: password.value,
+        //     name: name.value,
+        //     age: age.value,
+        //     sex: sex.value,
+        //     weight: weight.value,
+        //     height: height.value,
+        //     userType: userType.value
+        // });
         history.push("/login")
     }
     return (
@@ -160,7 +160,7 @@ export default function RegisterScreen() {
                         <div className="inputWrapper">
                             <TextField
                                 error={name.hasError && name.touched}
-                                label="Nome"
+                                label="Nome e sobrenome"
                                 placeholder="Insira seu nome completo"
                                 variant="outlined"
                                 type="text"
@@ -253,8 +253,8 @@ export default function RegisterScreen() {
                     <div className="inputRow">
                         <Button
                             disabled={
-                                email.hasError ||
-                                password.hasError ||
+                                (email.hasError && !(!email.touched && email.value !== "")) ||
+                                (password.hasError && !(!password.touched && password.value !== "")) ||
                                 name.hasError ||
                                 age.hasError ||
                                 sex.hasError ||

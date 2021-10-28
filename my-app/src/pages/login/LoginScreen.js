@@ -1,12 +1,41 @@
-import './LoginScreenStyle.module.css';
+import './LoginScreenStyle.css';
 import React, {useState} from "react";
-import {Button, Card, CardContent, Link, TextField} from "@material-ui/core";
+import {Button, Card, CardContent, IconButton, Link, TextField} from "@material-ui/core";
+import {Lock, Visibility} from "@material-ui/icons";
+
+const INITIAL_STATE = {
+    value: "",
+    touched: false,
+    hasError: true,
+};
 
 export default function LoginScreen() {
-    const [userData, setUserData] = useState({username: "", password: ""})
+    const [email, setEmail] = useState(INITIAL_STATE);
+    const [password, setPassword] = useState(INITIAL_STATE);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const validateField = (value, field) => {
+        if (field === "email") {
+            return setEmail({
+                ...email,
+                touched: true,
+                hasError:
+                    value.length < 6 ||
+                    !value.includes("@")
+            });
+        }
+        if (field === "senha") {
+            return setPassword({
+                ...password,
+                touched: true,
+                hasError: value.length < 6
+            });
+        }
+    }
+
     return (
         <div className="mainLogin">
-            <Card sx={{ width: 700 }}>
+            <Card sx={{ width: 500 }}>
                 <CardContent>
                     <div className="pageTitle">
                         <span className="titleText">Já tem uma conta?</span>
@@ -15,31 +44,50 @@ export default function LoginScreen() {
                     </div>
                     <div className="inputRow">
                         <TextField
-                            id="user-email"
+                            error={email.hasError && email.touched}
                             label="Email"
                             placeholder="Insira seu email"
                             variant="outlined"
                             type="email"
-                            onChange={e => setUserData({...userData, username: e.target.value})}
-                            value={userData.username}
+                            onChange={e => setEmail({...email, value: e.target.value})}
+                            onBlur={e => validateField(e.target.value, "email")}
+                            value={email.value}
                         />
                     </div>
-                    <div className="inputRow">
-                        <TextField
-                            id="user-password"
-                            label="Senha"
-                            placeholder="Insira sua senha"
-                            variant="outlined"
-                            type="password"
-                            onChange={e => setUserData({...userData, password: e.target.value})}
-                            value={userData.password}
-                        />
+                    <div className="inputWrapper">
+                        <div className="inputRowWithIcon">
+                            <TextField
+                                error={password.hasError && password.touched}
+                                label="Senha"
+                                placeholder="Insira sua senha"
+                                variant="outlined"
+                                type={isPasswordVisible ? "text" : "password"}
+                                onChange={e => setPassword({...password, value: e.target.value})}
+                                onBlur={e => validateField(e.target.value, "senha")}
+                                value={password.value}
+                            />
+                            <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+                                <IconButton color="primary" component="span">
+                                    <Visibility />
+                                </IconButton>
+                            </div>
+                        </div>
                     </div>
                     <div className="inputRow">
-                        <Button onClick={() => console.log(userData)} variant="contained">Entrar</Button>
+                        <Button
+                            disabled={
+                                (email.hasError && !(!email.touched && email.value !== "")) ||
+                                (password.hasError && !(!password.touched && password.value !== ""))
+                            }
+                            onClick={() => console.log(email, password)}
+                            variant="contained"
+                            endIcon={<Lock />}
+                        >
+                            Entrar
+                        </Button>
                     </div>
                     <div className="inputRow">
-                        <span>Não tem conta? <Link href="/register">Cadastre-se!</Link></span>
+                        <span>Ainda não tem conta? <Link href="/register">Cadastre-se!</Link></span>
                     </div>
                 </CardContent>
             </Card>
