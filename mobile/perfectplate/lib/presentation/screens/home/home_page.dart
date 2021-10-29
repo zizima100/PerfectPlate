@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:perfectplate/presentation/router/routes.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/app_drawer.dart';
 import 'package:perfectplate/presentation/screens/home/widgets/plate_insertion.dart';
 import 'package:perfectplate/presentation/utils/router/route_helper.dart';
+import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

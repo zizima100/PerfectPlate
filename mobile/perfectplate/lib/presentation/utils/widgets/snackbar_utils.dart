@@ -18,4 +18,19 @@ class SnackBarUtils {
       ),
     );
   }
+
+  void showSnackBarSuccess(String message) {
+    ScaffoldMessenger.of(_context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green.shade100,
+        duration: Duration(milliseconds: 1500),
+        content: Text(
+          message,
+          style: TextStyle(
+            color: Colors.green.shade900,
+          ),
+        ),
+      ),
+    );
+  }
 }

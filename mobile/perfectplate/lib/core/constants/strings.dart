@@ -29,4 +29,18 @@ class ErrorMessagesConstants {
   static const userNotFound = 'Nenhum usuário encontrado com essas credenciais';
   static const emailAlreadyExists =
       'Já existe uma conta cadastrada com esse e-mail';
+  static const plateNameIsEmpty =
+      'Por favor, insira o nome do seu prato';
+  static const plateIngredientsIsEmpty =
+      'Por favor, insira algum ingrediente no seu prato';
+  static const plateInsertionFail =
+      'Houve um erro no registro do prato';
+  static const numberOfPortionsEmpty =
+      'Houve um erro no registro do prato';
+}
+
+class SuccessMessagesConstants {
+  SuccessMessagesConstants._();
+  static const plateInserted =
+      'Prato registrado com sucesso!';
 }

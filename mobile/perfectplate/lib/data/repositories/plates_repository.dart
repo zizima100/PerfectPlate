@@ -19,6 +19,7 @@ class PlatesRepository {
     if (bodyDecoded['ok']) {
       return bodyDecoded['data'];
     }
+    print('bodyDecoded = $bodyDecoded');
   }
 
   Future<List<RawIngredient>?> retrieveAllIngredients() async {
