@@ -8,6 +8,7 @@ import {
 import LoginScreen from "./pages/login/LoginScreen";
 import HomeScreen from "./pages/home/HomeScreen";
 import RegisterScreen from "./pages/register/RegisterScreen";
+import CalculatorScreen from "./pages/calculator/CalculatorScreen";
 
 export default function App() {
   return (
@@ -23,6 +24,9 @@ export default function App() {
               </li>
               <li>
                 <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/calculator">Calculadora</Link>
               </li>
             </ul>
           </nav>
@@ -41,6 +45,9 @@ export default function App() {
             </Route>
             <Route exact path="/register">
               <RegisterScreen />
+            </Route>
+            <Route exact path="/calculator">
+              <CalculatorScreen />
             </Route>
           </Switch>
         </div>
