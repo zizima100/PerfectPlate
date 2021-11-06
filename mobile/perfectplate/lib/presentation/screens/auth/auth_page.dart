@@ -6,7 +6,7 @@ import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
-import 'package:perfectplate/presentation/router/routes.dart';
+import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:perfectplate/presentation/screens/auth/widgets/text_fields.dart';
 import 'package:sizer/sizer.dart';
 

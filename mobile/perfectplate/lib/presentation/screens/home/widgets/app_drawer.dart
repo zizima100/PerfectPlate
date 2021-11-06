@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             key: const ValueKey('leave_app_key'),
             leading: const Icon(Icons.exit_to_app),
-            title: const Text(ButtonConstants.login),
+            title: const Text(ButtonConstants.leave_app),
             onTap: () => BlocProvider.of<AuthUserBloc>(context).add(LogoutStartedEvent()),
           ),
         ],
