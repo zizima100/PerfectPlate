@@ -36,7 +36,7 @@ class ErrorMessagesConstants {
   static const plateInsertionFail =
       'Houve um erro no registro do prato';
   static const numberOfPortionsEmpty =
-      'Houve um erro no registro do prato';
+      'Por favor, insira o número de porções consumidas';
 }
 
 class SuccessMessagesConstants {

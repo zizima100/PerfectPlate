@@ -25,18 +25,7 @@ class PlatesHomePage extends StatelessWidget {
             RouteHelper.removeAllAndPushTo(context, Routes.auth);
           }
         },
-        child: FutureBuilder<List<Ingredient>>(
-          future: BlocProvider.of<PlatesBloc>(context).retrieveAllIngredients(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text('Ocorreu um erro :('));
-            }
-            return PlateInsertionWidget(ingredients: snapshot.data!);
-          },
-        ),
+        child: PlateInsertionWidget(),
       ),
     );
   }

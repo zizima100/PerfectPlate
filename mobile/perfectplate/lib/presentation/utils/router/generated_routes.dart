@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:perfectplate/presentation/screens/home/plates_home_page.dart';
+import 'package:perfectplate/presentation/screens/ingredient/choose_ingredient.dart';
+import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:perfectplate/presentation/screens/auth/auth_page.dart';
 import 'package:perfectplate/presentation/screens/home_or_auth/home_or_auth_page.dart';
@@ -18,6 +20,14 @@ class PerfectPlateRouter {
       case Routes.homeOrAuth:
         return MaterialPageRoute(
           builder: (_) => const HomeOrAuth(),
+        );
+      case Routes.chooseIngredient:
+        final args = settings.arguments as IngredientArgument;
+        return MaterialPageRoute(
+          builder: (_) => ChooseIngredientScreen(
+            onIngredinetTap: args.onIngredinetTap, 
+            type: args.type, 
+          ),
         );
       default:
         return MaterialPageRoute(

@@ -7,11 +7,17 @@ class CacheMapProvider {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  bool? getBoolValue(String key) {
-    return _preferences?.getBool(key);
+  int? getIntValue(String key) {
+    print('getting $key');
+    print('_preferences?.getInt(key) = ${_preferences?.getInt(key)}');
+    return _preferences?.getInt(key);
   }
 
-  Future<void> setBoolValue(String key, bool value) async {
-    await _preferences?.setBool(key, value);
+  Future<void> setIntValue(String key, int value) async {
+    await _preferences?.setInt(key, value);
+  }
+
+  Future<void> remove(String key) async {
+    await _preferences?.remove(key);
   }
 }

@@ -27,7 +27,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       emit(AuthLoading());
       _validateLoginUser(event);
       int? userId = await _respository.loginUser(event.user);
-      await _cacheMapRepository.userLogged();
+      await _cacheMapRepository.setUserId(userId);
       emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
@@ -73,12 +73,8 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     emit(UserLogout());
   }
 
-  Future<bool> isUserLogged() async {
+  Future<int?> retrieveUserIdCache() async {
     await _cacheMapRepository.init();
-    bool? isUserLogged = _cacheMapRepository.isUserLogged();
-    if(isUserLogged == null || isUserLogged == false) {
-      return false;
-    }
-    return true;
+    return _cacheMapRepository.retrieveUserIdCache();
   }
 }

@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:perfectplate/data/models/plates/plates.dart';
 
 class IngredientsModal extends StatelessWidget {
-  final Function(int) onIngredinetTap;
-  final List<Ingredient> ingredients;
+  final Function(Ingredient) onIngredinetTap;
   final IngredientClassification type;
 
   const IngredientsModal({
     Key? key,
     required this.onIngredinetTap,
-    required this.ingredients,
     required this.type,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Ingredient> ingredientsFiltered =
-        ingredients.where((i) => i.classification == type).toList();
-
     return Material(
       color: Colors.transparent,
       child: Container(
@@ -31,35 +28,49 @@ class IngredientsModal extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 8,
-              child: ListView.builder(
-                itemCount: ingredientsFiltered.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(ingredientsFiltered[index].name!),
-                    onTap: () {
-                      onIngredinetTap(ingredientsFiltered[index].id!);
-                      Navigator.of(context).pop();
+        child: FutureBuilder<List<Ingredient>>(
+          future: BlocProvider.of<PlatesBloc>(context).retrieveAllIngredients(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError || !snapshot.hasData) {
+              return Center(child: Text('Ocorreu um erro :('));
+            }
+            List<Ingredient> ingredientsFiltered =
+                snapshot.data!.where((i) => i.classification == type).toList();
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 8,
+                  child: ListView.builder(
+                    itemCount: ingredientsFiltered.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(ingredientsFiltered[index].name!),
+                        onTap: () {
+                          onIngredinetTap(ingredientsFiltered[index]);
+                          Navigator.of(context).pop();
+                        },
+                      );
                     },
-                  );
-                },
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.all(1.5.h),
-                child: ElevatedButton(
-                  child: Text('Cancelar'),
-                  onPressed: () => Navigator.of(context).pop(),
+                  ),
                 ),
-              ),
-            )
-          ],
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.all(1.5.h),
+                    child: ElevatedButton(
+                      child: Text('Cancelar'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
