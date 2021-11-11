@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/screens/auth/auth_page.dart';
-import 'package:perfectplate/presentation/screens/home/plates_home_page.dart';
+import 'package:perfectplate/presentation/screens/home/plates_home_screen.dart';
 
 class HomeOrAuth extends StatelessWidget {
   const HomeOrAuth({ Key? key }) : super(key: key);
@@ -24,7 +24,7 @@ class HomeOrAuth extends StatelessWidget {
           return AuthPage();
         } else {
           BlocProvider.of<PlatesBloc>(context).add(UserAuthenticated(userId: userId));
-          return PlatesHomePage();
+          return PlatesMainScreen();
         }
       },
     );

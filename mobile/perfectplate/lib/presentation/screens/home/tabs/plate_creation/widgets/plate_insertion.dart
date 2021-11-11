@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
-import 'package:perfectplate/presentation/screens/home/widgets/ingredient_widget.dart';
+import 'package:perfectplate/presentation/screens/home/tabs/plate_creation/widgets/ingredient_widget.dart';
 import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
 import 'package:sizer/sizer.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';

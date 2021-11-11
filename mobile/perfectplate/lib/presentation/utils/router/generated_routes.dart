@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:perfectplate/presentation/screens/home/plates_home_page.dart';
+import 'package:perfectplate/presentation/screens/home/plates_home_screen.dart';
 import 'package:perfectplate/presentation/screens/ingredient/choose_ingredient.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
@@ -15,7 +15,7 @@ class PerfectPlateRouter {
         );
       case Routes.home:
         return MaterialPageRoute(
-          builder: (_) => const PlatesHomePage(),
+          builder: (_) => const PlatesMainScreen(),
         );
       case Routes.homeOrAuth:
         return MaterialPageRoute(
