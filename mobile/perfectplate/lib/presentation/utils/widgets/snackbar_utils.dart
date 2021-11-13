@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class SnackBarUtils {
-  final BuildContext _context;
+  late BuildContext _context;
   late Color _backgroundColor;
   late Color _textColor;
   late String _message;
+  late double _verticalPadding;
+  late double _horizontalPadding;
 
-  SnackBarUtils(this._context);
+  SnackBarUtils._();
+
+  SnackBarUtils.auth(this._context) {
+    _verticalPadding = 3.h;
+    _horizontalPadding = 2.w;
+  }
+  SnackBarUtils.home(this._context) {
+    _verticalPadding = 11.h;
+    _horizontalPadding = 4.5;
+  }
 
   void showSnackBarError(String message) {
     _backgroundColor = Colors.red.shade100;
@@ -29,7 +40,10 @@ class SnackBarUtils {
         backgroundColor: Colors.transparent,
         elevation: 0,
         duration: Duration(milliseconds: 1500),
-        padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 4.5.w),
+        padding: EdgeInsets.symmetric(
+          vertical: _verticalPadding, 
+          horizontal: _horizontalPadding,
+        ),
         content: Container(
           decoration: BoxDecoration(
             color: _backgroundColor,
@@ -48,6 +62,7 @@ class SnackBarUtils {
             child: Text(
               _message,
               style: TextStyle(
+                fontSize: 11.sp,
                 color: _textColor,
               ),
             )

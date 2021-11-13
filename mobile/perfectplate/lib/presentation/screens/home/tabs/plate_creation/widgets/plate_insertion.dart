@@ -49,7 +49,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
     return BlocListener<PlatesBloc, PlatesState>(
       listener: (context, state) {
         if (state is PlatesInserted) {
-          SnackBarUtils(context)
+          SnackBarUtils.home(context)
               .showSnackBarSuccess(SuccessMessagesConstants.plateInserted);
           _placeNameController.clear();
           setState(() {
@@ -60,19 +60,19 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
           });
         }
         if (state is PlatesInsertionFail) {
-          SnackBarUtils(context)
+          SnackBarUtils.home(context)
               .showSnackBarError(ErrorMessagesConstants.plateInsertionFail);
         }
         if (state is PlatesNameEmpty) {
-          SnackBarUtils(context)
+          SnackBarUtils.home(context)
               .showSnackBarError(ErrorMessagesConstants.plateNameIsEmpty);
         }
         if (state is PlateIngredientsEmpty) {
-          SnackBarUtils(context).showSnackBarError(
+          SnackBarUtils.home(context).showSnackBarError(
               ErrorMessagesConstants.plateIngredientsIsEmpty);
         }
         if (state is NumberOfPortionsEmpty) {
-          SnackBarUtils(context)
+          SnackBarUtils.home(context)
               .showSnackBarError(ErrorMessagesConstants.numberOfPortionsEmpty);
         }
       },
