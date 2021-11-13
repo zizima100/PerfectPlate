@@ -70,7 +70,7 @@ class _TabBarItemState extends State<_TabBarItem> {
   Widget build(BuildContext context) {
     return Icon(
       widget.icon,
-      size: 8.w,
+      size: widget.isSelected ? 9.5.w : 8.w,
       color: widget.isSelected ? Colors.green.shade900 : Colors.white,
     );
   }
