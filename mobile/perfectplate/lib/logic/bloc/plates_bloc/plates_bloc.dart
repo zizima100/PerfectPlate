@@ -48,6 +48,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
       throw PlatesIngredientsEmptyException();
     }
     for (var ingredient in plate.plateIngredients) {
+      print('checking = $ingredient');
       if(ingredient.numberOfPortions == null) {
         throw NumberOfPortionsEmptyException();
       }
@@ -58,6 +59,8 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
     int? plateId = await _repository.insertPlate(
         RawPlate(userId: _userId!, name: plate.name, date: plate.date));
 
+    print('plateId = $plateId');
+
     for (var plateIngredient in plate.plateIngredients) {
       await _repository.insertPlateIngredient(
         RawPlateIngredient(
@@ -66,6 +69,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
           numberOfPortions: plateIngredient.numberOfPortions!,
         ),
       );
+      print('plateIngredient inserted = $plateIngredient');
     }
   }
 

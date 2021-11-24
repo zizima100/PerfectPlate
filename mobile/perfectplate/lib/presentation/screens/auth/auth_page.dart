@@ -6,8 +6,10 @@ import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
-import 'package:perfectplate/presentation/router/routes.dart';
+import 'package:perfectplate/presentation/utils/router/route_helper.dart';
+import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:perfectplate/presentation/screens/auth/widgets/text_fields.dart';
+import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
 import 'package:sizer/sizer.dart';
 
 class AuthPage extends StatelessWidget {
@@ -30,41 +32,23 @@ class AuthWidget extends StatefulWidget {
 }
 
 class _AuthWidgetState extends State<AuthWidget> {
-  void _showSnackBarError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red.shade100,
-        duration: Duration(milliseconds: 1500),
-        content: Text(
-          message,
-          style: TextStyle(
-            color: Colors.red.shade900,
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthUserBloc, AuthUserState>(
       listener: (context, state) {
         if (state is AuthMandatoryFieldsEmpty) {
-          _showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
+          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
         }
         if (state is UserNotFound) {
-          _showSnackBarError(ErrorMessagesConstants.userNotFound);
+          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
         if (state is EmailInvalid) {
-          _showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
+          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
         }
         if (state is AuthSuccessful) {
           BlocProvider.of<PlatesBloc>(context)
               .add(UserAuthenticated(userId: state.id));
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.home,
-            (Route<dynamic> route) => false,
-          );
+          RouteHelper.removeAllAndPushTo(context, Routes.home);
         }
       },
       child: Container(

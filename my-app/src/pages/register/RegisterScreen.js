@@ -115,8 +115,22 @@ export default function RegisterScreen() {
             height: height.value,
             userType: userType.value
         });
-        console.log(result);
-        history.push("/login")
+        const {ok, message, data} = result.data;
+
+        if (!ok && message === "EMAIL_ALREADY_EXISTS") {
+            alert("Já existe uma conta registrada com o email inserido!");
+            return;
+        }
+
+        if (!ok) {
+            alert("Houve algum erro no registro, tente novamente mais tarde ou contate um administrador!");
+            return;
+        }
+
+        if (ok && data > 0) {
+            alert("Registrado com sucesso!");
+            history.push("/login");
+        }
     }
     return (
         <div className="mainRegister">

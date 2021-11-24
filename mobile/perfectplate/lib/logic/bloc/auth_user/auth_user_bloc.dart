@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:perfectplate/core/exceptions/auth_exceptions.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/data/repositories/authentication_repository.dart';
+import 'package:perfectplate/data/repositories/cache_map_repository.dart';
 
 part 'auth_user_event.dart';
 part 'auth_user_state.dart';
 
 class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   final AuthenticationRepository _respository = AuthenticationRepository();
+  final CacheMapRepository _cacheMapRepository = CacheMapRepository();
 
   AuthUserBloc() : super(AuthUserInitial()) {
     on<LoginUserStartedEvent>(_onLoginUserStarted);
@@ -25,6 +27,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       emit(AuthLoading());
       _validateLoginUser(event);
       int? userId = await _respository.loginUser(event.user);
+      await _cacheMapRepository.setUserId(userId);
       emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
@@ -65,7 +68,13 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     }
   }
 
-  _onLogoutStarted(_, Emitter<AuthUserState> emit) {
+  Future<void> _onLogoutStarted(_, Emitter<AuthUserState> emit) async {
+    await _cacheMapRepository.userLogout();
     emit(UserLogout());
+  }
+
+  Future<int?> retrieveUserIdCache() async {
+    await _cacheMapRepository.init();
+    return _cacheMapRepository.retrieveUserIdCache();
   }
 }

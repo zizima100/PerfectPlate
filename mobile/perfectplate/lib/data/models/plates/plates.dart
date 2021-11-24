@@ -160,6 +160,11 @@ class RawIngredient {
 
   factory RawIngredient.fromJson(String source) =>
       RawIngredient.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'RawIngredient(id: $id, name: $name, onePortionWeight: $onePortionWeight, classification: $classification, energeticValue: $energeticValue, carbohydrate: $carbohydrate, protein: $protein, saturatedFat: $saturatedFat, totalFat: $totalFat, transFat: $transFat, fibre: $fibre, sodium: $sodium)';
+  }
 }
 
 class Ingredient {
