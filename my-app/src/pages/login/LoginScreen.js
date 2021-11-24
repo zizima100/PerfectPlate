@@ -1,7 +1,7 @@
 import './LoginScreenStyle.css';
 import React, {useState} from "react";
 import {Button, Card, CardContent, IconButton, Link, TextField} from "@material-ui/core";
-import {Lock, Visibility} from "@material-ui/icons";
+import {Visibility, LockOpen} from "@material-ui/icons";
 import ApiService from "../../api/ApiService"
 
 const INITIAL_STATE = {
@@ -37,7 +37,16 @@ export default function LoginScreen() {
 
     const login = async () => {
         const result = await apiInstance.userLogin(email.value, password.value);
-        console.log(result);
+        const {ok, message, data} = result.data;
+
+        if (!ok && message === "USER_UNFOUND") {
+            alert("Usuário ou senhas incorretos!");
+            return;
+        }
+
+        if (ok && data > 0) {
+            alert("Logado com sucesso!");
+        }
     }
 
     return (
@@ -88,7 +97,7 @@ export default function LoginScreen() {
                             }
                             onClick={() => login()}
                             variant="contained"
-                            endIcon={<Lock />}
+                            endIcon={<LockOpen />}
                         >
                             Entrar
                         </Button>
