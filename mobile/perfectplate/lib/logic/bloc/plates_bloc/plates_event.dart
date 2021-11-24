@@ -10,3 +10,11 @@ class UserAuthenticated extends PlatesEvent {
   @override
   List<Object?> get props => [userId];
 }
+
+class PlateInsertedEvent extends PlatesEvent {
+  final Plate plate;
+  PlateInsertedEvent(this.plate);
+  
+  @override
+  List<Object?> get props => [];
+}

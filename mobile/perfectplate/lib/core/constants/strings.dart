@@ -14,9 +14,12 @@ class ButtonConstants {
 
 class TextFieldConstants {
   TextFieldConstants._();
-  static const username = 'Nome de usuário';
+  static const name = 'Nome de usuário';
   static const email = 'E-mail';
   static const password = 'Senha';
+  static const age = 'Idade';
+  static const weight = 'Peso';
+  static const height = 'Altura';
 }
 
 class ErrorMessagesConstants {
@@ -26,4 +29,18 @@ class ErrorMessagesConstants {
   static const userNotFound = 'Nenhum usuário encontrado com essas credenciais';
   static const emailAlreadyExists =
       'Já existe uma conta cadastrada com esse e-mail';
+  static const plateNameIsEmpty =
+      'Por favor, insira o nome do seu prato';
+  static const plateIngredientsIsEmpty =
+      'Por favor, insira algum ingrediente no seu prato';
+  static const plateInsertionFail =
+      'Houve um erro no registro do prato';
+  static const numberOfPortionsEmpty =
+      'Por favor, insira o número de porções consumidas';
+}
+
+class SuccessMessagesConstants {
+  SuccessMessagesConstants._();
+  static const plateInserted =
+      'Prato registrado com sucesso!';
 }

@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:perfectplate/core/exceptions/auth_exceptions.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/data/repositories/authentication_repository.dart';
+import 'package:perfectplate/data/repositories/cache_map_repository.dart';
 
 part 'auth_user_event.dart';
 part 'auth_user_state.dart';
 
 class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   final AuthenticationRepository _respository = AuthenticationRepository();
+  final CacheMapRepository _cacheMapRepository = CacheMapRepository();
 
   AuthUserBloc() : super(AuthUserInitial()) {
     on<LoginUserStartedEvent>(_onLoginUserStarted);
@@ -22,8 +24,10 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     Emitter<AuthUserState> emit,
   ) async {
     try {
+      emit(AuthLoading());
       _validateLoginUser(event);
       int? userId = await _respository.loginUser(event.user);
+      await _cacheMapRepository.setUserId(userId);
       emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
@@ -40,6 +44,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
 
   Future<void> _onSignUpUserStarted(SingUpUserStartedEvent event, Emitter<AuthUserState> emit) async {
     try {
+      emit(AuthLoading());
       _validateSignUpUser(event);
       int? userId = await _respository.singupUser(event.user);
       emit(AuthSuccessful(userId!));
@@ -51,12 +56,25 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   }
 
   void _validateSignUpUser(SingUpUserStartedEvent event) {
-    if (event.user.email.trim().isEmpty || event.user.email.trim().isEmpty || event.user.password.trim().isEmpty) {
+    if (event.user.name.isEmpty 
+      || event.user.email.isEmpty 
+      || event.user.password.isEmpty
+      || event.user.age.isEmpty
+      || event.user.height.isEmpty
+      || event.user.weight.isEmpty
+      || event.user.sex.isEmpty
+    ) {
       throw MandatoryAuthFieldsEmptyException();
     }
   }
 
-  _onLogoutStarted(_, Emitter<AuthUserState> emit) {
+  Future<void> _onLogoutStarted(_, Emitter<AuthUserState> emit) async {
+    await _cacheMapRepository.userLogout();
     emit(UserLogout());
+  }
+
+  Future<int?> retrieveUserIdCache() async {
+    await _cacheMapRepository.init();
+    return _cacheMapRepository.retrieveUserIdCache();
   }
 }

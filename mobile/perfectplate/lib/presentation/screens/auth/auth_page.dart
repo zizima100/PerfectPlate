@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfectplate/core/utils/user_utils.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
-import 'package:perfectplate/presentation/router/routes.dart';
+import 'package:perfectplate/presentation/utils/router/route_helper.dart';
+import 'package:perfectplate/presentation/utils/router/routes.dart';
+import 'package:perfectplate/presentation/screens/auth/widgets/text_fields.dart';
+import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
 import 'package:sizer/sizer.dart';
 
 class AuthPage extends StatelessWidget {
@@ -27,41 +32,23 @@ class AuthWidget extends StatefulWidget {
 }
 
 class _AuthWidgetState extends State<AuthWidget> {
-  void _showSnackBarError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red.shade100,
-        duration: Duration(milliseconds: 1500),
-        content: Text(
-          message,
-          style: TextStyle(
-            color: Colors.red.shade900,
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthUserBloc, AuthUserState>(
       listener: (context, state) {
         if (state is AuthMandatoryFieldsEmpty) {
-          _showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
+          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
         }
         if (state is UserNotFound) {
-          _showSnackBarError(ErrorMessagesConstants.userNotFound);
+          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
         if (state is EmailInvalid) {
-          _showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
+          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
         }
         if (state is AuthSuccessful) {
           BlocProvider.of<PlatesBloc>(context)
               .add(UserAuthenticated(userId: state.id));
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.home,
-            (Route<dynamic> route) => false,
-          );
+          RouteHelper.removeAllAndPushTo(context, Routes.home);
         }
       },
       child: Container(
@@ -101,16 +88,18 @@ class AuthFormWidget extends StatefulWidget {
 class _AuthFormWidgetState extends State<AuthFormWidget> {
   late String email;
   late String password;
-  late String username;
+  late SingUpUser signUpUser;
   late AuthMode mode;
   late AuthUserBloc authUserBloc;
+  late UserType userType;
 
   @override
   void initState() {
+    mode = AuthMode(Mode.login);
+    signUpUser = SingUpUser();
     email = '';
     password = '';
-    username = '';
-    mode = AuthMode(Mode.login);
+    userType = UserType.defaultUser;
     authUserBloc = BlocProvider.of<AuthUserBloc>(context);
     super.initState();
   }
@@ -127,12 +116,12 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
               children: [
                 if (mode.isSignup())
                   TextField(
-                    key: ValueKey('username'),
+                    key: ValueKey('name'),
                     decoration: InputDecoration(
-                      hintText: TextFieldConstants.username,
+                      hintText: TextFieldConstants.name,
                     ),
                     onChanged: (value) {
-                      setState(() => username = value);
+                      setState(() => signUpUser.name.trim());
                     },
                   ),
                 TextField(
@@ -142,7 +131,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   onChanged: (value) {
-                    setState(() => email = value);
+                    setState(() => email = value.trim());
                   },
                 ),
                 TextField(
@@ -155,6 +144,58 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                     setState(() => password = value);
                   },
                 ),
+                if(mode.isSignup())
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          NumberTextField(
+                            textFieldKey: 'age',
+                            hintText: TextFieldConstants.age,
+                            maxLenght: 3,
+                            onChanged: (value) {
+                              setState(() => signUpUser.age = value.trim());
+                            },
+                          ),
+                          SizedBox(width: 5.h),
+                          NumberTextField(
+                            textFieldKey: 'weight',
+                            hintText: TextFieldConstants.weight,
+                            maxLenght: 5,
+                            onChanged: (value) {
+                              setState(() => signUpUser.weight = value.trim());
+                            },
+                          ),
+                          SizedBox(width: 5.h),
+                          NumberTextField(
+                            textFieldKey: 'height',
+                            hintText: TextFieldConstants.height,
+                            maxLenght: 5,
+                            onChanged: (value) {
+                              setState(() => signUpUser.height = value.trim());
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 2.h,),
+                      DropdownButton<UserType>(
+                        value: userType,
+                        onChanged: (value) {
+                          setState(() {
+                            userType =
+                                value ?? UserType.defaultUser;
+                          });
+                        },
+                        items: UserType.values.map((value) {
+                          return DropdownMenuItem(
+                            value: value,
+                            child:
+                                Text(UserUtils.parseTypeEnumToTitle(value)),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -170,20 +211,31 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
         Padding(
           padding: EdgeInsets.only(bottom: 4.w),
           child: ElevatedButton(
-            child: Text(mode.isLogin()
-                ? ButtonConstants.login
-                : ButtonConstants.signup),
+            child: BlocBuilder<AuthUserBloc, AuthUserState>(
+              builder: (context, state) {
+                if (state is AuthLoading) {
+                  return SizedBox(
+                    height: 2.5.h,
+                    width: 2.5.h,
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  );
+                }
+                return Text(mode.isLogin()
+                    ? ButtonConstants.login
+                    : ButtonConstants.signup);
+              },
+            ),
             onPressed: () async {
               if (mode.isLogin()) {
                 authUserBloc.add(
                   LoginUserStartedEvent(LoginUser(email, password)),
                 );
               } else {
-                authUserBloc.add(
-                  SingUpUserStartedEvent(
-                    SingUpUser(username, email, password),
-                  ),
-                );
+                signUpUser.email = email;
+                signUpUser.password = password;
+                authUserBloc.add(SingUpUserStartedEvent(signUpUser));
               }
             },
           ),
