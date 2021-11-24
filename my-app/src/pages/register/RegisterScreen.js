@@ -24,6 +24,9 @@ const INITIAL_STATE = {
 };
 
 export default function RegisterScreen() {
+
+    //Adicionar vírgula
+
     let history = useHistory();
     const apiInstance = ApiService();
     const [email, setEmail] = useState(INITIAL_STATE);
