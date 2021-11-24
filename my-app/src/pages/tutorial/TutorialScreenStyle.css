@@ -1,0 +1,22 @@
+.main {
+    padding-top: 10vh;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}
+
+.inputRow {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    padding-top: 2ch;
+}
+
+.content-wrapper {
+    justify-content: center;
+    width: 700px;
+}
+
+#TabelaExemplo {
+    width: 700px;
+}

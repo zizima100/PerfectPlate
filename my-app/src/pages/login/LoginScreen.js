@@ -109,4 +109,4 @@ export default function LoginScreen() {
             </Card>
         </div>
     );
-}
+};
