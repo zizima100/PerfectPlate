@@ -16,6 +16,11 @@
     padding-bottom: 10px;
 }
 
+.calculatorInputMargin {
+    padding-right: 1ch;
+    padding-left: 1ch;
+}
+
 .selectInputWrapper:last-child {
     padding-bottom: 0;
 }
