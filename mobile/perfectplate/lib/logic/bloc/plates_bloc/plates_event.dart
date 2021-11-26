@@ -12,7 +12,7 @@ class UserAuthenticated extends PlatesEvent {
 }
 
 class PlateInsertedEvent extends PlatesEvent {
-  final Plate plate;
+  final PlateDAO plate;
   PlateInsertedEvent(this.plate);
   
   @override

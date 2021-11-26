@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
+import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/presentation/screens/home/tabs/plate_creation/widgets/ingredient_widget.dart';
 import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
 import 'package:sizer/sizer.dart';
@@ -23,7 +24,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
   late String _plateName;
   late List<Widget> _ingredientsWidgets;
   late int _platesCount;
-  late List<PlateIngredient> _plateIngredients;
+  late List<PlateIngredientDAO> _plateIngredients;
   late IngredientClassification _ingredientType;
 
   @override
@@ -140,7 +141,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                     setState(() {
                       _platesCount++;
                     });
-                    var ingredient = PlateIngredient();
+                    var ingredient = PlateIngredientDAO();
                     _plateIngredients.add(ingredient);
                     var ingredientKey = ValueKey('plate_$_platesCount');
                     setState(() {
@@ -188,7 +189,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                   onPressed: () async {
                     BlocProvider.of<PlatesBloc>(context).add(
                       PlateInsertedEvent(
-                        Plate(
+                        PlateDAO(
                           date: DateTime.now(),
                           name: _plateName,
                           plateIngredients: _plateIngredients,

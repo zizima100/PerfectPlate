@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
+import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
@@ -54,7 +55,7 @@ class _IngredientWidgetState extends State<IngredientWidget> {
                         await Navigator.of(context).pushNamed(
                           Routes.chooseIngredient,
                           arguments: IngredientArgument(
-                            onIngredinetTap: (Ingredient selected) {
+                            onIngredinetTap: (IngredientDAO selected) {
                               print('selected = $selected');
                               setState(() {
                                 _nameSelected = selected.name;

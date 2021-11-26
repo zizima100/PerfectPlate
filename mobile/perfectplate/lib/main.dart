@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:perfectplate/data/models/plates/plates_list.dart';
+import 'package:perfectplate/data/repositories/mock_plates_repository.dart';
+import 'package:perfectplate/data/repositories/plates_repository_imp.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/utils/router/generated_routes.dart';
@@ -8,6 +12,7 @@ import 'package:sizer/sizer.dart';
 
 void main() {
   runApp(const PerfectPlateApp());
+  GetIt.I.registerSingleton<PlatesList>(PlatesList());
 }
 
 class PerfectPlateApp extends StatelessWidget {
@@ -22,7 +27,9 @@ class PerfectPlateApp extends StatelessWidget {
             create: (context) => AuthUserBloc(),
           ),
           BlocProvider(
-            create: (context) => PlatesBloc(),
+            create: (context) => PlatesBloc(
+              MockPlatesRepository(),
+            ),
           )
         ],
         child: MaterialApp(

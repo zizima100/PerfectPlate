@@ -1,18 +1,24 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 import 'package:perfectplate/core/exceptions/auth_exceptions.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
+import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
-import 'package:perfectplate/data/repositories/plates_repository.dart';
+import 'package:perfectplate/data/models/plates/plates_list.dart';
+import 'package:perfectplate/data/repositories/plates_repository_interface.dart';
 
 part 'plates_event.dart';
 part 'plates_state.dart';
 
 class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
-  int? _userId;
-  final PlatesRepository _repository = PlatesRepository();
 
-  PlatesBloc() : super(MealsInitial()) {
+  int? _userId;
+  final IPlatesRepository _repository;
+
+  PlatesBloc(
+    this._repository,
+  ) : super(MealsInitial()) {
     on<UserAuthenticated>(_onUserAuthenticated);
     on<PlateInsertedEvent>(_onPlateInsertionStarted);
   }
@@ -41,7 +47,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
     }
   }
 
-  void _validatePlate(Plate plate) {
+  void _validatePlate(PlateDAO plate) {
     if(plate.name.isEmpty) {
       throw PlateNameEmptyException();
     } if(plate.plateIngredients.isEmpty) {
@@ -55,13 +61,13 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
     }
   }
 
-  Future<void> _insertPlate(Plate plate) async {
+  Future<void> _insertPlate(PlateDAO plateDAO) async {
     int? plateId = await _repository.insertPlate(
-        RawPlate(userId: _userId!, name: plate.name, date: plate.date));
+        RawPlate(userId: _userId!, name: plateDAO.name, date: plateDAO.date));
 
     print('plateId = $plateId');
 
-    for (var plateIngredient in plate.plateIngredients) {
+    for (var plateIngredient in plateDAO.plateIngredients) {
       await _repository.insertPlateIngredient(
         RawPlateIngredient(
           ingredientId: plateIngredient.ingredientId!,
@@ -71,9 +77,41 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
       );
       print('plateIngredient inserted = $plateIngredient');
     }
+
+    await _insertInGetItList(plateDAO);
   }
 
-  Future<List<Ingredient>> retrieveAllIngredients() async {
+  Future<void> _insertInGetItList(PlateDAO plateDAO) async {
+    List<RawIngredient>? allIngredients = await _repository.retrieveAllIngredients();
+    List<Ingredient> ingredients = [];
+    for(PlateIngredientDAO p in plateDAO.plateIngredients) { 
+      try {
+        RawIngredient rawIngredient = allIngredients!.firstWhere(
+          (ingredient) => ingredient.id == p.ingredientId
+        );
+        ingredients.add(
+          Ingredient.fromRaw(
+            rawIngredient,
+            p.numberOfPortions!,
+          )
+        );
+      } on StateError catch (_) {
+        continue;
+      }
+    }
+    
+    Plate plate = Plate(
+      name: plateDAO.name,
+      date: plateDAO.date,
+      ingredients: ingredients
+    );
+    
+    GetIt.I<PlatesList>().insert(plate);
+
+    print('GetIt.I<PlatesList>().plates => ${GetIt.I<PlatesList>().plates}');
+  }
+
+  Future<List<IngredientDAO>> retrieveAllIngredients() async {
     List<RawIngredient>? ingredients =
         await _repository.retrieveAllIngredients();
 
@@ -82,7 +120,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
     }
 
     return ingredients.map((i) {
-      return Ingredient(
+      return IngredientDAO(
         id: i.id,
         name: i.name,
         classification: PlateUtils.parseStringEnumToEnum(i.classification),

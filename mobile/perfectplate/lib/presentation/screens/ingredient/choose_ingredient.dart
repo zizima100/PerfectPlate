@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
+import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 class ChooseIngredientScreen extends StatelessWidget {
-  final Function(Ingredient) onIngredinetTap;
+  final Function(IngredientDAO) onIngredinetTap;
   final IngredientClassification type;
 
   const ChooseIngredientScreen({
@@ -25,7 +26,7 @@ class ChooseIngredientScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: FutureBuilder<List<Ingredient>>(
+      body: FutureBuilder<List<IngredientDAO>>(
         future: BlocProvider.of<PlatesBloc>(context).retrieveAllIngredients(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -34,7 +35,7 @@ class ChooseIngredientScreen extends StatelessWidget {
           if (snapshot.hasError || !snapshot.hasData) {
             return Center(child: Text('Ocorreu um erro :('));
           }
-          List<Ingredient> ingredientsFiltered =
+          List<IngredientDAO> ingredientsFiltered =
               snapshot.data!.where((i) => i.classification == type).toList();
           print('ingredientsFiltered = $ingredientsFiltered');
           return ListView.builder(

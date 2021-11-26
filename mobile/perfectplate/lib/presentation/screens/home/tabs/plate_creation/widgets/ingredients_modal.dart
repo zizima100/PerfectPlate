@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:perfectplate/data/models/plates/plates.dart';
 
 class IngredientsModal extends StatelessWidget {
-  final Function(Ingredient) onIngredinetTap;
+  final Function(IngredientDAO) onIngredinetTap;
   final IngredientClassification type;
 
   const IngredientsModal({
@@ -28,7 +29,7 @@ class IngredientsModal extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
         ),
-        child: FutureBuilder<List<Ingredient>>(
+        child: FutureBuilder<List<IngredientDAO>>(
           future: BlocProvider.of<PlatesBloc>(context).retrieveAllIngredients(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,7 +38,7 @@ class IngredientsModal extends StatelessWidget {
             if (snapshot.hasError || !snapshot.hasData) {
               return Center(child: Text('Ocorreu um erro :('));
             }
-            List<Ingredient> ingredientsFiltered =
+            List<IngredientDAO> ingredientsFiltered =
                 snapshot.data!.where((i) => i.classification == type).toList();
             return Column(
               mainAxisSize: MainAxisSize.min,

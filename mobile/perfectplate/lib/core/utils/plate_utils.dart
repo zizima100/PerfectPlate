@@ -1,4 +1,4 @@
-import 'package:perfectplate/data/models/plates/plates.dart';
+import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 
 class PlateUtils {
   PlateUtils._();
@@ -24,6 +24,16 @@ class PlateUtils {
       return IngredientClassification.vegetable;
     } else {
       return IngredientClassification.protein;
+    }
+  }
+
+  static String parseEnumToString(IngredientClassification e) {
+    if (e == IngredientClassification.carbohydrate) {
+      return IngredientClassification.carbohydrate.toString().split('.')[1];
+    } else if (e == IngredientClassification.vegetable) {
+      return IngredientClassification.vegetable.toString().split('.')[1];
+    } else {
+      return IngredientClassification.protein.toString().split('.')[1];
     }
   }
 }
