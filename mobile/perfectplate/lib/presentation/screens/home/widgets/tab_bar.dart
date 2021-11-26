@@ -27,21 +27,21 @@ class PerfectPlateTabBar extends StatelessWidget {
           GestureDetector(
             onTap: () => onSelectTab(Tabs.insertion),
             child: _TabBarItem(
-              icon: Icons.food_bank,
+              icon: currentTab == Tabs.insertion ? Icons.food_bank : Icons.food_bank_outlined,
               isSelected: currentTab == Tabs.insertion,
             ),
           ),
           GestureDetector(
             onTap: () => onSelectTab(Tabs.search),
             child: _TabBarItem(
-              icon: Icons.search,
+              icon: currentTab == Tabs.search ? Icons.search : Icons.search_outlined,
               isSelected: currentTab == Tabs.search,
             ),
           ),
           GestureDetector(
             onTap: () => onSelectTab(Tabs.profile),
             child: _TabBarItem(
-              icon: Icons.person,
+              icon: currentTab == Tabs.profile ? Icons.person : Icons.person_outline,
               isSelected: currentTab == Tabs.profile,
             ),
           ),
@@ -70,7 +70,7 @@ class _TabBarItemState extends State<_TabBarItem> {
   Widget build(BuildContext context) {
     return Icon(
       widget.icon,
-      size: widget.isSelected ? 9.5.w : 8.w,
+      size: 8.w,
       color: widget.isSelected ? Colors.green.shade900 : Colors.white,
     );
   }
