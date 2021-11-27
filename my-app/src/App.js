@@ -10,6 +10,7 @@ import HomeScreen from "./pages/home/HomeScreen";
 import RegisterScreen from "./pages/register/RegisterScreen";
 import CalculatorScreen from "./pages/calculator/CalculatorScreen";
 import TutorialScreen from "./pages/tutorial/TutorialScreen";
+import NutricionalTable from "./pages/nutricion-table/NutricionTable";
 
 export default function App() {
   return (
@@ -31,6 +32,9 @@ export default function App() {
              </li>
               <li>
                 <Link to="/tutorial">Tutorial</Link>
+              </li>
+              <li>
+                <Link to="/nutricion-table">Tabela Nutricional</Link>
               </li>
             </ul>
           </nav>
@@ -55,6 +59,9 @@ export default function App() {
             </Route>
             <Route exact path="/tutorial">
               <TutorialScreen />
+            </Route>
+            <Route exact path="/nutricion-table">
+              <NutricionalTable />
             </Route>
           </Switch>
         </div>
