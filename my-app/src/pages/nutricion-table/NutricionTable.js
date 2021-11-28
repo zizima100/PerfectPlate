@@ -11,17 +11,26 @@ import {
     Paper
 } from "@material-ui/core";
 
-function createData(name, vEnergetico, carboidratos, proteinas, gordTotais, gordSaturadas, gordTrans, fibraAlimentar) {
-    return { name, vEnergetico, carboidratos, proteinas, gordTotais, gordSaturadas, gordTrans, fibraAlimentar };
+function getTableData(vEnergetico,
+    carboidratos,
+    proteinas,
+    gordTotais,
+    gordSaturadas,
+    gordTrans,
+    fibraAlimentar
+) {
+    return [
+        { name: 'Valor Energético', value: vEnergetico, key: 'vEnergetico' },
+        { name: 'Carboidratos', value: carboidratos, key: 'carboidratos' },
+        { name: 'Proteínas', value: proteinas, key: 'proteinas' },
+        { name: 'Gorduras Totais', value: gordTotais, key: 'gordTotais' },
+        { name: 'Gorduras Saturadas', value: gordSaturadas, key: 'gordSaturadas' },
+        { name: 'Gorduras Trans', value: gordTrans, key: 'gordTrans' },
+        { name: 'Fibra Alimentar', value: fibraAlimentar, key: 'fibraAlimentar' },
+    ];
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+const rows = getTableData(159, 6.0, 24, 4.0, 15, 0, 15);
 
 export default function NutricionalTable() {
     return (
@@ -37,33 +46,20 @@ export default function NutricionalTable() {
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>NOME DO PRATO (QUANTIDADE EM GRAMAS)</TableCell>
-                                        <TableCell align="right">Valor Energético</TableCell>
-                                        <TableCell align="right">Carboidratos&nbsp;(g)</TableCell>
-                                        <TableCell align="right">Proteínas&nbsp;(g)</TableCell>
-                                        <TableCell align="right">Gorduras Totais&nbsp;(g)</TableCell>
-                                        <TableCell align="right">Gorduras Saturadas&nbsp;(g)</TableCell>
-                                        <TableCell align="right">Gorduras Trans&nbsp;(g)</TableCell>
-                                        <TableCell align="right">Fibra Alimentar&nbsp;(g)</TableCell>
-                                        <TableCell align="right">Sódio&nbsp;(g)</TableCell>
+                                        <TableCell></TableCell>
+                                        <TableCell align="right">Quantidade por Porção (g)</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {rows.map((row) => (
                                         <TableRow
-                                            key={row.name}
+                                            key={row.key}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell component="th" scope="row">
+                                            <TableCell component="th" scope="rows">
                                                 {row.name}
                                             </TableCell>
-                                            <TableCell align="right">{row.vEnergetico}</TableCell>
-                                            <TableCell align="right">{row.carboidratos}</TableCell>
-                                            <TableCell align="right">{row.proteinas}</TableCell>
-                                            <TableCell align="right">{row.gordTotais}</TableCell>
-                                            <TableCell align="right">{row.gordSaturadas}</TableCell>
-                                            <TableCell align="right">{row.gordTrans}</TableCell>
-                                            <TableCell align="right">{row.fibraAlimentar}</TableCell>
+                                            <TableCell align="right">{row.value}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
