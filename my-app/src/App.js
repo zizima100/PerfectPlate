@@ -11,6 +11,7 @@ import RegisterScreen from "./pages/register/RegisterScreen";
 import CalculatorScreen from "./pages/calculator/CalculatorScreen";
 import TutorialScreen from "./pages/tutorial/TutorialScreen";
 import NutricionalTable from "./pages/nutricion-table/NutricionTable";
+import AboutScreen from "./pages/about/AboutScreen";
 
 export default function App() {
   return (
@@ -46,7 +47,7 @@ export default function App() {
               <HomeScreen />
             </Route>
             <Route exact path="/about">
-              <About />
+              <AboutScreen />
             </Route>
             <Route exact path="/login">
               <LoginScreen />
@@ -67,8 +68,4 @@ export default function App() {
         </div>
       </Router>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
 }

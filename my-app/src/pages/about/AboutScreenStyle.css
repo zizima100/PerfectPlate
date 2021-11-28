@@ -1,0 +1,24 @@
+.about__page-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10vh;
+    align-items: center;
+}
+
+.about__card {
+    padding: 1em;
+    margin-bottom: 1em;
+    width: 700px;
+}
+
+.about__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    /* font-size: large; */
+}
+
+.about__item {
+    margin-left: 1em;
+}
