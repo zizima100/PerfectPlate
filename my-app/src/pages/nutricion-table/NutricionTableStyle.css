@@ -1,0 +1,22 @@
+.table__page-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10vh;
+    align-items: center;
+}
+
+.table__card {
+    padding: 1em;
+    margin: 1em;
+}
+
+.table__title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table__nutri-table-container {
+
+}
+
