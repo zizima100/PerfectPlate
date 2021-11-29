@@ -1,7 +1,6 @@
 .about__page-container {
     display: flex;
     flex-direction: column;
-    padding-top: 10vh;
     align-items: center;
 }
 
