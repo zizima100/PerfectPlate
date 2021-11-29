@@ -1,7 +1,37 @@
 import React from "react";
 import '../tutorial/TutorialScreenStyle.css';
 import TabelaExemplo from "../../images/TabelaExemplo.jpg";
-import { Card } from "@material-ui/core";
+import {
+    Card,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper
+} from "@material-ui/core";
+
+function getTableData(vEnergetico,
+    carboidratos,
+    proteinas,
+    gordTotais,
+    gordSaturadas,
+    gordTrans,
+    fibraAlimentar
+) {
+    return [
+        { name: 'Valor Energético', value: vEnergetico, key: 'vEnergetico' },
+        { name: 'Carboidratos', value: carboidratos, key: 'carboidratos' },
+        { name: 'Proteínas', value: proteinas, key: 'proteinas' },
+        { name: 'Gorduras Totais', value: gordTotais, key: 'gordTotais' },
+        { name: 'Gorduras Saturadas', value: gordSaturadas, key: 'gordSaturadas' },
+        { name: 'Gorduras Trans', value: gordTrans, key: 'gordTrans' },
+        { name: 'Fibra Alimentar', value: fibraAlimentar, key: 'fibraAlimentar' },
+    ];
+}
+
+const rows = getTableData(0, 0, 0, 0, 0, 0, 0);
 
 export default function TutorialScreen() {
     return (
@@ -10,7 +40,31 @@ export default function TutorialScreen() {
                 <Card className="tutorial__inputRow">
                     <article className="tutorial__content-container">
                         <h1 className="tutorial__title_h1">Como ler uma tabela nutricional</h1>
-                        <img id="TabelaExemplo" src={TabelaExemplo} alt="Exemplo de Tabela Nutricional" />
+                        <div className="tutorial__nutri-table-container">
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell align="right">Quantidade por Porção (g)</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows.map((row) => (
+                                            <TableRow
+                                                key={row.key}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell component="th" scope="rows">
+                                                    {row.name}
+                                                </TableCell>
+                                                <TableCell align="right">{row.value}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
                         <p className="tutorial__content">
                             A primeira informação a que você deve se atentar para interpretar corretamente a tabela nutricional é o tamanho da porção considerada pelo fabricante – que costuma ser apenas parte do conteúdo total da embalagem.
                         </p>
