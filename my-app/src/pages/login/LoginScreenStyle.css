@@ -1,3 +1,9 @@
+.mainLogin {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}
+
 .inputRow {
     flex-direction: row;
     justify-content: center;
@@ -11,11 +17,4 @@
     justify-content: center;
     display: flex;
     padding-top: 2ch;
-}
-
-.mainLogin {
-    padding-top: 10vh;
-    flex-direction: row;
-    justify-content: center;
-    display: flex;
 }
