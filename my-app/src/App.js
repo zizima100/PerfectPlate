@@ -10,6 +10,8 @@ import HomeScreen from "./pages/home/HomeScreen";
 import RegisterScreen from "./pages/register/RegisterScreen";
 import CalculatorScreen from "./pages/calculator/CalculatorScreen";
 import TutorialScreen from "./pages/tutorial/TutorialScreen";
+import IngredientRegisterScreen from "./pages/ingredient-register/IngredientRegisterScreen";
+import IngredientSuggestionScreen from "./pages/ingredient-suggestion/IngredientSuggestionScreen";
 import NutricionalTable from "./pages/nutricion-table/NutricionTable";
 import AboutScreen from "./pages/about/AboutScreen";
 
@@ -37,6 +39,12 @@ export default function App() {
               <li>
                 <Link to="/nutricion-table">Tabela Nutricional</Link>
               </li>
+              <li>
+                <Link to="/ingredient-register">Registro de Ingredientes</Link>
+              </li>
+              <li>
+                <Link to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
+              </li>
             </ul>
           </nav>
 
@@ -60,6 +68,12 @@ export default function App() {
             </Route>
             <Route exact path="/tutorial">
               <TutorialScreen />
+            </Route>
+            <Route exact path="/ingredient-register">
+              <IngredientRegisterScreen />
+            </Route>
+            <Route exact path="/ingredient-suggestion">
+              <IngredientSuggestionScreen />
             </Route>
             <Route exact path="/nutricion-table">
               <NutricionalTable />

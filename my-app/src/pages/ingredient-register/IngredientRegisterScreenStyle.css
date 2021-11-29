@@ -1,0 +1,26 @@
+.ingredientRegisterMain {
+    padding-top: 10vh;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}
+
+.inputRow {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    padding-top: 2ch;
+}
+
+.selectInputWrapper {
+    padding-bottom: 10px;
+}
+
+.calculatorInputMargin {
+    padding-right: 1ch;
+    padding-left: 1ch;
+}
+
+.selectInputWrapper:last-child {
+    padding-bottom: 0;
+}
