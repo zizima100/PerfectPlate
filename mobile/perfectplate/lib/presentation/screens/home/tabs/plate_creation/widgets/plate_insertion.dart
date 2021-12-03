@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
 import 'package:perfectplate/data/models/ingredients/ingredients.dart';
+import 'package:perfectplate/data/models/plates/plates_list.dart';
 import 'package:perfectplate/presentation/screens/home/tabs/plate_creation/widgets/ingredient_widget.dart';
+import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
+import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
 import 'package:sizer/sizer.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
@@ -50,8 +54,17 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
     return BlocListener<PlatesBloc, PlatesState>(
       listener: (context, state) {
         if (state is PlatesInserted) {
-          SnackBarUtils.home(context)
-              .showSnackBarSuccess(SuccessMessagesConstants.plateInserted);
+          FocusScope.of(context).unfocus();
+          SnackBarUtils.home(context).showSnackBarSuccess(
+            SuccessMessagesConstants.plateInserted,
+            action: PerfectPlateSnackBarAction(
+              onTap: () => Navigator.of(context).pushNamed(
+                Routes.nutritionFacts,
+                arguments: NutritionFactsArgument(GetIt.I<PlatesList>().last),
+              ), 
+              message: 'Ver Tabela Nutricional'
+            ),
+          );
           _placeNameController.clear();
           setState(() {
             _ingredientsWidgets.clear();
