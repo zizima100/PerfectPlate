@@ -1,5 +1,5 @@
 import './RegisterScreenStyle.css';
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     Button,
     Card,
@@ -14,13 +14,13 @@ import {
 import UserType from "../../enums/UserTypeEnum";
 import UserSex from "../../enums/UserSexEnum";
 import { Visibility, Check } from '@material-ui/icons';
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ApiService from "../../api/ApiService";
 
 const INITIAL_STATE = {
-  value: "",
-  touched: false,
-  hasError: true,
+    value: "",
+    touched: false,
+    hasError: true,
 };
 
 export default function RegisterScreen() {
@@ -115,7 +115,7 @@ export default function RegisterScreen() {
             height: height.value,
             userType: userType.value
         });
-        const {ok, message, data} = result.data;
+        const { ok, message, data } = result.data;
 
         if (!ok && message === "EMAIL_ALREADY_EXISTS") {
             alert("Já existe uma conta registrada com o email inserido!");
@@ -132,6 +132,7 @@ export default function RegisterScreen() {
             history.push("/login");
         }
     }
+
     return (
         <div className="mainRegister">
             <Card sx={{ width: 700 }}>
@@ -139,7 +140,7 @@ export default function RegisterScreen() {
                     <div className="pageTitle">
                         <span className="titleText">Crie uma conta</span>
                         <span>Fácil e rápido.</span>
-                        <div className="separator"/>
+                        <div className="separator" />
                     </div>
                     <div className="inputRowWithIcon">
                         <div className="inputWrapper">
@@ -149,7 +150,7 @@ export default function RegisterScreen() {
                                 placeholder="Insira seu email"
                                 variant="outlined"
                                 type="email"
-                                onChange={e => setEmail({...email, value: e.target.value})}
+                                onChange={e => setEmail({ ...email, value: e.target.value })}
                                 onBlur={e => validateField(e.target.value, "email")}
                                 value={email.value}
                             />
@@ -162,7 +163,7 @@ export default function RegisterScreen() {
                                     placeholder="Insira sua senha"
                                     variant="outlined"
                                     type={isPasswordVisible ? "text" : "password"}
-                                    onChange={e => setPassword({...password, value: e.target.value})}
+                                    onChange={e => setPassword({ ...password, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "senha")}
                                     value={password.value}
                                 />
@@ -182,7 +183,7 @@ export default function RegisterScreen() {
                                 placeholder="Insira seu nome completo"
                                 variant="outlined"
                                 type="text"
-                                onChange={e => setName({...name, value: e.target.value})}
+                                onChange={e => setName({ ...name, value: e.target.value })}
                                 onBlur={e => validateField(e.target.value, "nome")}
                                 value={name.value}
                             />
@@ -194,7 +195,7 @@ export default function RegisterScreen() {
                                 placeholder="Insira sua idade"
                                 variant="outlined"
                                 type="number"
-                                onChange={e => setAge({...age, value: e.target.value})}
+                                onChange={e => setAge({ ...age, value: e.target.value })}
                                 onBlur={e => validateField(e.target.value, "idade")}
                                 value={age.value}
                             />
@@ -209,7 +210,7 @@ export default function RegisterScreen() {
                                     placeholder="Insira seu Peso"
                                     variant="outlined"
                                     type="number"
-                                    onChange={e => setWeight({...weight, value: e.target.value})}
+                                    onChange={e => setWeight({ ...weight, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "peso")}
                                     value={weight.value}
                                 />
@@ -224,7 +225,7 @@ export default function RegisterScreen() {
                                     id="demo-simple-select"
                                     value={sex.value}
                                     label="Sexo"
-                                    onChange={e => setSex({...sex, value: e.target.value})}
+                                    onChange={e => setSex({ ...sex, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "sexo")}
                                 >
                                     <MenuItem value={UserSex.MASCULINO}>Masculino</MenuItem>
@@ -243,7 +244,7 @@ export default function RegisterScreen() {
                                     placeholder="Insira sua Altura"
                                     variant="outlined"
                                     type="number"
-                                    onChange={e => setHeight({...height, value: e.target.value})}
+                                    onChange={e => setHeight({ ...height, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "altura")}
                                     value={height.value}
                                 />
@@ -258,7 +259,7 @@ export default function RegisterScreen() {
                                     id="demo-simple-select"
                                     value={userType.value}
                                     label="Classificação"
-                                    onChange={e => setUserType({...userType, value: e.target.value})}
+                                    onChange={e => setUserType({ ...userType, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "classificacao")}
                                 >
                                     <MenuItem value={UserType.FISICULTURISTA}>Fisiculturista</MenuItem>

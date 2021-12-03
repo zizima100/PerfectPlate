@@ -1,29 +1,29 @@
 import './CalculatorScreenStyle.css';
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     Button,
     Card,
     CardContent, FormControl, InputLabel, Link, MenuItem, Select,
     TextField
 } from "@material-ui/core";
-import {Add, Check, DeleteForever} from "@material-ui/icons";
+import { Add, Check, DeleteForever } from "@material-ui/icons";
 
 const INGREDIENTES_API = {
     carboidratos: [
-        {value: 'batata_doce', label: 'Batata Doce', onePortion: 53},
-        {value: 'mandioquinha', label: 'Mandioquinha', onePortion: 45},
-        {value: 'batata', label: 'Batata', onePortion: 100},
-        {value: 'arroz', label: 'Arroz', onePortion: 120},
+        { value: 'batata_doce', label: 'Batata Doce', onePortion: 53 },
+        { value: 'mandioquinha', label: 'Mandioquinha', onePortion: 45 },
+        { value: 'batata', label: 'Batata', onePortion: 100 },
+        { value: 'arroz', label: 'Arroz', onePortion: 120 },
     ],
     legumes: [
-        {value: 'vagem', label: 'Vagem', onePortion: 100},
-        {value: 'espinafre', label: 'Espinafre', onePortion: 150},
-        {value: 'cenoura', label: 'Cenoura', onePortion: 200},
+        { value: 'vagem', label: 'Vagem', onePortion: 100 },
+        { value: 'espinafre', label: 'Espinafre', onePortion: 150 },
+        { value: 'cenoura', label: 'Cenoura', onePortion: 200 },
     ],
     proteinas: [
-        {value: 'frango', label: 'Frango', onePortion: 90},
-        {value: 'carne_de_boi', label: 'Carne de Boi', onePortion: 80},
-        {value: 'carne_de_porco', label: 'Carne de Porco', onePortion: 115},
+        { value: 'frango', label: 'Frango', onePortion: 90 },
+        { value: 'carne_de_boi', label: 'Carne de Boi', onePortion: 80 },
+        { value: 'carne_de_porco', label: 'Carne de Porco', onePortion: 115 },
     ],
 }
 
@@ -34,7 +34,7 @@ const mapTypeLabel = {
 }
 
 export default function CalculatorScreen() {
-    const [inputList, setInputList] = useState([{ ingredient: {type: "carb", value: ""}, portionQtd: 1, onePortionQtd: 0 }]);
+    const [inputList, setInputList] = useState([{ ingredient: { type: "carb", value: "" }, portionQtd: 1, onePortionQtd: 0 }]);
     const [newField, setNewField] = useState("carb");
 
     const handleInputChange = (e, index) => {
@@ -62,7 +62,7 @@ export default function CalculatorScreen() {
     };
 
     const handleAddClick = () => {
-        setInputList([...inputList, { ingredient: {type: newField, value: ""}, portionQtd: 1, onePortionQtd: 0 }]);
+        setInputList([...inputList, { ingredient: { type: newField, value: "" }, portionQtd: 1, onePortionQtd: 0 }]);
     };
 
     const verifyItemOnePortionQtd = (type, value) => {
@@ -79,18 +79,18 @@ export default function CalculatorScreen() {
 
     const ingredientItemsByType = type => {
         if (type === "carb") {
-            return INGREDIENTES_API.carboidratos.map((item,idx) => (
-                <MenuItem key={idx} value={ item.value }>{ item.label }</MenuItem>
+            return INGREDIENTES_API.carboidratos.map((item, idx) => (
+                <MenuItem key={idx} value={item.value}>{item.label}</MenuItem>
             ))
         }
         if (type === "protein") {
-            return INGREDIENTES_API.proteinas.map((item,idx) => (
-                <MenuItem key={idx} value={ item.value }>{ item.label }</MenuItem>
+            return INGREDIENTES_API.proteinas.map((item, idx) => (
+                <MenuItem key={idx} value={item.value}>{item.label}</MenuItem>
             ))
         }
         if (type === "legume") {
-            return INGREDIENTES_API.legumes.map((item,idx) => (
-                <MenuItem key={idx} value={ item.value }>{ item.label }</MenuItem>
+            return INGREDIENTES_API.legumes.map((item, idx) => (
+                <MenuItem key={idx} value={item.value}>{item.label}</MenuItem>
             ))
         }
     };
@@ -106,7 +106,7 @@ export default function CalculatorScreen() {
                     <div className="pageTitle">
                         <span className="titleText">Calculadora Nutricional</span>
                         <span>Cadastre um prato e verfique todas as informações nutricionais necessárias!</span>
-                        <div className="separator"/>
+                        <div className="separator" />
                     </div>
                     {inputList.map((item, idx) => {
                         return (
@@ -159,7 +159,7 @@ export default function CalculatorScreen() {
                             </div>
                         );
                     })}
-                    <div className="separator"/>
+                    <div className="separator" />
                     <div className="inputRow">
                         <div className="calculatorInputMargin">
                             <FormControl sx={{ minWidth: 230 }}>
@@ -187,15 +187,19 @@ export default function CalculatorScreen() {
                         </div>
                         <div className="calculatorInputMargin">
                             <Button
+                                disabled={
+                                    inputList.length <= 0
+                                }
                                 onClick={submitPlate}
                                 color="success"
                                 variant="contained"
-                                endIcon={<Check />}>
+                                endIcon={<Check />}
+                            >
                                 Finalizar prato
                             </Button>
                         </div>
                     </div>
-                    <div className="separator"/>
+                    <div className="separator" />
                     <div className="inputRow">
                         <span>Está sentindo falta de algum ingrediente? <Link href="/register">Fique a vontade para sugerir!</Link></span>
                     </div>
