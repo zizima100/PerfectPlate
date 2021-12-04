@@ -38,4 +38,10 @@ class PlatesRepository implements IPlatesRepository {
       return ingredients;
     }
   }
+
+  @override
+  Future<List<Plate>?> retrieveAllUserPlates(int userId) {
+    // TODO: implement retrieveAllUserIngredients
+    throw UnimplementedError();
+  }
 }

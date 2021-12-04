@@ -1,0 +1,4 @@
+- [ ] Atualizar API para retornar todas os ingredientes
+- [x] Inserir data na tabela nutricional
+- [x] Inserir botão para abrir tabela no snackbar
+- [ ] Consultar todas as tabelas e colocar no Search

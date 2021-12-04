@@ -12,7 +12,6 @@ part 'plates_event.dart';
 part 'plates_state.dart';
 
 class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
-
   int? _userId;
   final IPlatesRepository _repository;
 
@@ -28,9 +27,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   }
 
   Future<void> _onPlateInsertionStarted(
-    PlateInsertedEvent event, 
-    Emitter<PlatesState> emit
-  ) async {
+      PlateInsertedEvent event, Emitter<PlatesState> emit) async {
     try {
       emit(PlateInsertionLoading());
       _validatePlate(event.plate);
@@ -48,14 +45,15 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   }
 
   void _validatePlate(PlateDAO plate) {
-    if(plate.name.isEmpty) {
+    if (plate.name.isEmpty) {
       throw PlateNameEmptyException();
-    } if(plate.plateIngredients.isEmpty) {
+    }
+    if (plate.plateIngredients.isEmpty) {
       throw PlatesIngredientsEmptyException();
     }
     for (var ingredient in plate.plateIngredients) {
       print('checking = $ingredient');
-      if(ingredient.numberOfPortions == null) {
+      if (ingredient.numberOfPortions == null) {
         throw NumberOfPortionsEmptyException();
       }
     }
@@ -82,30 +80,25 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   }
 
   Future<void> _insertInGetItList(PlateDAO plateDAO) async {
-    List<RawIngredient>? allIngredients = await _repository.retrieveAllIngredients();
+    List<RawIngredient>? allIngredients =
+        await _repository.retrieveAllIngredients();
     List<Ingredient> ingredients = [];
-    for(PlateIngredientDAO p in plateDAO.plateIngredients) { 
+    for (PlateIngredientDAO p in plateDAO.plateIngredients) {
       try {
-        RawIngredient rawIngredient = allIngredients!.firstWhere(
-          (ingredient) => ingredient.id == p.ingredientId
-        );
-        ingredients.add(
-          Ingredient.fromRaw(
-            rawIngredient,
-            p.numberOfPortions!,
-          )
-        );
+        RawIngredient rawIngredient = allIngredients!
+            .firstWhere((ingredient) => ingredient.id == p.ingredientId);
+        ingredients.add(Ingredient.fromRaw(
+          rawIngredient,
+          p.numberOfPortions!,
+        ));
       } on StateError catch (_) {
         continue;
       }
     }
-    
+
     Plate plate = Plate(
-      name: plateDAO.name,
-      date: plateDAO.date,
-      ingredients: ingredients
-    );
-    
+        name: plateDAO.name, date: plateDAO.date, ingredients: ingredients);
+
     GetIt.I<PlatesList>().insert(plate);
 
     print('GetIt.I<PlatesList>().plates => ${GetIt.I<PlatesList>().plates}');
@@ -127,5 +120,21 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
         onePortionQuantity: i.onePortionWeight,
       );
     }).toList();
+  }
+
+  Future<void> mapAllUserPlates() async {
+    List<Plate> plates = await _retrieveAllUserPlates();
+    GetIt.I<PlatesList>().insertAll(plates);
+    print('GetIt.I<PlatesList>().plates = ${GetIt.I<PlatesList>().plates}');
+  }
+
+  Future<List<Plate>> _retrieveAllUserPlates() async {
+    List<Plate>? plates = await _repository.retrieveAllUserPlates(_userId!);
+
+    if (plates == null) {
+      throw Exception();
+    }
+
+    return plates;
   }
 }

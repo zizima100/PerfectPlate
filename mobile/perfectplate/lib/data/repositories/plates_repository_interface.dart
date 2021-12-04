@@ -7,4 +7,6 @@ abstract class IPlatesRepository {
   Future<void> insertPlateIngredient(RawPlateIngredient plate);
 
   Future<List<RawIngredient>?> retrieveAllIngredients();
+
+  Future<List<Plate>?> retrieveAllUserPlates(int userId);
 }
