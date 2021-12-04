@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:sizer/sizer.dart';
@@ -6,7 +7,7 @@ import 'package:sizer/sizer.dart';
 class NutritionFactsScreen extends StatelessWidget {
   final Plate plate;
 
-  const NutritionFactsScreen({ 
+  const NutritionFactsScreen({
     Key? key,
     required this.plate,
   }) : super(key: key);
@@ -59,11 +60,71 @@ class NutritionFactsScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
+          Container(
             padding: EdgeInsets.all(5.w),
-            child: Text(plate.name)
+            child: Text(
+              plate.name,
+              style: TextStyle(
+                fontSize: 17.5.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.green.shade800,
+                shadows: [
+                  BoxShadow(
+                    color: Colors.grey.shade400,
+                    spreadRadius: 2.0,
+                    blurRadius: 8.0,
+                    offset: Offset(2, 4),
+                  ),
+                ],
+              )
+            )
           ),
-          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Data de registro do prato:',
+                  style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              SizedBox(width: 1.8.w),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.green.shade700,
+                    width: 0.35.w,
+                  ),
+                  borderRadius: BorderRadius.circular(4.w),
+                ),
+                margin: EdgeInsets.symmetric(
+                  vertical: 2.5.w,
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 1.5.w,
+                  vertical: 1.5.w
+                ),
+                child: Text(
+                  DateFormat('dd/MM/yyyy').format(plate.date),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 13.sp,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 2.5.w
+            ),
+            child: Divider(
+              height: 3.5.h,
+              color: Colors.grey.shade500,
+            ),
+          ),
           Container(
             margin: EdgeInsets.all(2.5.w),
             child: Column(
@@ -117,7 +178,7 @@ class NutritionFactsScreen extends StatelessWidget {
                 ),
               ],
             )
-          )
+          ),
         ],
       )
     );
