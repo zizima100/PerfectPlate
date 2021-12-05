@@ -107,4 +107,23 @@ class Plate {
 
   @override
   String toString() => 'Plate(name: $name, date: $date, ingredients: $ingredients)';
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'date': date.millisecondsSinceEpoch,
+      'ingredients': ingredients.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory Plate.fromMap(Map<String, dynamic> map) {
+    print("DateTime.parse(map['date']) = ${DateTime.parse(map['date'])}");
+    return Plate(
+      name: map['name'],
+      date: DateTime.parse(map['date']),
+      ingredients: List<Ingredient>.from(map['ingredients']?.map(
+        (x) => Ingredient.fromMap(x, map['number_of_portions'])
+      )),
+    );
+  }
 }

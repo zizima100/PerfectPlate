@@ -38,4 +38,15 @@ class PlatesApiProvider {
 
     return response.body;
   }
+
+  Future<String> retrieveAllUserPlates(String userId) async {
+    print('retrieveAllUserPlates');
+    final response = await _client.get(
+      Uri.parse(ApisHosts.meals + '/plates/query_all?user_id=$userId'),
+    );
+
+    print('response = ${response.body}');
+
+    return response.body;
+  }
 }

@@ -123,6 +123,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   }
 
   Future<void> mapAllUserPlates() async {
+    print('mapAllUserPlates');
     List<Plate> plates = await _retrieveAllUserPlates();
     GetIt.I<PlatesList>().insertAll(plates);
     print('GetIt.I<PlatesList>().plates = ${GetIt.I<PlatesList>().plates}');
@@ -130,6 +131,8 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
 
   Future<List<Plate>> _retrieveAllUserPlates() async {
     List<Plate>? plates = await _repository.retrieveAllUserPlates(_userId!);
+
+    print('plates in _retrieveAllUserPlates = $plates');
 
     if (plates == null) {
       throw Exception();
