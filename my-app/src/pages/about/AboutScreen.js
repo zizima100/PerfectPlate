@@ -19,7 +19,7 @@ export default function AboutScreen() {
                         <div className="separator"/>
                     </div>
                     <ul className="about__list">
-                        O PerfectPlane foi desenvolvido pelos incíveis developers:
+                        O PerfectPlane foi desenvolvido pelos developers:
                         <il className="about__item">Júlio Renato Minguini Faúndes</il>
                         <il className="about__item">Lucas Ribolli Blasquez</il>
                         <il className="about__item">Vinícius Natalino Zacheu</il>

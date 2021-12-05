@@ -201,7 +201,7 @@ export default function CalculatorScreen() {
                     </div>
                     <div className="separator" />
                     <div className="inputRow">
-                        <span>Está sentindo falta de algum ingrediente? <Link href="/register">Fique a vontade para sugerir!</Link></span>
+                        <span>Está sentindo falta de algum ingrediente? <Link href="/ingredient-suggestion">Fique a vontade para sugerir!</Link></span>
                     </div>
                 </CardContent>
             </Card>
