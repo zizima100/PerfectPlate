@@ -11,6 +11,9 @@ class LoginUserStartedEvent extends AuthUserEvent {
 class SingUpUserStartedEvent extends AuthUserEvent {
   final SingUpUser user;
   SingUpUserStartedEvent(this.user);
+
+  @override
+  String toString() => 'SingUpUserStartedEvent(user: $user)';
 }
 
 @immutable

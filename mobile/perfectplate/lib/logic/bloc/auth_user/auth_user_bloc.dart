@@ -47,6 +47,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       emit(AuthLoading());
       _validateSignUpUser(event);
       int? userId = await _respository.singupUser(event.user);
+      await _cacheMapRepository.setUserId(userId);
       emit(AuthSuccessful(userId!));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
@@ -56,6 +57,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   }
 
   void _validateSignUpUser(SingUpUserStartedEvent event) {
+    print('SingUpUserStartedEvent = $event');
     if (event.user.name.isEmpty 
       || event.user.email.isEmpty 
       || event.user.password.isEmpty
