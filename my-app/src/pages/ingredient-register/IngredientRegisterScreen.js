@@ -24,6 +24,8 @@ export default function IngredientRegisterScreen() {
         }
     }, [selector]);
 
+    const hasNumber = /\d/;
+
     const submitIngredient = () => {
         const data = {
             category,
@@ -40,7 +42,7 @@ export default function IngredientRegisterScreen() {
                     <div className="pageTitle">
                         <span className="titleText">Cadastro de Ingredientes</span>
                         <span>Cadastre um Ingrediente para os usuários escolherem em seus pratos!</span>
-                        <div className="separator"/>
+                        <div className="separator" />
                     </div>
                     <div className="inputRow">
                         <div className="calculatorInputMargin">
@@ -84,10 +86,16 @@ export default function IngredientRegisterScreen() {
                             />
                         </div>
                     </div>
-                    <div className="separator"/>
+                    <div className="separator" />
                     <div className="inputRow">
                         <div className="calculatorInputMargin">
                             <Button
+                                disabled={
+                                    ingredientName === '' ||
+                                    hasNumber.test(ingredientName) ||
+                                    onePortionQtd <= 0 ||
+                                    !onePortionQtd
+                                }
                                 onClick={submitIngredient}
                                 color="success"
                                 variant="contained"

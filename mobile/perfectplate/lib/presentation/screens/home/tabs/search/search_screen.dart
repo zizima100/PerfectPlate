@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
-import 'package:perfectplate/data/models/plates/plates_list.dart';
 import 'package:perfectplate/presentation/screens/home/tabs/widgets/text_field.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';

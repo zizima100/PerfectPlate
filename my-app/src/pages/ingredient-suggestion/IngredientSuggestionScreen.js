@@ -22,11 +22,14 @@ export default function IngredientSuggestionScreen() {
         }
     }, [selector]);
 
+    const hasNumber = /\d/;
+
     const submitIngredient = () => {
         const data = {
             ingredientName
         }
         console.log(data);
+        // console.log(ingredientName);
     }
 
     return (
@@ -36,7 +39,7 @@ export default function IngredientSuggestionScreen() {
                     <div className="pageTitle">
                         <span className="titleText">Sugestão de Ingredientes</span>
                         <span>Sugira um ingrediente que você está sentindo falta em nosso site!</span>
-                        <div className="separator"/>
+                        <div className="separator" />
                     </div>
                     <div className="inputRow">
                         <div className="calculatorInputMargin">
@@ -50,10 +53,14 @@ export default function IngredientSuggestionScreen() {
                             />
                         </div>
                     </div>
-                    <div className="separator"/>
+                    <div className="separator" />
                     <div className="inputRow">
                         <div className="calculatorInputMargin">
                             <Button
+                                disabled={
+                                    ingredientName === '' ||
+                                    hasNumber.test(ingredientName)
+                                }
                                 onClick={submitIngredient}
                                 color="success"
                                 variant="contained"
