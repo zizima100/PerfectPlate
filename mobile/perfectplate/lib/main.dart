@@ -28,7 +28,7 @@ class PerfectPlateApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => PlatesBloc(
-              MockPlatesRepository(),
+              PlatesRepository(),
             ),
           )
         ],

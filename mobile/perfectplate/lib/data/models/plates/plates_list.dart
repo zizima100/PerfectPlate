@@ -7,6 +7,13 @@ class PlatesList {
     _plates.add(plate);
   }
 
+  void insertAll(List<Plate> plates) {
+    _plates.clear();
+    for (var plate in plates) {
+      _plates.add(plate);
+    }
+  }
+
   List<Plate> get plates => [..._plates];
 
   Plate get last => _plates.last;

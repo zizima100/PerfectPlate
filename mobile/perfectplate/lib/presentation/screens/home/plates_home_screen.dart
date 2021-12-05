@@ -26,13 +26,12 @@ class _PlatesMainScreenState extends State<PlatesMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     void _onSelectTab(Tabs tab) {
       setState(() {
         _tabSelected = tab;
       });
     }
-    
+
     Widget _renderTab() {
       switch (_tabSelected) {
         case Tabs.insertion:
@@ -45,30 +44,29 @@ class _PlatesMainScreenState extends State<PlatesMainScreen> {
     }
 
     return BlocListener<AuthUserBloc, AuthUserState>(
-      listenWhen: (previous, current) => previous != current,
-      listener: (_, state) {
-        if (state is UserLogout) {
-          RouteHelper.removeAllAndPushTo(context, Routes.auth);
-        }
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 7,
-                child: _renderTab(),
-              ),
-              PerfectPlateTabBar(
-                onSelectTab: _onSelectTab,
-                currentTab: _tabSelected,
-              ),
-            ],
+        listenWhen: (previous, current) => previous != current,
+        listener: (_, state) {
+          if (state is UserLogout) {
+            RouteHelper.removeAllAndPushTo(context, Routes.auth);
+          }
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 7,
+                  child: _renderTab(),
+                ),
+                PerfectPlateTabBar(
+                  onSelectTab: _onSelectTab,
+                  currentTab: _tabSelected,
+                ),
+              ],
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 }

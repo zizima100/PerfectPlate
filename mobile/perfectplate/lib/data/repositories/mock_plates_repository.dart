@@ -19,52 +19,73 @@ class MockPlatesRepository implements IPlatesRepository {
 
   @override
   Future<List<RawIngredient>?> retrieveAllIngredients() async {
-    return [
-      RawIngredient(
-        id: 1,
-        name: 'Arroz Mockado',
-        onePortionWeight: 200,
-        classification: PlateUtils.parseEnumToString(
-            IngredientClassification.carbohydrate),
-        energeticValue: 1,
-        carbohydrate: 1,
-        protein: 1,
-        saturatedFat: 1,
-        totalFat: 1,
-        transFat: 1,
-        fibre: 1,
-        sodium: 1,
-      ),
-      RawIngredient(
-        id: 2,
-        name: 'Feijão',
-        onePortionWeight: 200,
-        classification: PlateUtils.parseEnumToString(
-            IngredientClassification.carbohydrate),
-        energeticValue: 4,
-        carbohydrate: 4,
-        protein: 4,
-        saturatedFat: 4,
-        totalFat: 4,
-        transFat: 4,
-        fibre: 4,
-        sodium: 4,
-      ),
-      RawIngredient(
-        id: 3,
-        name: 'Frango',
-        onePortionWeight: 200,
-        classification: PlateUtils.parseEnumToString(
-            IngredientClassification.protein),
-        energeticValue: 2,
-        carbohydrate: 2,
-        protein: 2,
-        saturatedFat: 2,
-        totalFat: 2,
-        transFat: 2,
-        fibre: 2,
-        sodium: 2,
-      ),
-    ];
+    return mockIngredients;
   }
+
+  @override
+  Future<List<Plate>?> retrieveAllUserPlates(int userId) {
+    Future.delayed(Duration(seconds: 5));
+    return Future.value([
+      Plate(
+        date: DateTime(2021, 12, 4, 13, 30),
+        ingredients:
+            mockIngredients.map((e) => Ingredient.fromRaw(e, 2)).toList(),
+        name: 'Jantar em família',
+      ),
+      Plate(
+        date: DateTime(2021, 12, 1, 8, 45),
+        ingredients:
+            mockIngredients.map((e) => Ingredient.fromRaw(e, 1)).toList(),
+        name: 'Café da manhã no hotel',
+      ),
+    ]);
+  }
+
+  static final mockIngredients = [
+    RawIngredient(
+      id: 1,
+      name: 'Arroz Mockado',
+      onePortionWeight: 200,
+      classification:
+          PlateUtils.parseEnumToString(IngredientClassification.carbohydrate),
+      energeticValue: 1,
+      carbohydrate: 1,
+      protein: 1,
+      saturatedFat: 1,
+      totalFat: 1,
+      transFat: 1,
+      fibre: 1,
+      sodium: 1,
+    ),
+    RawIngredient(
+      id: 2,
+      name: 'Feijão',
+      onePortionWeight: 200,
+      classification:
+          PlateUtils.parseEnumToString(IngredientClassification.carbohydrate),
+      energeticValue: 4,
+      carbohydrate: 4,
+      protein: 4,
+      saturatedFat: 4,
+      totalFat: 4,
+      transFat: 4,
+      fibre: 4,
+      sodium: 4,
+    ),
+    RawIngredient(
+      id: 3,
+      name: 'Frango',
+      onePortionWeight: 200,
+      classification:
+          PlateUtils.parseEnumToString(IngredientClassification.protein),
+      energeticValue: 2,
+      carbohydrate: 2,
+      protein: 2,
+      saturatedFat: 2,
+      totalFat: 2,
+      transFat: 2,
+      fibre: 2,
+      sodium: 2,
+    ),
+  ];
 }

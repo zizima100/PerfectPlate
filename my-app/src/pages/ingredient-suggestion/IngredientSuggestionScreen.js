@@ -1,15 +1,26 @@
 import './IngredientSuggestionScreenStyle.css';
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Card,
     CardContent,
     TextField
 } from "@material-ui/core";
-import { Check } from "@material-ui/icons";
+import {Check} from "@material-ui/icons";
+import {useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 export default function IngredientSuggestionScreen() {
     const [ingredientName, setIngredientName] = useState("");
+    const selector = useSelector(state => state);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (history && selector.userData.id === 0) {
+            alert("Você precisa estar logado para acessar essa página!")
+            history.push("/");
+        }
+    }, [selector]);
 
     const hasNumber = /\d/;
 

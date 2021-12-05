@@ -146,6 +146,46 @@ class Ingredient {
   String toString() {
     return 'Ingredient(id: $id, name: $name, onePortionWeight: $onePortionWeight, classification: $classification, energeticValue: $energeticValue, carbohydrate: $carbohydrate, protein: $protein, saturatedFat: $saturatedFat, totalFat: $totalFat, transFat: $transFat, fibre: $fibre, sodium: $sodium, numberOfPortions: $numberOfPortions)';
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'onePortionWeight': onePortionWeight,
+      'classification': classification,
+      'energeticValue': energeticValue,
+      'carbohydrate': carbohydrate,
+      'protein': protein,
+      'saturatedFat': saturatedFat,
+      'totalFat': totalFat,
+      'transFat': transFat,
+      'fibre': fibre,
+      'sodium': sodium,
+      'numberOfPortions': numberOfPortions,
+    };
+  }
+
+  factory Ingredient.fromMap(Map<String, dynamic> map, int numberOfPortions) {
+    print('map = $map');
+    var i = Ingredient(
+      id: 0,
+      name: map['name'],
+      onePortionWeight: double.parse(map['one_portion_weight']),
+      classification: map['classification'],
+      energeticValue: double.parse(map['energetic_value']),
+      carbohydrate: double.parse(map['carbohydrate']),
+      protein: double.parse(map['protein']),
+      saturatedFat: double.parse(map['saturated_fat']),
+      totalFat: double.parse(map['total_fat']),
+      transFat: double.parse(map['trans_fat']),
+      fibre: double.parse(map['fibre']),
+      sodium: double.parse(map['sodium']),
+      numberOfPortions: numberOfPortions,
+    );
+
+    print('i = $i');
+    return i;
+  }
 }
 
 enum IngredientClassification {

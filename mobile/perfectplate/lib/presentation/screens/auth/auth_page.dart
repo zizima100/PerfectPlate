@@ -88,10 +88,12 @@ class AuthFormWidget extends StatefulWidget {
 class _AuthFormWidgetState extends State<AuthFormWidget> {
   late String email;
   late String password;
+  late String name;
   late SingUpUser signUpUser;
   late AuthMode mode;
   late AuthUserBloc authUserBloc;
   late UserType userType;
+  late SexType sexType;
 
   @override
   void initState() {
@@ -99,7 +101,9 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
     signUpUser = SingUpUser();
     email = '';
     password = '';
+    name = '';
     userType = UserType.defaultUser;
+    sexType = SexType.masculine;
     authUserBloc = BlocProvider.of<AuthUserBloc>(context);
     super.initState();
   }
@@ -121,7 +125,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                       hintText: TextFieldConstants.name,
                     ),
                     onChanged: (value) {
-                      setState(() => signUpUser.name.trim());
+                      setState(() => name = value.trim());
                     },
                   ),
                 TextField(
@@ -178,21 +182,42 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                         ],
                       ),
                       SizedBox(height: 2.h,),
-                      DropdownButton<UserType>(
-                        value: userType,
-                        onChanged: (value) {
-                          setState(() {
-                            userType =
-                                value ?? UserType.defaultUser;
-                          });
-                        },
-                        items: UserType.values.map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child:
-                                Text(UserUtils.parseTypeEnumToTitle(value)),
-                          );
-                        }).toList(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          DropdownButton<UserType>(
+                            value: userType,
+                            onChanged: (value) {
+                              setState(() {
+                                userType =
+                                    value ?? UserType.defaultUser;
+                              });
+                            },
+                            items: UserType.values.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child:
+                                    Text(UserUtils.parseTypeEnumToTitle(value)),
+                              );
+                            }).toList(),
+                          ),
+                          DropdownButton<SexType>(
+                            value: sexType,
+                            onChanged: (value) {
+                              setState(() {
+                                sexType =
+                                    value ?? SexType.masculine;
+                              });
+                            },
+                            items: SexType.values.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child:
+                                    Text(UserUtils.parseSexEnumToTitle(value)),
+                              );
+                            }).toList(),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -235,6 +260,10 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
               } else {
                 signUpUser.email = email;
                 signUpUser.password = password;
+                signUpUser.name = name;
+                signUpUser.userType = UserUtils.parseTypeEnumToTitle(userType);
+                signUpUser.sex = UserUtils.parseSexEnumToTitle(sexType);
+                print('signUpUser = $signUpUser');
                 authUserBloc.add(SingUpUserStartedEvent(signUpUser));
               }
             },

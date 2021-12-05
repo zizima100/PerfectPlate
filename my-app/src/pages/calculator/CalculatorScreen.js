@@ -1,12 +1,17 @@
 import './CalculatorScreenStyle.css';
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Card,
-    CardContent, FormControl, InputLabel, Link, MenuItem, Select,
+    CardContent, FormControl, InputLabel, MenuItem, Select,
     TextField
 } from "@material-ui/core";
 import { Add, Check, DeleteForever } from "@material-ui/icons";
+import {useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
+import {
+    Link,
+} from "react-router-dom";
 
 const INGREDIENTES_API = {
     carboidratos: [
@@ -36,6 +41,15 @@ const mapTypeLabel = {
 export default function CalculatorScreen() {
     const [inputList, setInputList] = useState([{ ingredient: { type: "carb", value: "" }, portionQtd: 1, onePortionQtd: 0 }]);
     const [newField, setNewField] = useState("carb");
+    const selector = useSelector(state => state);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (history && selector.userData.id === 0) {
+            alert("Você precisa estar logado para acessar essa página!")
+            history.push("/");
+        }
+    }, [selector]);
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -201,7 +215,7 @@ export default function CalculatorScreen() {
                     </div>
                     <div className="separator" />
                     <div className="inputRow">
-                        <span>Está sentindo falta de algum ingrediente? <Link href="/register">Fique a vontade para sugerir!</Link></span>
+                        <span>Está sentindo falta de algum ingrediente? <Link to="/ingredient-suggestion">Fique a vontade para sugerir!</Link></span>
                     </div>
                 </CardContent>
             </Card>

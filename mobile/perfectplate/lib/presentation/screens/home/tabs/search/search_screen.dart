@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
-import 'package:perfectplate/data/models/plates/plates_list.dart';
+import 'package:perfectplate/presentation/screens/home/tabs/widgets/text_field.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:sizer/sizer.dart';
@@ -20,18 +20,33 @@ class _SearchScreenState extends State<SearchScreen> {
   late bool mostRecent;
   late bool older;
 
-  void _onSearch(String value) {
-    value = value.trim();
+  void _onSearch(String keyword) {
+    print('keyword = $keyword');
+    keyword = _formatKeywordSearched(keyword);
+    if (keyword.isEmpty) {
+      return;
+    }
     List<Plate> plates = GetIt.I<PlatesList>().plates.where((plate) {
-      return plate.name.contains(value);
+      String name = plate.name.toLowerCase();
+      return name.contains(keyword);
     }).toList();
 
-    if(plates.isNotEmpty) {
+    if (plates.isNotEmpty) {
       plates = _sortPlatesAsc(plates);
       setState(() {
         platesResult = plates;
       });
+    } else {
+      setState(() {
+        platesResult.clear();
+      });
     }
+  }
+
+  String _formatKeywordSearched(String keyword) {
+    keyword = keyword.trim();
+    keyword = keyword.toLowerCase();
+    return keyword;
   }
 
   List<Plate> _sortPlatesAsc(List<Plate> plates) {
@@ -63,11 +78,21 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: controller,
-          onSubmitted: _onSearch,
+        Padding(
+          padding: EdgeInsets.all(2.h),
+          child: PerfectPlateTextField(
+            autofocus: false,
+            hintText: 'Pesquise um prato pelo nome',
+            onSubmitted: _onSearch,
+            inputAction: TextInputAction.search,
+            suffixIcon: IconButton(
+              onPressed: () => _onSearch(controller.text),
+              icon: Icon(Icons.search),
+            ),
+            controller: controller,
+          ),
         ),
-        if(platesResult.length > 1)
+        if (platesResult.length > 1)
           Padding(
             padding: EdgeInsets.symmetric(vertical: 4.w),
             child: Row(
@@ -119,7 +144,7 @@ class _OrderButton extends StatelessWidget {
   final String text;
   final bool isSelected;
 
-  const _OrderButton({ 
+  const _OrderButton({
     Key? key,
     required this.text,
     required this.isSelected,
@@ -130,16 +155,11 @@ class _OrderButton extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(2.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.w),
-        color: isSelected 
-          ? Colors.green.shade200 
-          : Colors.grey.shade200,
-        border: Border.all(
-          color: isSelected
-            ? Colors.green.shade200 
-            : Colors.grey.shade600,
-        )
-      ),
+          borderRadius: BorderRadius.circular(5.w),
+          color: isSelected ? Colors.green.shade200 : Colors.grey.shade200,
+          border: Border.all(
+            color: isSelected ? Colors.green.shade200 : Colors.grey.shade600,
+          )),
       child: Text(
         text,
         style: TextStyle(
@@ -172,36 +192,35 @@ class _PlateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:() {
-        Navigator.pushNamed(
-          context, 
-          Routes.nutritionFacts,
-          arguments: NutritionFactsArgument(plate),
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 2.w,
-          horizontal: 1.5.w,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              plate.name.toString(),
-              style: TextStyle(
-                fontSize: 15.sp,
-              ), 
-            ),
-            Text(
-              _formatDate(),
-              style: TextStyle(
-                fontSize: 11.sp,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            Routes.nutritionFacts,
+            arguments: NutritionFactsArgument(plate),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 2.w,
+            horizontal: 1.5.w,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                plate.name.toString(),
+                style: TextStyle(
+                  fontSize: 15.sp,
+                ),
               ),
-            ),
-          ],
-        ),
-      )
-    );
+              Text(
+                _formatDate(),
+                style: TextStyle(
+                  fontSize: 11.sp,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

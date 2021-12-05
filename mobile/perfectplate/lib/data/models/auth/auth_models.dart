@@ -129,3 +129,9 @@ enum UserType {
   nutritionist,
   defaultUser,
 }
+
+enum SexType {
+  masculine,
+  feminine,
+  other,
+}
