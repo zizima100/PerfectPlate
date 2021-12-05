@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/data/models/plates/plates_list.dart';
+import 'package:perfectplate/presentation/screens/home/tabs/widgets/text_field.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:sizer/sizer.dart';
@@ -21,6 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late bool older;
 
   void _onSearch(String keyword) {
+    print('keyword = $keyword');
     keyword = _formatKeywordSearched(keyword);
     if (keyword.isEmpty) {
       return;
@@ -77,9 +79,19 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: controller,
-          onSubmitted: _onSearch,
+        Padding(
+          padding: EdgeInsets.all(2.h),
+          child: PerfectPlateTextField(
+            autofocus: false,
+            hintText: 'Pesquise um prato pelo nome',
+            onSubmitted: _onSearch,
+            inputAction: TextInputAction.search,
+            suffixIcon: IconButton(
+              onPressed: () => _onSearch(controller.text),
+              icon: Icon(Icons.search),
+            ),
+            controller: controller,
+          ),
         ),
         if (platesResult.length > 1)
           Padding(

@@ -6,6 +6,7 @@ import 'package:perfectplate/core/utils/plate_utils.dart';
 import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/data/models/plates/plates_list.dart';
 import 'package:perfectplate/presentation/screens/home/tabs/plate_creation/widgets/ingredient_widget.dart';
+import 'package:perfectplate/presentation/screens/home/tabs/widgets/text_field.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:perfectplate/presentation/utils/widgets/snackbar_utils.dart';
@@ -96,25 +97,10 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
           children: [
             Padding(
               padding: EdgeInsets.all(2.h),
-              child: TextField(
+              child: PerfectPlateTextField(
                 autofocus: false,
-                style: TextStyle(
-                  fontSize: 13.sp,
-                ),
                 controller: _placeNameController,
-                decoration: InputDecoration(
-                  hintText: 'Digite o nome do seu prato',
-                  border: InputBorder.none,
-                  counterText: '',
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 1, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 1, color: Theme.of(context).colorScheme.primary),
-                  ),
-                ),
+                hintText: 'Digite o nome do seu prato',
                 onChanged: (value) {
                   _plateName = value;
                 },
