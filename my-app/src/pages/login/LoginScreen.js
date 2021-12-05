@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import {Button, Card, CardContent, IconButton, Link, TextField} from "@material-ui/core";
 import {Visibility, LockOpen} from "@material-ui/icons";
 import ApiService from "../../api/ApiService"
+import { useSelector, useDispatch } from 'react-redux';
+import {setId} from "../../store/Auth/AuthReducer";
 
 const INITIAL_STATE = {
     value: "",
@@ -15,6 +17,7 @@ export default function LoginScreen() {
     const [email, setEmail] = useState(INITIAL_STATE);
     const [password, setPassword] = useState(INITIAL_STATE);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const dispatch = useDispatch();
 
     const validateField = (value, field) => {
         if (field === "email") {
@@ -45,6 +48,7 @@ export default function LoginScreen() {
         }
 
         if (ok && data > 0) {
+            dispatch(setId(data));
             alert("Logado com sucesso!");
         }
     }
