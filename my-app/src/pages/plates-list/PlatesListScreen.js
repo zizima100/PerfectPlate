@@ -1,37 +1,39 @@
 import './PlatesListScreenStyle.css';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Card,
     CardContent,
 } from "@material-ui/core";
 import {DeleteForever, Edit, Visibility} from "@material-ui/icons";
-
-const API_LIST = [
-    {
-        id: 1,
-        name: "Prato 1",
-        date: "12/11/2021",
-    },
-    {
-        id: 2,
-        name: "Prato 2",
-        date: "13/11/2021",
-    },
-    {
-        id: 3,
-        name: "Prato 3",
-        date: "14/11/2021",
-    },
-    {
-        id: 4,
-        name: "Prato 4",
-        date: "15/11/2021",
-    },
-];
+import {useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
+import ApiService from "../../api/ApiService";
+import moment from "moment";
 
 export default function PlatesListScreen() {
-    const [plateList, setPlateList] = useState(API_LIST);
+    const [plateList, setPlateList] = useState([{}]);
+    const selector = useSelector(state => state);
+    const history = useHistory();
+    const apiInstance = ApiService();
+
+    const getData = async () => {
+        const result = await apiInstance.getAllPlates(selector.userData.id);
+
+        if (!result.data.ok) {
+            alert("Houve um erro! Tente novamente mais tarde");
+            return;
+        }
+        return setPlateList(result.data.data);
+    };
+
+    useEffect(() => {
+        getData().then()
+        if (history && selector.userData.id === 0) {
+            alert("Você precisa estar logado para acessar essa página!")
+            history.push("/");
+        }
+    }, [selector]);
 
     const visualizePlate = () => {
         console.log("visualizePlate");
@@ -60,7 +62,7 @@ export default function PlatesListScreen() {
                                 <div className="inputRow">
                                     <div className="plateItemCol">
                                         <span className="labelPadding">Código</span>
-                                        <span>{item.id}</span>
+                                        <span>{item.plate_id}</span>
                                     </div>
                                     <div className="plateItemCol">
                                         <span className="labelPadding">Nome do prato</span>
@@ -68,7 +70,7 @@ export default function PlatesListScreen() {
                                     </div>
                                     <div className="plateItemCol">
                                         <span className="labelPadding">Data de criação</span>
-                                        <span>{item.date}</span>
+                                        <span>{moment(item.date).format("DD/MM/YYYY")}</span>
                                     </div>
                                     <div className="plateButtonCol">
                                         <Button

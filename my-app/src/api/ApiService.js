@@ -25,8 +25,13 @@ export default function create() {
     return apiCall.post("/users/signup", data, apiCallHeaders());
   }
 
+  function getAllPlates(userId) {
+    return apiCall.get(`/plates/query_all?user_id=${userId}`, apiCallHeaders());
+  }
+
   return {
     userLogin,
-    userRegister
+    userRegister,
+    getAllPlates
   };
 }
