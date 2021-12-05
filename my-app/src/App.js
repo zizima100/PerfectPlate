@@ -1,22 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
-
-import {
-  Tabs,
-  Tab,
-  Typography,
-  Box,
-} from "@material-ui/core";
 
 import '../src/App.css';
 import LoginScreen from "./pages/login/LoginScreen";
-import HomeScreen from "./pages/home/HomeScreen";
 import RegisterScreen from "./pages/register/RegisterScreen";
 import CalculatorScreen from "./pages/calculator/CalculatorScreen";
 import TutorialScreen from "./pages/tutorial/TutorialScreen";

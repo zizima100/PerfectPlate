@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import '../nutricion-table/NutricionTableStyle.css';
 import {
     Card,
@@ -10,6 +10,8 @@ import {
     TableRow,
     Paper
 } from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 function getTableData(vEnergetico,
     carboidratos,
@@ -33,6 +35,16 @@ function getTableData(vEnergetico,
 const rows = getTableData(159, 6.0, 24, 4.0, 15, 0, 15);
 
 export default function NutricionalTable() {
+    const selector = useSelector(state => state);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (history && selector.userData.id === 0) {
+            alert("Você precisa estar logado para acessar essa página!")
+            history.push("/");
+        }
+    }, [selector]);
+
     return (
         <>
             <section className="table__page-container">
