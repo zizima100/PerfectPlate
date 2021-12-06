@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 
 import {
   BrowserRouter as Router,
@@ -17,20 +17,44 @@ import IngredientSuggestionScreen from "./pages/ingredient-suggestion/Ingredient
 import NutricionalTable from "./pages/nutricion-table/NutricionTable";
 import AboutScreen from "./pages/about/AboutScreen";
 import PlatesListScreen from "./pages/plates-list/PlatesListScreen";
+import {useSelector} from "react-redux";
 
 export default function App() {
+  const selector = useSelector(state => state);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    if (selector.userData.id === 0) {
+      setIsLogged(false);
+    } else {
+      setIsLogged(true);
+    }
+  }, [selector]);
   return (
     <Router>
       <div>
         <nav className="navbar">
-          <Link className="navbar__btn" to="/login">Login</Link>
-          <Link className="navbar__btn" to="/calculator">Calculadora</Link>
-          <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
-          <Link className="navbar__btn" to="/about">Sobre nós</Link>
-          <Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>
-          <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
-          <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
-          <Link className="navbar__btn" to="/plates-list">Listagem de Pratos</Link>
+          {
+            isLogged ? (
+              <>
+                <Link className="navbar__btn" to="/login">Login</Link>
+                <Link className="navbar__btn" to="/calculator">Calculadora</Link>
+                <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
+                <Link className="navbar__btn" to="/about">Sobre nós</Link>
+                <Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>
+                <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
+                <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
+                <Link className="navbar__btn" to="/plates-list">Listagem de Pratos</Link>
+              </>
+            ) : (
+              <>
+                <Link className="navbar__btn" to="/login">Login</Link>
+                <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
+                <Link className="navbar__btn" to="/about">Sobre nós</Link>
+              </>
+            )
+          }
+
         </nav>
 
         <Switch>
