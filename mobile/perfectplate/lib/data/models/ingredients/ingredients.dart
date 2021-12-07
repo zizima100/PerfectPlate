@@ -167,7 +167,7 @@ class Ingredient {
 
   factory Ingredient.fromMap(Map map) {
     return Ingredient(
-      id: int.parse(map['ingredient_id']),
+      id: map['ingredient_id'],
       name: map['name'].toString(),
       onePortionWeight: double.parse(map['one_portion_weight']),
       classification: map['classification'].toString(),
@@ -179,7 +179,7 @@ class Ingredient {
       transFat: double.parse(map['trans_fat']),
       fibre: double.parse(map['fibre']),
       sodium: double.parse(map['sodium']),
-      numberOfPortions: int.parse(map['number_of_portions']),
+      numberOfPortions: map['number_of_portions'],
     );
   }
 }

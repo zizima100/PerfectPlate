@@ -91,7 +91,8 @@ class SingUpUser {
 
   String toJson() => json.encode(toMap());
 
-  factory SingUpUser.fromJson(String source) => SingUpUser.fromMap(json.decode(source));
+  factory SingUpUser.fromJson(String source) =>
+      SingUpUser.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -121,7 +122,8 @@ class LoginUser {
 
   String toJson() => json.encode(toMap());
 
-  factory LoginUser.fromJson(String source) => LoginUser.fromMap(json.decode(source));
+  factory LoginUser.fromJson(String source) =>
+      LoginUser.fromMap(json.decode(source));
 }
 
 enum UserType {
@@ -134,4 +136,12 @@ enum SexType {
   masculine,
   feminine,
   other,
+}
+
+class User {
+  int? id;
+
+  User({
+    this.id,
+  });
 }

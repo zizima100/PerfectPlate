@@ -99,14 +99,11 @@ class Plate {
   final DateTime date;
   final List<Ingredient> ingredients;
 
-  Plate({
-    required this.name, 
-    required this.date, 
-    required this.ingredients
-  }); 
+  Plate({required this.name, required this.date, required this.ingredients});
 
   @override
-  String toString() => 'Plate(name: $name, date: $date, ingredients: $ingredients)';
+  String toString() =>
+      'Plate(name: $name, date: $date, ingredients: $ingredients)';
 
   Map<String, dynamic> toMap() {
     return {
@@ -117,14 +114,15 @@ class Plate {
   }
 
   factory Plate.fromMap(Map<String, dynamic> map) {
-    print("List = ${List<Ingredient>.from(map['ingredients']?.map((i) => Ingredient.fromMap(i)))}");
+    print(
+        "List = ${List<Ingredient>.from(map['ingredients']?.map((i) => Ingredient.fromMap(i)))}");
 
     return Plate(
       name: map['name'],
       date: DateTime.parse(map['date']),
-      ingredients: map['ingredients']?.map(
+      ingredients: List<Ingredient>.from(map['ingredients']?.map(
         (i) => Ingredient.fromMap(i),
-      ),
+      )),
     );
   }
 }

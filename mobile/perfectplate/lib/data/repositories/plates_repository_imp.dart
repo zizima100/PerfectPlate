@@ -42,7 +42,7 @@ class PlatesRepository implements IPlatesRepository {
   @override
   Future<List<Plate>?> retrieveAllUserPlates(int userId) async {
     print('retrieveAllUserPlates repository');
-    String body = await _provider.retrieveAllUserPlates(userId.toString());
+    String body = await _provider.retrieveAllUserPlates(userId);
     Map<String, dynamic> bodyDecoded = json.decode(body);
     if (bodyDecoded['ok']) {
       var platesData = bodyDecoded['data'];

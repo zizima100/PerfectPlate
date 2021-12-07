@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:perfectplate/core/exceptions/auth_exceptions.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
+import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/data/models/ingredients/ingredients.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
 import 'package:perfectplate/data/models/plates/plates_list.dart';
@@ -12,18 +13,14 @@ part 'plates_event.dart';
 part 'plates_state.dart';
 
 class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
-  int? _userId;
   final IPlatesRepository _repository;
+  final User _user;
 
   PlatesBloc(
     this._repository,
+    this._user,
   ) : super(MealsInitial()) {
-    on<UserAuthenticated>(_onUserAuthenticated);
     on<PlateInsertedEvent>(_onPlateInsertionStarted);
-  }
-
-  void _onUserAuthenticated(UserAuthenticated event, _) {
-    _userId = event.userId;
   }
 
   Future<void> _onPlateInsertionStarted(
@@ -61,7 +58,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
 
   Future<void> _insertPlate(PlateDAO plateDAO) async {
     int? plateId = await _repository.insertPlate(
-        RawPlate(userId: _userId!, name: plateDAO.name, date: plateDAO.date));
+        RawPlate(userId: _user.id!, name: plateDAO.name, date: plateDAO.date));
 
     print('plateId = $plateId');
 
@@ -131,7 +128,7 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
 
   Future<List<Plate>> _retrieveAllUserPlates() async {
     print('_retrieveAllUserPlates');
-    List<Plate>? plates = await _repository.retrieveAllUserPlates(_userId!);
+    List<Plate>? plates = await _repository.retrieveAllUserPlates(_user.id!);
 
     if (plates == null) {
       throw Exception();

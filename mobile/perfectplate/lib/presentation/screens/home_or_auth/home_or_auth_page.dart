@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
-import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/screens/auth/auth_page.dart';
-import 'package:perfectplate/presentation/screens/home/plates_home_screen.dart';
 import 'package:perfectplate/presentation/screens/home/tabs/perfectplate_splash.dart';
 
 class HomeOrAuth extends StatelessWidget {
@@ -24,8 +22,7 @@ class HomeOrAuth extends StatelessWidget {
         if (userId == null) {
           return AuthPage();
         } else {
-          BlocProvider.of<PlatesBloc>(context)
-              .add(UserAuthenticated(userId: userId));
+          BlocProvider.of<AuthUserBloc>(context).mapUserId(userId);
           return PerfectPlateSplash();
         }
       },

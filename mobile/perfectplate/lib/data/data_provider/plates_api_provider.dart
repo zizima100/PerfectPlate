@@ -39,7 +39,7 @@ class PlatesApiProvider {
     return response.body;
   }
 
-  Future<String> retrieveAllUserPlates(String userId) async {
+  Future<String> retrieveAllUserPlates(int userId) async {
     print('retrieveAllUserPlates');
     final response = await _client.get(
       Uri.parse(ApisHosts.meals + '/plates/query_all?user_id=$userId'),

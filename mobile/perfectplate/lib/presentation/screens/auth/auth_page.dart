@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:perfectplate/core/utils/user_utils.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
@@ -37,17 +38,18 @@ class _AuthWidgetState extends State<AuthWidget> {
     return BlocListener<AuthUserBloc, AuthUserState>(
       listener: (context, state) {
         if (state is AuthMandatoryFieldsEmpty) {
-          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
+          SnackBarUtils.auth(context)
+              .showSnackBarError(ErrorMessagesConstants.mandatoryFieldsEmpty);
         }
         if (state is UserNotFound) {
-          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.userNotFound);
+          SnackBarUtils.auth(context)
+              .showSnackBarError(ErrorMessagesConstants.userNotFound);
         }
         if (state is EmailInvalid) {
-          SnackBarUtils.auth(context).showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
+          SnackBarUtils.auth(context)
+              .showSnackBarError(ErrorMessagesConstants.emailAlreadyExists);
         }
         if (state is AuthSuccessful) {
-          BlocProvider.of<PlatesBloc>(context)
-              .add(UserAuthenticated(userId: state.id));
           RouteHelper.removeAllAndPushTo(context, Routes.home);
         }
       },
@@ -148,7 +150,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                     setState(() => password = value);
                   },
                 ),
-                if(mode.isSignup())
+                if (mode.isSignup())
                   Column(
                     children: [
                       Row(
@@ -181,7 +183,9 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 2.h,),
+                      SizedBox(
+                        height: 2.h,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -189,8 +193,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                             value: userType,
                             onChanged: (value) {
                               setState(() {
-                                userType =
-                                    value ?? UserType.defaultUser;
+                                userType = value ?? UserType.defaultUser;
                               });
                             },
                             items: UserType.values.map((value) {
@@ -205,8 +208,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                             value: sexType,
                             onChanged: (value) {
                               setState(() {
-                                sexType =
-                                    value ?? SexType.masculine;
+                                sexType = value ?? SexType.masculine;
                               });
                             },
                             items: SexType.values.map((value) {
