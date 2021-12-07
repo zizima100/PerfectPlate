@@ -40,7 +40,7 @@ export default function IngredientSuggestionScreen() {
                         <span>Sugira um ingrediente que você está sentindo falta em nosso site!</span>
                         <div className="separator" />
                     </div>
-                    <div className="inputRow">
+                    <div className="suggestion__inputRow">
                         <div className="calculatorInputMargin">
                             <TextField
                                 name="ingredientName"
@@ -53,7 +53,7 @@ export default function IngredientSuggestionScreen() {
                         </div>
                     </div>
                     <div className="separator" />
-                    <div className="inputRow">
+                    <div className="suggestion__inputRow">
                         <div className="calculatorInputMargin">
                             <Button
                                 disabled={
