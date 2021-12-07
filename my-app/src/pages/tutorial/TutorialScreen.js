@@ -1,6 +1,5 @@
 import React from "react";
 import '../tutorial/TutorialScreenStyle.css';
-import TabelaExemplo from "../../images/TabelaExemplo.jpg";
 import {
     Card,
     Table,

@@ -49,7 +49,7 @@ export default function CalculatorScreen() {
             alert("Você precisa estar logado para acessar essa página!")
             history.push("/");
         }
-    }, [selector]);
+    }, [selector, history]);
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
