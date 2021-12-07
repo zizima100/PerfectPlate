@@ -12,7 +12,7 @@ import ApiService from "../../api/ApiService";
 import moment from "moment";
 
 export default function PlatesListScreen() {
-    const [plateList, setPlateList] = useState([{}]);
+    const [plateList, setPlateList] = useState([]);
     const selector = useSelector(state => state);
     const history = useHistory();
     const apiInstance = ApiService();
@@ -28,12 +28,15 @@ export default function PlatesListScreen() {
     };
 
     useEffect(() => {
-        getData().then()
         if (history && selector.userData.id === 0) {
             alert("Você precisa estar logado para acessar essa página!")
             history.push("/");
         }
     }, [selector, history]);
+
+    useEffect(() => {
+        getData().then()
+    }, []);
 
     const visualizePlate = () => {
         console.log("visualizePlate");
@@ -56,7 +59,7 @@ export default function PlatesListScreen() {
                         <span>Verifique aqui todos os pratos cadastrados anteriormente!</span>
                         <div className="separator"/>
                     </div>
-                    {plateList.map((item, idx) => {
+                    {plateList.length > 0 ? plateList.map((item, idx) => {
                         return (
                             <div key={idx}>
                                 <div className="inputRow">
@@ -106,7 +109,11 @@ export default function PlatesListScreen() {
                                 }
                             </div>
                         );
-                    })}
+                    }) : (
+                        <div className="pageTitle">
+                            <span><b>Você ainda não tem nenhum prato cadastrado!</b></span>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
