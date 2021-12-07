@@ -5,7 +5,8 @@ import {Visibility, LockOpen} from "@material-ui/icons";
 import ApiService from "../../api/ApiService"
 import { useDispatch } from 'react-redux';
 import {setId, setUserType} from "../../store/Auth/AuthReducer";
-import { Link } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import UserType from "./../../enums/UserTypeEnum";
 
 const INITIAL_STATE = {
     value: "",
@@ -19,6 +20,7 @@ export default function LoginScreen() {
     const [password, setPassword] = useState(INITIAL_STATE);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const validateField = (value, field) => {
         if (field === "email") {
@@ -52,6 +54,10 @@ export default function LoginScreen() {
             dispatch(setId(data.id));
             dispatch(setUserType(data.userType));
             alert("Logado com sucesso!");
+            if (data.userType === UserType.ADMIN) {
+                history.push("/ingredient-register");
+            }
+            history.push("/calculator")
         }
     }
 
