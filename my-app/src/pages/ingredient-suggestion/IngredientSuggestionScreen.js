@@ -29,7 +29,6 @@ export default function IngredientSuggestionScreen() {
             ingredientName
         }
         console.log(data);
-        // console.log(ingredientName);
     }
 
     return (
