@@ -1,14 +1,13 @@
 .ingredientRegisterMain {
-    padding-top: 10vh;
+    display: flex;
     flex-direction: row;
     justify-content: center;
-    display: flex;
 }
 
 .inputRow {
+    display: flex;
     flex-direction: row;
     justify-content: center;
-    display: flex;
     padding-top: 2ch;
 }
 
