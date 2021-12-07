@@ -18,16 +18,21 @@ import NutricionalTable from "./pages/nutricion-table/NutricionTable";
 import AboutScreen from "./pages/about/AboutScreen";
 import PlatesListScreen from "./pages/plates-list/PlatesListScreen";
 import {useSelector} from "react-redux";
+import UserType from "./enums/UserTypeEnum";
 
 export default function App() {
   const selector = useSelector(state => state);
   const [isLogged, setIsLogged] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (selector.userData.id === 0) {
       setIsLogged(false);
     } else {
       setIsLogged(true);
+      if (selector.userData.userType === UserType.ADMIN) {
+        setIsAdmin(true);
+      }
     }
   }, [selector]);
   return (
@@ -36,16 +41,23 @@ export default function App() {
         <nav className="navbar">
           {
             isLogged ? (
-              <>
-                <Link className="navbar__btn" to="/login">Login</Link>
-                <Link className="navbar__btn" to="/calculator">Calculadora</Link>
-                <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
-                <Link className="navbar__btn" to="/about">Sobre nós</Link>
-                <Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>
-                <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
-                <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
-                <Link className="navbar__btn" to="/plates-list">Listagem de Pratos</Link>
-              </>
+              isAdmin ? (
+                <>
+                  <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
+                  <Link className="navbar__btn" onClick={() => window.location.reload(false)}>Sair</Link>
+                </>
+              ) : (
+                <>
+                  <Link className="navbar__btn" to="/plates-list">Listagem de Pratos</Link>
+                  <Link className="navbar__btn" to="/calculator">Calculadora</Link>
+                  <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
+                  <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
+                  <Link className="navbar__btn" to="/about">Sobre nós</Link>
+                  <Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>
+                  <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
+                  <Link className="navbar__btn" onClick={() => window.location.reload(false)}>Sair</Link>
+                </>
+                )
             ) : (
               <>
                 <Link className="navbar__btn" to="/login">Login</Link>

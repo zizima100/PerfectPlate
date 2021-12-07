@@ -1,10 +1,11 @@
 import './LoginScreenStyle.css';
 import React, {useState} from "react";
-import {Button, Card, CardContent, IconButton, Link, TextField} from "@material-ui/core";
+import {Button, Card, CardContent, IconButton, TextField} from "@material-ui/core";
 import {Visibility, LockOpen} from "@material-ui/icons";
 import ApiService from "../../api/ApiService"
-import { useSelector, useDispatch } from 'react-redux';
-import {setId} from "../../store/Auth/AuthReducer";
+import { useDispatch } from 'react-redux';
+import {setId, setUserType} from "../../store/Auth/AuthReducer";
+import { Link } from "react-router-dom";
 
 const INITIAL_STATE = {
     value: "",
@@ -47,8 +48,9 @@ export default function LoginScreen() {
             return;
         }
 
-        if (ok && data > 0) {
-            dispatch(setId(data));
+        if (ok && data) {
+            dispatch(setId(data.id));
+            dispatch(setUserType(data.userType));
             alert("Logado com sucesso!");
         }
     }
@@ -107,7 +109,7 @@ export default function LoginScreen() {
                         </Button>
                     </div>
                     <div className="inputRow">
-                        <span>Ainda não tem conta? <Link href="/register">Cadastre-se!</Link></span>
+                        <span>Ainda não tem conta? <Link to="/register">Cadastre-se!</Link></span>
                     </div>
                 </CardContent>
             </Card>
