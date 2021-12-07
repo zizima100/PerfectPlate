@@ -22,7 +22,7 @@ export default function IngredientRegisterScreen() {
             alert("Você precisa estar logado para acessar essa página!")
             history.push("/");
         }
-    }, [selector]);
+    }, [selector, history]);
 
     const hasNumber = /\d/;
 
