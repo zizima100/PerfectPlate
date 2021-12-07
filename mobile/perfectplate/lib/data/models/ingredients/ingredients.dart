@@ -165,13 +165,12 @@ class Ingredient {
     };
   }
 
-  factory Ingredient.fromMap(Map<String, dynamic> map, int numberOfPortions) {
-    print('map = $map');
-    var i = Ingredient(
-      id: 0,
-      name: map['name'],
+  factory Ingredient.fromMap(Map map) {
+    return Ingredient(
+      id: int.parse(map['ingredient_id']),
+      name: map['name'].toString(),
       onePortionWeight: double.parse(map['one_portion_weight']),
-      classification: map['classification'],
+      classification: map['classification'].toString(),
       energeticValue: double.parse(map['energetic_value']),
       carbohydrate: double.parse(map['carbohydrate']),
       protein: double.parse(map['protein']),
@@ -180,11 +179,8 @@ class Ingredient {
       transFat: double.parse(map['trans_fat']),
       fibre: double.parse(map['fibre']),
       sodium: double.parse(map['sodium']),
-      numberOfPortions: numberOfPortions,
+      numberOfPortions: int.parse(map['number_of_portions']),
     );
-
-    print('i = $i');
-    return i;
   }
 }
 

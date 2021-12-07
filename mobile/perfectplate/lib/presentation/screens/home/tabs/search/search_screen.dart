@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:perfectplate/data/models/plates/plates.dart';
+import 'package:perfectplate/data/models/plates/plates_list.dart';
 import 'package:perfectplate/presentation/screens/home/tabs/widgets/text_field.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
@@ -181,12 +182,7 @@ class _PlateItem extends StatelessWidget {
   String _formatDate() {
     DateTime dateTime = plate.date;
     String dateStr = DateFormat('dd/MM/yyyy').format(dateTime);
-    dateStr += ' às ${_getTime(dateTime.hour)}:${_getTime(dateTime.minute)}';
     return dateStr;
-  }
-
-  String _getTime(int time) {
-    return time < 10 ? '0' + time.toString() : time.toString();
   }
 
   @override

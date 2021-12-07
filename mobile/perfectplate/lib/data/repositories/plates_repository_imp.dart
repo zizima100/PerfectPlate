@@ -41,14 +41,17 @@ class PlatesRepository implements IPlatesRepository {
 
   @override
   Future<List<Plate>?> retrieveAllUserPlates(int userId) async {
+    print('retrieveAllUserPlates repository');
     String body = await _provider.retrieveAllUserPlates(userId.toString());
     Map<String, dynamic> bodyDecoded = json.decode(body);
     if (bodyDecoded['ok']) {
-      var data = bodyDecoded['data'];
+      var platesData = bodyDecoded['data'];
       List<Plate> plates = [];
-      for (var i in data) {
-        plates.add(Plate.fromMap(i));
+      for (var plate in platesData) {
+        print('plate = $plate');
+        plates.add(Plate.fromMap(plate));
       }
+      print('plates in retrieveAllUserPlates = $plates');
       return plates;
     }
   }

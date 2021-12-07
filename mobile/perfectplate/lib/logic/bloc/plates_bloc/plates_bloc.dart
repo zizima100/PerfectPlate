@@ -130,9 +130,8 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   }
 
   Future<List<Plate>> _retrieveAllUserPlates() async {
+    print('_retrieveAllUserPlates');
     List<Plate>? plates = await _repository.retrieveAllUserPlates(_userId!);
-
-    print('plates in _retrieveAllUserPlates = $plates');
 
     if (plates == null) {
       throw Exception();

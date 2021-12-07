@@ -18,7 +18,7 @@ class AuthenticationRepository {
     }
   }
 
-  Future<int?> loginUser(LoginUser user) async {
+  Future<Map?> loginUser(LoginUser user) async {
     String body = await _provider.login(user.toJson());
     Map<String, dynamic> bodyDecoded = json.decode(body);
     if(bodyDecoded['ok']) {

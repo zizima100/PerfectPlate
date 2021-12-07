@@ -117,13 +117,14 @@ class Plate {
   }
 
   factory Plate.fromMap(Map<String, dynamic> map) {
-    print("DateTime.parse(map['date']) = ${DateTime.parse(map['date'])}");
+    print("List = ${List<Ingredient>.from(map['ingredients']?.map((i) => Ingredient.fromMap(i)))}");
+
     return Plate(
       name: map['name'],
       date: DateTime.parse(map['date']),
-      ingredients: List<Ingredient>.from(map['ingredients']?.map(
-        (x) => Ingredient.fromMap(x, map['number_of_portions'])
-      )),
+      ingredients: map['ingredients']?.map(
+        (i) => Ingredient.fromMap(i),
+      ),
     );
   }
 }

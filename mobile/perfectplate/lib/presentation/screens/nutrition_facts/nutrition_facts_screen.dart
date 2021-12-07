@@ -49,6 +49,10 @@ class NutritionFactsScreen extends StatelessWidget {
       transFat += i.transFat;
     }
 
+    String _formatValue(double value) {
+      return value.toStringAsFixed(2);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Tabela Nutricional do Prato'),
@@ -138,7 +142,7 @@ class NutritionFactsScreen extends StatelessWidget {
                 SizedBox(height: 1.5.w),
                 _InfoRow(
                   title: 'Valor Energético',
-                  value: energeticValue.toString(),
+                  value: _formatValue(energeticValue),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(2.w),
                     topRight: Radius.circular(2.w),
@@ -146,31 +150,31 @@ class NutritionFactsScreen extends StatelessWidget {
                 ),
                 _InfoRow(
                   title: 'Carboidratos',
-                  value: carbohydrate.toString(),
+                  value: _formatValue(carbohydrate),
                 ),
                 _InfoRow(
                   title: 'Proteínas',
-                  value: protein.toString(),
+                  value: _formatValue(protein),
                 ),
                 _InfoRow(
                   title: 'Gorduras Totais',
-                  value: totalFat.toString(),
+                  value: _formatValue(totalFat),
                 ),
                 _InfoRow(
                   title: 'Gorduras Saturadas',
-                  value: saturatedFat.toString(),
+                  value: _formatValue(saturatedFat),
                 ),
                 _InfoRow(
                   title: 'Gorduras Trans',
-                  value: transFat.toString(),
+                  value: _formatValue(transFat),
                 ),
                 _InfoRow(
                   title: 'Fibra Alimentar',
-                  value: fibre.toString(),
+                  value: _formatValue(fibre),
                 ),
                 _InfoRow(
                   title: 'Sódio',
-                  value: sodium.toString(),
+                  value: _formatValue(sodium),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(2.w),
                     bottomRight: Radius.circular(2.w),

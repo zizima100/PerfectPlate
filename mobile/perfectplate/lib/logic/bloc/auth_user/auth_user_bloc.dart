@@ -26,9 +26,10 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     try {
       emit(AuthLoading());
       _validateLoginUser(event);
-      int? userId = await _respository.loginUser(event.user);
+      Map? userData = await _respository.loginUser(event.user);
+      int userId = userData!['id'];
       await _cacheMapRepository.setUserId(userId);
-      emit(AuthSuccessful(userId!));
+      emit(AuthSuccessful(userId));
     } on MandatoryAuthFieldsEmptyException catch (_) {
       emit(AuthMandatoryFieldsEmpty());
     } on UserNotFoundException catch (_) {
