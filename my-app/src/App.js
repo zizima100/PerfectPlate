@@ -49,12 +49,11 @@ export default function App() {
               ) : (
                 <>
                   <Link className="navbar__btn" to="/plates-list">Listagem de Pratos</Link>
-                  <Link className="navbar__btn" to="/calculator">Calculadora</Link>
+                  <Link className="navbar__btn" to="/calculator">Calculadora Nutricional</Link>
                   <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
                   <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
                   <Link className="navbar__btn" to="/about">Sobre nós</Link>
-                  <Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>
-                  <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
+                  {/*<Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>*/}
                   <Link className="navbar__btn" onClick={() => window.location.reload(false)}>Sair</Link>
                 </>
                 )
