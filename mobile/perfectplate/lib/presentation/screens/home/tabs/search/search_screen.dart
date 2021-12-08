@@ -198,7 +198,7 @@ class _PlateItem extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(
             vertical: 2.w,
-            horizontal: 1.5.w,
+            horizontal: 2.h,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
