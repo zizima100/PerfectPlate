@@ -14,12 +14,8 @@ part 'plates_state.dart';
 
 class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   final IPlatesRepository _repository;
-  final User _user;
 
-  PlatesBloc(
-    this._repository,
-    this._user,
-  ) : super(MealsInitial()) {
+  PlatesBloc(this._repository) : super(MealsInitial()) {
     on<PlateInsertedEvent>(_onPlateInsertionStarted);
   }
 
@@ -57,8 +53,8 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
   }
 
   Future<void> _insertPlate(PlateDAO plateDAO) async {
-    int? plateId = await _repository.insertPlate(
-        RawPlate(userId: _user.id!, name: plateDAO.name, date: plateDAO.date));
+    int? plateId = await _repository.insertPlate(RawPlate(
+        userId: GetIt.I<User>().id!, name: plateDAO.name, date: plateDAO.date));
 
     print('plateId = $plateId');
 
@@ -128,7 +124,8 @@ class PlatesBloc extends Bloc<PlatesEvent, PlatesState> {
 
   Future<List<Plate>> _retrieveAllUserPlates() async {
     print('_retrieveAllUserPlates');
-    List<Plate>? plates = await _repository.retrieveAllUserPlates(_user.id!);
+    List<Plate>? plates =
+        await _repository.retrieveAllUserPlates(GetIt.I<User>().id!);
 
     if (plates == null) {
       throw Exception();

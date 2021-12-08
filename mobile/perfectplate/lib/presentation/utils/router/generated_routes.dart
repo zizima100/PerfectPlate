@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:perfectplate/data/models/plates/plates_list.dart';
 import 'package:perfectplate/presentation/screens/home/plates_home_screen.dart';
+import 'package:perfectplate/presentation/screens/home/tabs/perfectplate_splash.dart';
 import 'package:perfectplate/presentation/screens/ingredient/choose_ingredient.dart';
 import 'package:perfectplate/presentation/screens/nutrition_facts/nutrition_facts_screen.dart';
 import 'package:perfectplate/presentation/utils/router/route_arguments.dart';
@@ -18,7 +19,7 @@ class PerfectPlateRouter {
         );
       case Routes.home:
         return MaterialPageRoute(
-          builder: (_) => const PlatesMainScreen(),
+          builder: (_) => const PerfectPlateInitMain(),
         );
       case Routes.homeOrAuth:
         return MaterialPageRoute(
@@ -28,18 +29,17 @@ class PerfectPlateRouter {
         final args = settings.arguments as IngredientArgument;
         return MaterialPageRoute(
           builder: (_) => ChooseIngredientScreen(
-            onIngredinetTap: args.onIngredinetTap, 
-            type: args.type, 
+            onIngredinetTap: args.onIngredinetTap,
+            type: args.type,
           ),
         );
       case Routes.nutritionFacts:
         final args = settings.arguments as NutritionFactsArgument;
         return MaterialPageRoute(
-          builder: (_) => NutritionFactsScreen(
-            key: ValueKey('nutrition_facts_screen'),
-            plate: args.plate,
-          )
-        );
+            builder: (_) => NutritionFactsScreen(
+                  key: ValueKey('nutrition_facts_screen'),
+                  plate: args.plate,
+                ));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

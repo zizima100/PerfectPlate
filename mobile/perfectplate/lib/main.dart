@@ -33,7 +33,6 @@ class PerfectPlateApp extends StatelessWidget {
           BlocProvider(
             create: (context) => PlatesBloc(
               PlatesRepository(),
-              GetIt.I<User>(),
             ),
           )
         ],
