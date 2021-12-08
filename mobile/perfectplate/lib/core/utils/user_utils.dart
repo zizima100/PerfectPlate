@@ -16,18 +16,30 @@ class UserUtils {
     }
   }
 
+  static String parseTypeEnumToField(UserType e) {
+    switch (e) {
+      case UserType.bodybuilder:
+        return 'FISICULTURISTA';
+      case UserType.nutritionist:
+        return 'NUTRICIONISTA';
+      case UserType.defaultUser:
+        return 'PADRAO';
+      default:
+        return '';
+    }
+  }
+
   static UserType parseTypeStringEnumToEnum(String e) {
     if (e == UserType.bodybuilder.toString().split('.')[1]) {
       return UserType.bodybuilder;
-    } else if (e ==
-        UserType.nutritionist.toString().split('.')[1]) {
+    } else if (e == UserType.nutritionist.toString().split('.')[1]) {
       return UserType.nutritionist;
     } else {
       return UserType.defaultUser;
     }
   }
 
-    static String parseSexEnumToTitle(SexType e) {
+  static String parseSexEnumToTitle(SexType e) {
     switch (e) {
       case SexType.masculine:
         return 'Masculino';
@@ -43,8 +55,7 @@ class UserUtils {
   static SexType parseSexStringEnumToEnum(String e) {
     if (e == SexType.masculine.toString().split('.')[1]) {
       return SexType.masculine;
-    } else if (e ==
-        SexType.feminine.toString().split('.')[1]) {
+    } else if (e == SexType.feminine.toString().split('.')[1]) {
       return SexType.feminine;
     } else {
       return SexType.other;

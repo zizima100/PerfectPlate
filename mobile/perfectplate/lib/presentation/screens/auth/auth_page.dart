@@ -263,7 +263,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget> {
                 signUpUser.email = email;
                 signUpUser.password = password;
                 signUpUser.name = name;
-                signUpUser.userType = UserUtils.parseTypeEnumToTitle(userType);
+                signUpUser.userType = UserUtils.parseTypeEnumToField(userType);
                 signUpUser.sex = UserUtils.parseSexEnumToTitle(sexType);
                 print('signUpUser = $signUpUser');
                 authUserBloc.add(SingUpUserStartedEvent(signUpUser));
