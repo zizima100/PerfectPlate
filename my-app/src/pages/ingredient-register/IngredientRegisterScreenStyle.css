@@ -1,25 +1,31 @@
-.ingredientRegisterMain {
+.ing-register__main {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.inputRow {
+.ing-register__input-row {
+    display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.ing-register__card {
+    width: 800px;
+}
+
+.ing-register__input {
+    width: 200px;
+}
+
+.ing-register__nutri-input {
+    width: 22%;
+}
+
+.ing-register__nutri-inputs__wrapper {
     display: flex;
-    padding-top: 2ch;
-}
-
-.selectInputWrapper {
-    padding-bottom: 10px;
-}
-
-.calculatorInputMargin {
-    padding-right: 1ch;
-    padding-left: 1ch;
-}
-
-.selectInputWrapper:last-child {
-    padding-bottom: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }

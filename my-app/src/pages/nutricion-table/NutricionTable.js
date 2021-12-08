@@ -14,7 +14,8 @@ import {useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {ArrowBack} from "@material-ui/icons";
 
-function getTableData(vEnergetico,
+function getTableData(
+    vEnergetico,
     carboidratos,
     proteinas,
     gordTotais,
