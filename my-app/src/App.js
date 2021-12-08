@@ -19,6 +19,7 @@ import AboutScreen from "./pages/about/AboutScreen";
 import PlatesListScreen from "./pages/plates-list/PlatesListScreen";
 import {useSelector} from "react-redux";
 import UserType from "./enums/UserTypeEnum";
+import PlateEditVisualizeScreen from "./pages/plate-edit-visualize/PlateEditVisualizeScreen";
 
 export default function App() {
   const selector = useSelector(state => state);
@@ -53,7 +54,6 @@ export default function App() {
                   <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
                   <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
                   <Link className="navbar__btn" to="/about">Sobre nós</Link>
-                  {/*<Link className="navbar__btn" to="/nutricion-table">Tabela Nutricional</Link>*/}
                   <Link className="navbar__btn" onClick={() => window.location.reload(false)}>Sair</Link>
                 </>
                 )
@@ -98,6 +98,9 @@ export default function App() {
           </Route>
           <Route exact path="/plates-list">
             <PlatesListScreen />
+          </Route>
+          <Route exact path="/plate-edit-visualize">
+            <PlateEditVisualizeScreen />
           </Route>
         </Switch>
       </div>

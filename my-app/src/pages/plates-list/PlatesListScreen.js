@@ -38,8 +38,14 @@ export default function PlatesListScreen() {
         getData().then()
     }, []);
 
-    const visualizePlate = () => {
-        console.log("visualizePlate");
+    const visualizePlate = async (plateId) => {
+        const plateData = await apiInstance.getPlateById(plateId);
+        if (plateData.data.ok) {
+            history.push({
+                pathname: '/plate-edit-visualize',
+                state: { ingredients: plateData.data.data }
+            });
+        }
     };
 
     const editPlate = () => {
@@ -65,7 +71,7 @@ export default function PlatesListScreen() {
                                 <div className="inputRow">
                                     <div className="plateItemCol">
                                         <span className="labelPadding">Código</span>
-                                        <span>{item.plate_id}</span>
+                                        <span>{item.id}</span>
                                     </div>
                                     <div className="plateItemCol">
                                         <span className="labelPadding">Nome do prato</span>
@@ -77,7 +83,7 @@ export default function PlatesListScreen() {
                                     </div>
                                     <div className="plateButtonCol">
                                         <Button
-                                            onClick={visualizePlate}
+                                            onClick={() => visualizePlate(item.id)}
                                             variant="contained"
                                             color="secondary"
                                             endIcon={<Visibility />}>

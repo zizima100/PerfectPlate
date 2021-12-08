@@ -1,4 +1,4 @@
-import './CalculatorScreenStyle.css';
+import './PlateEditVisualizeScreenStyle.css';
 import React, {useEffect, useState} from "react";
 import {
     Button,
@@ -6,7 +6,7 @@ import {
     CardContent, FormControl, InputLabel, MenuItem, Select,
     TextField
 } from "@material-ui/core";
-import { Add, Check, DeleteForever } from "@material-ui/icons";
+import {Add, Check, DeleteForever, Edit} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {
@@ -20,11 +20,11 @@ const mapTypeLabel = {
     vegetable: "Legume/Vegetal",
 }
 
-export default function CalculatorScreen() {
+export default function PlateEditVisualizeScreen() {
     const apiInstance = ApiService();
     const history = useHistory();
     const ingredientParams = history && history.location && history.location.state && history.location.state.ingredients;
-    const [inputList, setInputList] = useState([{ ingredient: { type: "carbohydrate", value: {}}, portionQtd: 1 }]);
+    const [inputList, setInputList] = useState([]);
     const [newField, setNewField] = useState("carbohydrate");
     const [plateName, setPlateName] = useState("");
     const [ingredients, setIngredients] = useState([]);
@@ -40,6 +40,21 @@ export default function CalculatorScreen() {
             history.push("/");
         }
     }, [selector, history]);
+
+    useEffect(() => {
+        let newInputList = [];
+        ingredientParams.map(item => {
+            let inputListItem = {
+                ingredient: {
+                    type: item.classification,
+                    value: item
+                },
+                portionQtd: item.number_of_portions
+            }
+            newInputList.push(inputListItem)
+        });
+        setInputList(newInputList);
+    }, [ingredientParams]);
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -104,12 +119,6 @@ export default function CalculatorScreen() {
                 })
             });
         }
-
-
-        history.push({
-            pathname: '/nutricion-table',
-            state: { ingredients: inputList }
-        });
     }
 
     return (
@@ -117,8 +126,8 @@ export default function CalculatorScreen() {
             <Card sx={{ width: 1000 }}>
                 <CardContent>
                     <div className="pageTitle">
-                        <span className="titleText">Calculadora Nutricional</span>
-                        <span>Cadastre um prato e verfique todas as informações nutricionais necessárias!</span>
+                        <span className="titleText">Edição/Visualização de um prato já cadastrado</span>
+                        <span>Visualize ou altere os dados de um prato já cadastrado anteriormente!</span>
                         <div className="separator" />
                     </div>
                     <div className="calculatorListMargin">
@@ -221,9 +230,9 @@ export default function CalculatorScreen() {
                                 onClick={() => submitPlate()}
                                 color="success"
                                 variant="contained"
-                                endIcon={<Check />}
+                                endIcon={<Edit />}
                             >
-                                Finalizar prato
+                                Editar prato
                             </Button>
                         </div>
                     </div>
