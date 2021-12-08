@@ -51,7 +51,6 @@ class _PlatesMainScreenState extends State<PlatesMainScreen> {
           }
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

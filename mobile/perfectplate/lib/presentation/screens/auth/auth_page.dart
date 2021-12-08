@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:perfectplate/core/utils/user_utils.dart';
 import 'package:perfectplate/data/models/auth/auth_models.dart';
 import 'package:perfectplate/logic/bloc/auth_user/auth_user_bloc.dart';
 import 'package:perfectplate/core/constants/strings.dart';
-import 'package:perfectplate/logic/bloc/plates_bloc/plates_bloc.dart';
 import 'package:perfectplate/presentation/utils/router/route_helper.dart';
 import 'package:perfectplate/presentation/utils/router/routes.dart';
 import 'package:perfectplate/presentation/screens/auth/widgets/text_fields.dart';
@@ -57,22 +55,26 @@ class _AuthWidgetState extends State<AuthWidget> {
         decoration: BoxDecoration(
           color: Colors.green[50],
         ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(3.w),
-            child: Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    ImageConstants.logoImage,
-                    fit: BoxFit.fill,
-                    height: 30.h,
-                  ),
-                  AuthFormWidget(),
-                ],
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(3.w),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      ImageConstants.logoImage,
+                      fit: BoxFit.fill,
+                      height: 30.h,
+                    ),
+                    AuthFormWidget(),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
