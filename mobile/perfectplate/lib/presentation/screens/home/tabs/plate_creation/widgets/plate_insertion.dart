@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:perfectplate/core/constants/strings.dart';
 import 'package:perfectplate/core/utils/plate_utils.dart';
 import 'package:perfectplate/data/models/ingredients/ingredients.dart';
@@ -31,6 +32,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
   late int _platesCount;
   late List<PlateIngredientDAO> _plateIngredients;
   late IngredientClassification _ingredientType;
+  late DateTime _date;
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
     _platesCount = 0;
     _plateIngredients = [];
     _ingredientType = IngredientClassification.carbohydrate;
+    _date = DateTime.now();
     super.initState();
   }
 
@@ -52,6 +55,9 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final oneYear = Duration(days: 365);
+    final now = DateTime.now();
+
     return BlocListener<PlatesBloc, PlatesState>(
       listener: (context, state) {
         if (state is PlatesInserted) {
@@ -72,6 +78,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
             _plateIngredients.clear();
             _plateName = '';
             _platesCount = 0;
+            _date = DateTime.now(); 
           });
         }
         if (state is PlatesInsertionFail) {
@@ -106,6 +113,58 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                 },
               ),
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 2.h,
+                vertical: 1.5.h,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'Data de consumo',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                  SizedBox(width: 1.5.w),
+                  GestureDetector(
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                        context: context, 
+                        initialDate: _date,
+                        firstDate: now.subtract(oneYear), 
+                        lastDate: now.add(oneYear),
+                      );
+                      if(picked != null && picked != _date) {
+                        setState(() {
+                          _date = picked;
+                        });
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2.5.w),
+                        border: Border.all(
+                          color: Colors.green,
+                        )
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(1.5.w),
+                        child: Text(
+                          DateFormat('dd/MM/yyyy').format(_date),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(),
             Column(
               children: [
                 ..._ingredientsWidgets,
@@ -189,7 +248,7 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                     BlocProvider.of<PlatesBloc>(context).add(
                       PlateInsertedEvent(
                         PlateDAO(
-                          date: DateTime.now(),
+                          date: _date,
                           name: _plateName,
                           plateIngredients: _plateIngredients,
                         ),

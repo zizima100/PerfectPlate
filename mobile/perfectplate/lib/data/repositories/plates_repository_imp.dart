@@ -10,6 +10,7 @@ class PlatesRepository implements IPlatesRepository {
   @override
   Future<int?> insertPlate(RawPlate plate) async {
     String body = await _provider.insertPlate(plate.toJson());
+    print('body = ${plate.toJson()}');
     Map<String, dynamic> bodyDecoded = json.decode(body);
     if (bodyDecoded['ok']) {
       return bodyDecoded['data'];

@@ -87,7 +87,7 @@ class NutritionFactsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Data de registro do prato:',
+                'Data de consumo do prato:',
                   style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.normal,
