@@ -4,11 +4,10 @@
     justify-content: center;
 }
 
-.inputRow {
+.suggestion__inputRow {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding-top: 2ch;
 }
 
 .selectInputWrapper {

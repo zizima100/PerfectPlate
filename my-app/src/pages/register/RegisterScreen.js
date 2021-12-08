@@ -203,21 +203,19 @@ export default function RegisterScreen() {
                     </div>
                     <div className="inputRow">
                         <div className="inputWrapper">
-                            <div className="inputWrapper">
-                                <TextField
-                                    error={weight.hasError && weight.touched}
-                                    label="Peso (kg)"
-                                    placeholder="Insira seu Peso"
-                                    variant="outlined"
-                                    type="number"
-                                    onChange={e => setWeight({ ...weight, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "peso")}
-                                    value={weight.value}
-                                />
-                            </div>
+                            <TextField
+                                error={weight.hasError && weight.touched}
+                                label="Peso (kg)"
+                                placeholder="Insira seu Peso"
+                                variant="outlined"
+                                type="number"
+                                onChange={e => setWeight({ ...weight, value: e.target.value })}
+                                onBlur={e => validateField(e.target.value, "peso")}
+                                value={weight.value}
+                            />
                         </div>
-                        <div className="selectInputWrapper">
-                            <FormControl sx={{ minWidth: 195 }}>
+                        <div className="inputWrapper">
+                            <FormControl sx={{ minWidth: 223 }}>
                                 <InputLabel id="demo-simple-select-label">Sexo</InputLabel>
                                 <Select
                                     error={sex.hasError && sex.touched}
@@ -237,21 +235,19 @@ export default function RegisterScreen() {
                     </div>
                     <div className="inputRow">
                         <div className="inputWrapper">
-                            <div className="inputWrapper">
-                                <TextField
-                                    error={height.hasError && height.touched}
-                                    label="Altura (cm)"
-                                    placeholder="Insira sua Altura"
-                                    variant="outlined"
-                                    type="number"
-                                    onChange={e => setHeight({ ...height, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "altura")}
-                                    value={height.value}
-                                />
-                            </div>
+                            <TextField
+                                error={height.hasError && height.touched}
+                                label="Altura (cm)"
+                                placeholder="Insira sua Altura"
+                                variant="outlined"
+                                type="number"
+                                onChange={e => setHeight({ ...height, value: e.target.value })}
+                                onBlur={e => validateField(e.target.value, "altura")}
+                                value={height.value}
+                            />
                         </div>
-                        <div className="selectInputWrapper">
-                            <FormControl sx={{ minWidth: 195 }}>
+                        <div className="inputWrapper">
+                            <FormControl sx={{ minWidth: 223 }}>
                                 <InputLabel id="demo-simple-select-label">Classificação</InputLabel>
                                 <Select
                                     error={userType.hasError && userType.touched}
