@@ -89,9 +89,9 @@ export default function IngredientRegisterScreen() {
                                 label="Categoria do ingrediente"
                                 onChange={e => setCategory(e.target.value)}
                             >
-                                <MenuItem value={"carb"}>Carboidrato</MenuItem>
+                                <MenuItem value={"carbohydrate"}>Carboidrato</MenuItem>
                                 <MenuItem value={"protein"}>Proteina</MenuItem>
-                                <MenuItem value={"legume"}>Legume/Vegetal</MenuItem>
+                                <MenuItem value={"vegetable"}>Legume/Vegetal</MenuItem>
                             </Select>
                         </FormControl>
                         <TextField
