@@ -13,6 +13,7 @@ import {
     Link,
 } from "react-router-dom";
 import ApiService from "../../api/ApiService";
+import moment from "moment";
 
 const mapTypeLabel = {
     carbohydrate: "Carboidrato",
@@ -23,10 +24,10 @@ const mapTypeLabel = {
 export default function CalculatorScreen() {
     const apiInstance = ApiService();
     const history = useHistory();
-    const ingredientParams = history && history.location && history.location.state && history.location.state.ingredients;
     const [inputList, setInputList] = useState([{ ingredient: { type: "carbohydrate", value: {}}, portionQtd: 1 }]);
     const [newField, setNewField] = useState("carbohydrate");
     const [plateName, setPlateName] = useState("");
+    const [plateDate, setPlateDate] = useState(moment().format("YYYY-MM-DD"));
     const [ingredients, setIngredients] = useState([]);
     const selector = useSelector(state => state);
 
@@ -37,7 +38,7 @@ export default function CalculatorScreen() {
         }
         if (history && selector.userData.id === 0) {
             alert("Você precisa estar logado para acessar essa página!")
-            history.push("/");
+            return history.push("/");
         }
     }, [selector, history]);
 
@@ -92,7 +93,7 @@ export default function CalculatorScreen() {
         const plateData = await apiInstance.insertPlate({
             user_id: selector.userData.id,
             name: plateName,
-            date: new Date(),
+            date: new Date(plateDate),
         });
 
         if (plateData.data.ok) {
@@ -131,7 +132,7 @@ export default function CalculatorScreen() {
                                             <Select
                                                 name="ingredient"
                                                 labelId={"select-" + idx}
-                                                value={item.ingredient.value.name}
+                                                value={item.ingredient.value.id}
                                                 label={mapTypeLabel[item.ingredient.type]}
                                                 onChange={e => handleInputChange(e, idx)}
                                             >
@@ -143,7 +144,9 @@ export default function CalculatorScreen() {
                                         <TextField
                                             name="onePortionQtd"
                                             type="number"
-                                            disabled
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                             label="Qtd 1 porção (gramas)"
                                             placeholder="Qtd 1 porção (gramas)"
                                             value={item.ingredient.value.one_portion_weight ?? 0}
@@ -210,6 +213,16 @@ export default function CalculatorScreen() {
                                 placeholder="Ex.: Almoço"
                                 value={plateName}
                                 onChange={e => setPlateName(e.target.value)}
+                            />
+                        </div>
+                        <div className="calculatorInputMargin">
+                            <TextField
+                                name="plateName"
+                                type="date"
+                                label="Data de consumo"
+                                placeholder="Data de consumo"
+                                value={plateDate}
+                                onChange={e => setPlateDate(e.target.value)}
                             />
                         </div>
                         <div className="calculatorInputMargin">

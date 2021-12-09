@@ -11,7 +11,7 @@ import UserType from "./../../enums/UserTypeEnum";
 const INITIAL_STATE = {
     value: "",
     touched: false,
-    hasError: true,
+    hasError: false,
 };
 
 export default function LoginScreen() {
@@ -55,7 +55,7 @@ export default function LoginScreen() {
             dispatch(setUserType(data.userType));
             alert("Logado com sucesso!");
             if (data.userType === UserType.ADMIN) {
-                history.push("/ingredient-register");
+                return history.push("/ingredient-register");
             }
             history.push("/calculator")
         }
@@ -80,6 +80,11 @@ export default function LoginScreen() {
                             onChange={e => setEmail({...email, value: e.target.value})}
                             onBlur={e => validateField(e.target.value, "email")}
                             value={email.value}
+                            onKeyPress= {(e) => {
+                                if (e.key === 'Enter') {
+                                    login().then()
+                                }
+                            }}
                         />
                     </div>
                     <div className="inputWrapper">
@@ -93,6 +98,11 @@ export default function LoginScreen() {
                                 onChange={e => setPassword({...password, value: e.target.value})}
                                 onBlur={e => validateField(e.target.value, "senha")}
                                 value={password.value}
+                                onKeyPress= {(e) => {
+                                    if (e.key === 'Enter') {
+                                        login().then()
+                                    }
+                                }}
                             />
                             <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
                                 <IconButton color="primary" component="span">

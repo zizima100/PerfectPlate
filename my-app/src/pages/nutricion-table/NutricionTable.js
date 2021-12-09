@@ -77,7 +77,7 @@ export default function NutricionalTable() {
     useEffect(() => {
         if (history && selector.userData.id === 0) {
             alert("Você precisa estar logado para acessar essa página!")
-            history.push("/");
+            return history.push("/");
         }
     }, [selector, history]);
 

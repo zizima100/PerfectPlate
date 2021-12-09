@@ -9,8 +9,10 @@ import {
 import {Check} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import ApiService from "../../api/ApiService";
 
 export default function IngredientSuggestionScreen() {
+    const apiInstance = ApiService();
     const [ingredientName, setIngredientName] = useState("");
     const selector = useSelector(state => state);
     const history = useHistory();
@@ -18,17 +20,20 @@ export default function IngredientSuggestionScreen() {
     useEffect(() => {
         if (history && selector.userData.id === 0) {
             alert("Você precisa estar logado para acessar essa página!")
-            history.push("/");
+            return history.push("/");
         }
     }, [selector, history]);
 
     const hasNumber = /\d/;
 
-    const submitIngredient = () => {
-        const data = {
-            ingredientName
+    const submitIngredient = async () => {
+        const result = await apiInstance.insertIngredientSuggestion({ingredient_name: ingredientName});
+
+        if (result.data.ok) {
+            alert("Ingrediente sugerido com sucesso!");
+        } else {
+            alert("Houve um erro! Tente novamente mais tarde.");
         }
-        console.log(data);
     }
 
     return (
