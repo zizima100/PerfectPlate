@@ -146,7 +146,7 @@ export default function CalculatorScreen() {
                                             type="number"
                                             InputProps={{
                                                 readOnly: true,
-                                            }}Z
+                                            }}
                                             label="Qtd 1 porção (gramas)"
                                             placeholder="Qtd 1 porção (gramas)"
                                             value={item.ingredient.value.one_portion_weight ?? 0}

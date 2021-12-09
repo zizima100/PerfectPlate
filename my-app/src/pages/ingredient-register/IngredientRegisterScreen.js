@@ -62,7 +62,12 @@ export default function IngredientRegisterScreen() {
             sodium: sodio
         }
         const result = await apiInstance.insertIngredient(data);
-        console.log(result)
+
+        if (result.data.ok) {
+            alert("Ingrediente registrado com sucesso!");
+        } else {
+            alert("Houve um erro! Tente novamente mais tarde.");
+        }
     }
 
     return (
