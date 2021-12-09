@@ -1,5 +1,5 @@
 import './ProfileScreenStyle.css';
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Card,
@@ -13,10 +13,10 @@ import {
 } from "@material-ui/core";
 import UserType from "../../enums/UserTypeEnum";
 import UserSex from "../../enums/UserSexEnum";
-import {Visibility, Check, Edit} from '@material-ui/icons';
+import { Visibility, Check, Edit } from '@material-ui/icons';
 import { useHistory } from "react-router-dom";
 import ApiService from "../../api/ApiService";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const INITIAL_STATE = {
     value: "",
@@ -45,14 +45,14 @@ export default function ProfileScreen() {
         }
         const response = await apiInstance.userDataById(selector.userData.id);
         if (response.data.ok) {
-            setEmail({...email, value: response.data.data.email});
-            setPassword({...password, value: response.data.data.password});
-            setAge({...age, value: response.data.data.age});
-            setHeight({...height, value: response.data.data.height});
-            setName({...name, value: response.data.data.name});
-            setWeight({...weight, value: response.data.data.weight});
-            setSex({...sex, value: response.data.data.sex});
-            setUserType({...userType, value: response.data.data.usertype})
+            setEmail({ ...email, value: response.data.data.email });
+            setPassword({ ...password, value: response.data.data.password });
+            setAge({ ...age, value: response.data.data.age });
+            setHeight({ ...height, value: response.data.data.height });
+            setName({ ...name, value: response.data.data.name });
+            setWeight({ ...weight, value: response.data.data.weight });
+            setSex({ ...sex, value: response.data.data.sex });
+            setUserType({ ...userType, value: response.data.data.usertype })
         }
         console.log(response.data.data)
     }, [selector, history]);
@@ -155,7 +155,7 @@ export default function ProfileScreen() {
     }
 
     return (
-        <div className="mainRegister">
+        <div className="profile__main-register">
             <Card sx={{ width: 700 }}>
                 <CardContent>
                     <div className="pageTitle">
@@ -163,84 +163,83 @@ export default function ProfileScreen() {
                         <span>Visualize ou edite seu dados cadastrais</span>
                         <div className="separator" />
                     </div>
-                    <div className="inputRowWithIcon">
-                        <div className="inputWrapper">
+                    <div className="profile__input-row-with-icon">
+                        <TextField
+                            className="profile__input"
+                            error={email.hasError && email.touched}
+                            label="Email"
+                            placeholder="Insira seu email"
+                            variant="outlined"
+                            type="email"
+                            onChange={e => setEmail({ ...email, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "email")}
+                            value={email.value}
+                            sx={{ m: "10px" }}
+                        />
+                        <div className="profile__input-with-icon">
                             <TextField
-                                error={email.hasError && email.touched}
-                                label="Email"
-                                placeholder="Insira seu email"
+                                className="profile__input"
+                                error={password.hasError && password.touched}
+                                label="Senha"
+                                placeholder="Insira sua senha"
                                 variant="outlined"
-                                type="email"
-                                onChange={e => setEmail({ ...email, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "email")}
-                                value={email.value}
+                                type={isPasswordVisible ? "text" : "password"}
+                                onChange={e => setPassword({ ...password, value: e.target.value })}
+                                onBlur={e => validateField(e.target.value, "senha")}
+                                value={password.value}
+                                sx={{ m: "10px" }}
                             />
-                        </div>
-                        <div className="inputWrapper">
-                            <div className="inputWithIcon">
-                                <TextField
-                                    error={password.hasError && password.touched}
-                                    label="Senha"
-                                    placeholder="Insira sua senha"
-                                    variant="outlined"
-                                    type={isPasswordVisible ? "text" : "password"}
-                                    onChange={e => setPassword({ ...password, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "senha")}
-                                    value={password.value}
-                                />
-                                <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-                                    <IconButton color="primary" component="span">
-                                        <Visibility />
-                                    </IconButton>
-                                </div>
+                            <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+                                <IconButton color="primary" component="span">
+                                    <Visibility />
+                                </IconButton>
                             </div>
                         </div>
                     </div>
-                    <div className="inputRow">
-                        <div className="inputWrapper">
-                            <TextField
-                                error={name.hasError && name.touched}
-                                label="Nome e sobrenome"
-                                placeholder="Insira seu nome completo"
-                                variant="outlined"
-                                type="text"
-                                onChange={e => setName({ ...name, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "nome")}
-                                value={name.value}
-                            />
-                        </div>
-                        <div className="inputWrapper">
-                            <TextField
-                                error={age.hasError && age.touched}
-                                label="Idade"
-                                placeholder="Insira sua idade"
-                                variant="outlined"
-                                type="number"
-                                onChange={e => setAge({ ...age, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "idade")}
-                                value={age.value}
-                            />
-                        </div>
+                    <div className="profile__input-row">
+                        <TextField
+                            className="profile__input"
+                            error={name.hasError && name.touched}
+                            label="Nome e sobrenome"
+                            placeholder="Insira seu nome completo"
+                            variant="outlined"
+                            type="text"
+                            onChange={e => setName({ ...name, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "nome")}
+                            value={name.value}
+                            sx={{ m: "10px" }}
+                        />
+                        <TextField
+                            className="profile__input"
+                            error={age.hasError && age.touched}
+                            label="Idade"
+                            placeholder="Insira sua idade"
+                            variant="outlined"
+                            type="number"
+                            onChange={e => setAge({ ...age, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "idade")}
+                            value={age.value}
+                            sx={{ m: "10px" }}
+                        />
                     </div>
-                    <div className="inputRow">
-                        <div className="inputWrapper">
-                            <div className="inputWrapper">
-                                <TextField
-                                    error={weight.hasError && weight.touched}
-                                    label="Peso (kg)"
-                                    placeholder="Insira seu Peso"
-                                    variant="outlined"
-                                    type="number"
-                                    onChange={e => setWeight({ ...weight, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "peso")}
-                                    value={weight.value}
-                                />
-                            </div>
-                        </div>
-                        <div className="selectInputWrapper">
+                    <div className="profile__input-row">
+                        <TextField
+                            className="profile__input"
+                            error={weight.hasError && weight.touched}
+                            label="Peso (kg)"
+                            placeholder="Insira seu Peso"
+                            variant="outlined"
+                            type="number"
+                            onChange={e => setWeight({ ...weight, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "peso")}
+                            value={weight.value}
+                            sx={{ m: "10px" }}
+                        />
+                        <div className="profile__selectInputWrapper">
                             <FormControl sx={{ minWidth: 195 }}>
                                 <InputLabel id="demo-simple-select-label">Sexo</InputLabel>
                                 <Select
+                                    className="profile__input"
                                     error={sex.hasError && sex.touched}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -248,6 +247,7 @@ export default function ProfileScreen() {
                                     label="Sexo"
                                     onChange={e => setSex({ ...sex, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "sexo")}
+                                    sx={{ m: "10px" }}
                                 >
                                     <MenuItem value={UserSex.MASCULINO}>Masculino</MenuItem>
                                     <MenuItem value={UserSex.FEMININO}>Feminino</MenuItem>
@@ -256,25 +256,24 @@ export default function ProfileScreen() {
                             </FormControl>
                         </div>
                     </div>
-                    <div className="inputRow">
-                        <div className="inputWrapper">
-                            <div className="inputWrapper">
-                                <TextField
-                                    error={height.hasError && height.touched}
-                                    label="Altura (cm)"
-                                    placeholder="Insira sua Altura"
-                                    variant="outlined"
-                                    type="number"
-                                    onChange={e => setHeight({ ...height, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "altura")}
-                                    value={height.value}
-                                />
-                            </div>
-                        </div>
-                        <div className="selectInputWrapper">
+                    <div className="profile__input-row">
+                        <TextField
+                            className="profile__input"
+                            error={height.hasError && height.touched}
+                            label="Altura (cm)"
+                            placeholder="Insira sua Altura"
+                            variant="outlined"
+                            type="number"
+                            onChange={e => setHeight({ ...height, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "altura")}
+                            value={height.value}
+                            sx={{ m: "10px" }}
+                        />
+                        <div className="profile__selectInputWrapper">
                             <FormControl sx={{ minWidth: 195 }}>
                                 <InputLabel id="demo-simple-select-label">Classificação</InputLabel>
                                 <Select
+                                    className="profile__input"
                                     error={userType.hasError && userType.touched}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -282,6 +281,7 @@ export default function ProfileScreen() {
                                     label="Classificação"
                                     onChange={e => setUserType({ ...userType, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "classificacao")}
+                                    sx={{ m: "10px" }}
                                 >
                                     <MenuItem value={UserType.FISICULTURISTA}>Fisiculturista</MenuItem>
                                     <MenuItem value={UserType.PADRAO}>Frequentador</MenuItem>
@@ -290,7 +290,7 @@ export default function ProfileScreen() {
                             </FormControl>
                         </div>
                     </div>
-                    <div className="inputRow">
+                    <div className="profile__input-row">
                         <Button
                             onClick={() => submit()}
                             variant="contained"

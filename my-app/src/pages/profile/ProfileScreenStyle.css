@@ -1,12 +1,18 @@
-.inputRow {
+.profile__main-register {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.profile__input-row-with-icon {
+    padding-left: 4.7ch;
     flex-direction: row;
     justify-content: center;
     display: flex;
     padding-top: 2ch;
 }
 
-.inputRowWithIcon {
-    padding-left: 4.7vh;
+.profile__input-row {
     flex-direction: row;
     justify-content: center;
     display: flex;
@@ -34,7 +40,11 @@
     color: black;
 }
 
-.inputWithIcon {
+.profile__input {
+    width: 200px;
+}
+
+.profile__input-with-icon {
     flex-direction: row;
     justify-content: center;
     display: flex;
@@ -44,7 +54,7 @@
     padding-top: 1ch;
 }
 
-.inputWrapper {
+.profile__input-wrapper {
     padding-left: 2ch;
     padding-right: 2ch;
 }
@@ -53,8 +63,3 @@
     padding-right: 4ch;
 }
 
-.mainRegister {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
