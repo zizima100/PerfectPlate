@@ -53,7 +53,6 @@ export default function LoginScreen() {
         if (ok && data) {
             dispatch(setId(data.id));
             dispatch(setUserType(data.userType));
-            alert("Logado com sucesso!");
             if (data.userType === UserType.ADMIN) {
                 return history.push("/ingredient-register");
             }
