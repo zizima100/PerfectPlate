@@ -237,7 +237,7 @@ export default function ProfileScreen() {
                         />
                         <div className="profile__selectInputWrapper">
                             <FormControl sx={{ minWidth: 195 }}>
-                                <InputLabel id="demo-simple-select-label">Sexo</InputLabel>
+                                <InputLabel id="demo-simple-select-label" sx={{m: "10px"}}>Sexo</InputLabel>
                                 <Select
                                     className="profile__input"
                                     error={sex.hasError && sex.touched}
@@ -247,7 +247,7 @@ export default function ProfileScreen() {
                                     label="Sexo"
                                     onChange={e => setSex({ ...sex, value: e.target.value })}
                                     onBlur={e => validateField(e.target.value, "sexo")}
-                                    sx={{ m: "10px" }}
+                                    // sx={{ m: "10px" }}
                                 >
                                     <MenuItem value={UserSex.MASCULINO}>Masculino</MenuItem>
                                     <MenuItem value={UserSex.FEMININO}>Feminino</MenuItem>
@@ -271,7 +271,7 @@ export default function ProfileScreen() {
                         />
                         <div className="profile__selectInputWrapper">
                             <FormControl sx={{ minWidth: 195 }}>
-                                <InputLabel id="demo-simple-select-label">Classificação</InputLabel>
+                                <InputLabel id="demo-simple-select-label" sx={{m: "10px"}}>Classificação</InputLabel>
                                 <Select
                                     className="profile__input"
                                     error={userType.hasError && userType.touched}

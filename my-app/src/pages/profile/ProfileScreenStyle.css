@@ -42,6 +42,7 @@
 
 .profile__input {
     width: 200px;
+    margin: 10px;
 }
 
 .profile__input-with-icon {
@@ -52,11 +53,6 @@
 
 .passwordVisibleIcon {
     padding-top: 1ch;
-}
-
-.profile__input-wrapper {
-    padding-left: 2ch;
-    padding-right: 2ch;
 }
 
 .selectInputWrapper {
