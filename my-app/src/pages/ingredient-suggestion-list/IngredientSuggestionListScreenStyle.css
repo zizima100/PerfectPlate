@@ -1,0 +1,48 @@
+.calculatorMain {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}
+
+.inputRow {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    padding-top: 2ch;
+}
+
+.plateItemCol {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2ch;
+    padding-right: 2ch;
+}
+
+.labelPadding {
+   padding-bottom: 0.5ch;
+    font-weight: bold;
+}
+
+.plateButtonCol {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 1ch;
+    padding-right: 1ch;
+}
+
+.selectInputWrapper {
+    padding-bottom: 10px;
+}
+
+.calculatorInputMargin {
+    padding-right: 1ch;
+    padding-left: 1ch;
+}
+
+.selectInputWrapper:last-child {
+    padding-bottom: 0;
+}

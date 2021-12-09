@@ -1,21 +1,15 @@
-.mainRegister {
-    display: flex;
+.inputRow {
     flex-direction: row;
     justify-content: center;
-}
-
-.inputRowWithIcon {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding-left: 4.7ch;
     padding-top: 2ch;
 }
 
-.inputRow {
-    display: flex;
+.inputRowWithIcon {
+    padding-left: 4.7vh;
     flex-direction: row;
     justify-content: center;
+    display: flex;
     padding-top: 2ch;
 }
 
@@ -23,23 +17,15 @@
     background-color: black;
     width: 100%;
     height: 0.10vh;
-    margin: 2ch 0;
+    margin: 2vh 0;
     opacity: 0.2;
 }
 
 .pageTitle {
-    display: flex;
     flex-direction: column;
+    display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.pageSubTitle {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 1.5ch;
 }
 
 .titleText {
@@ -61,4 +47,14 @@
 .inputWrapper {
     padding-left: 2ch;
     padding-right: 2ch;
+}
+
+.selectInputWrapper {
+    padding-right: 4ch;
+}
+
+.mainRegister {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

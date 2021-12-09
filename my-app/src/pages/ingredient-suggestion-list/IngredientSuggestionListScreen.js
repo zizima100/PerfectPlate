@@ -1,4 +1,4 @@
-import './PlatesListScreenStyle.css';
+import './IngredientSuggestionListScreenStyle.css';
 import React, {useEffect, useState} from "react";
 import {
     Button,
@@ -11,20 +11,20 @@ import {useHistory} from "react-router-dom";
 import ApiService from "../../api/ApiService";
 import moment from "moment";
 
-export default function PlatesListScreen() {
-    const [plateList, setPlateList] = useState([]);
+export default function IngredientSuggestionListScreen() {
+    const [ingredientList, setIngredientList] = useState([]);
     const selector = useSelector(state => state);
     const history = useHistory();
     const apiInstance = ApiService();
 
     const getData = async () => {
-        const result = await apiInstance.getAllPlates(selector.userData.id);
+        const result = await apiInstance.getIngredientSuggestions();
 
         if (!result.data.ok) {
             alert("Houve um erro! Tente novamente mais tarde");
             return;
         }
-        return setPlateList(result.data.data);
+        return setIngredientList(result.data.data);
     };
 
     useEffect(() => {
@@ -38,20 +38,10 @@ export default function PlatesListScreen() {
         getData().then()
     }, []);
 
-    const visualizePlate = async (plateId) => {
-        const plateData = await apiInstance.getPlateById(plateId);
+    const deletePlate = async (suggestionId) => {
+        const plateData = await apiInstance.deleteIngredientSuggestion(suggestionId);
         if (plateData.data.ok) {
-            history.push({
-                pathname: '/plate-visualize',
-                state: { ingredients: plateData.data.data }
-            });
-        }
-    };
-
-    const deletePlate = async (plateId) => {
-        const plateData = await apiInstance.deletePlateById(plateId);
-        if (plateData.data.ok) {
-            alert("Prato deletado com sucesso!");
+            alert("Sugestão deletada com sucesso!");
             getData().then();
         }
     };
@@ -61,11 +51,11 @@ export default function PlatesListScreen() {
             <Card sx={{ width: 1000 }}>
                 <CardContent>
                     <div className="pageTitle">
-                        <span className="titleText">Listagem de Pratos</span>
-                        <span>Verifique aqui todos os pratos cadastrados anteriormente!</span>
+                        <span className="titleText">Listagem de sugestões de ingredientes</span>
+                        <span>Verifique aqui todos os ingredientes sugeridos pelos usuários!</span>
                         <div className="separator"/>
                     </div>
-                    {plateList.length > 0 ? plateList.map((item, idx) => {
+                    {ingredientList.length > 0 ? ingredientList.map((item, idx) => {
                         return (
                             <div key={idx}>
                                 <div className="inputRow">
@@ -74,20 +64,8 @@ export default function PlatesListScreen() {
                                         <span>{item.id}</span>
                                     </div>
                                     <div className="plateItemCol">
-                                        <span className="labelPadding">Nome do prato</span>
+                                        <span className="labelPadding">Nome do Ingrediente</span>
                                         <span>{item.name}</span>
-                                    </div>
-                                    <div className="plateItemCol">
-                                        <span className="labelPadding">Data de consumo</span>
-                                        <span>{moment(item.date).add(1, "day").format("DD/MM/YYYY")}</span>
-                                    </div>
-                                    <div className="plateButtonCol">
-                                        <Button
-                                            onClick={() => visualizePlate(item.id)}
-                                            variant="contained"
-                                            endIcon={<Visibility />}>
-                                            Visualizar
-                                        </Button>
                                     </div>
                                     <div className="plateButtonCol">
                                         <Button
@@ -95,12 +73,12 @@ export default function PlatesListScreen() {
                                             color="error"
                                             variant="contained"
                                             endIcon={<DeleteForever />}>
-                                            Deletar
+                                            Deletar sugestão
                                         </Button>
                                     </div>
                                 </div>
                                 {
-                                    plateList.length - 1 !== idx && (
+                                    ingredientList.length - 1 !== idx && (
                                         <div className="separator" />
                                     )
                                 }
@@ -108,7 +86,7 @@ export default function PlatesListScreen() {
                         );
                     }) : (
                         <div className="pageTitle">
-                            <span><b>Você ainda não tem nenhum prato cadastrado!</b></span>
+                            <span><b>Nenhuma sugestão foi cadastrada!</b></span>
                         </div>
                     )}
                 </CardContent>

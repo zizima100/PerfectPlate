@@ -19,7 +19,9 @@ import AboutScreen from "./pages/about/AboutScreen";
 import PlatesListScreen from "./pages/plates-list/PlatesListScreen";
 import {useSelector} from "react-redux";
 import UserType from "./enums/UserTypeEnum";
-import PlateEditVisualizeScreen from "./pages/plate-edit-visualize/PlateEditVisualizeScreen";
+import PlateVisualizeScreen from "./pages/plate-visualize/PlateVisualizeScreen";
+import ProfileScreen from "./pages/profile/ProfileScreen";
+import IngredientSuggestionListScreen from "./pages/ingredient-suggestion-list/IngredientSuggestionListScreen";
 
 export default function App() {
   const selector = useSelector(state => state);
@@ -45,6 +47,7 @@ export default function App() {
               isAdmin ? (
                 <>
                   <Link className="navbar__btn" to="/ingredient-register">Registro de Ingredientes</Link>
+                  <Link className="navbar__btn" to="/ingredient-suggestion-list">Listagem de Sugestões</Link>
                   <Link className="navbar__btn" onClick={() => window.location.reload(false)}>Sair</Link>
                 </>
               ) : (
@@ -54,6 +57,7 @@ export default function App() {
                   <Link className="navbar__btn" to="/ingredient-suggestion">Sugestão de Ingredientes</Link>
                   <Link className="navbar__btn" to="/tutorial">Tutorial</Link>
                   <Link className="navbar__btn" to="/about">Sobre nós</Link>
+                  <Link className="navbar__btn" to="/profile">Perfil</Link>
                   <Link className="navbar__btn" onClick={() => window.location.reload(false)}>Sair</Link>
                 </>
                 )
@@ -99,8 +103,14 @@ export default function App() {
           <Route exact path="/plates-list">
             <PlatesListScreen />
           </Route>
-          <Route exact path="/plate-edit-visualize">
-            <PlateEditVisualizeScreen />
+          <Route exact path="/plate-visualize">
+            <PlateVisualizeScreen />
+          </Route>
+          <Route exact path="/profile">
+            <ProfileScreen />
+          </Route>
+          <Route exact path="/ingredient-suggestion-list">
+            <IngredientSuggestionListScreen />
           </Route>
         </Switch>
       </div>

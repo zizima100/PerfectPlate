@@ -9,6 +9,7 @@ import {
 import { Check } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import ApiService from "../../api/ApiService";
 
 export default function IngredientRegisterScreen() {
     const [category, setCategory] = useState("carb");
@@ -24,6 +25,7 @@ export default function IngredientRegisterScreen() {
     const [sodio, setSodio] = useState(0);
     const selector = useSelector(state => state);
     const history = useHistory();
+    const apiInstance = ApiService();
 
     const nutricionInputs = [
         { name: 'Valor Energético', value: vEnergetico, setValue: setVEnergetico, key: 'vEnergetico' },
@@ -36,24 +38,31 @@ export default function IngredientRegisterScreen() {
         { name: 'Sódio', value: sodio, setValue: setSodio, key: 'sodio' },
     ];
 
-    let nutricionInputCounter = 0;
-
     useEffect(() => {
         if (history && selector.userData.id === 0) {
             alert("Você precisa estar logado para acessar essa página!")
-            history.push("/");
+            return history.push("/");
         }
     }, [selector, history]);
 
     const hasNumber = /\d/;
 
-    const submitIngredient = () => {
+    const submitIngredient = async () => {
         const data = {
-            category,
-            onePortionQtd,
-            ingredientName
+            name: ingredientName,
+            one_portion_weight: onePortionQtd,
+            classification: category,
+            energetic_value: vEnergetico,
+            carbohydrate: carboidratos,
+            protein: proteinas,
+            saturated_fat: gordSaturadas,
+            total_fat: gordTotais,
+            trans_fat: gordTrans,
+            fibre: fibraAlimentar,
+            sodium: sodio
         }
-        console.log(data);
+        const result = await apiInstance.insertIngredient(data);
+        console.log(result)
     }
 
     return (
