@@ -1,20 +1,21 @@
-.mainLogin {
+.login__main-login {
     flex-direction: row;
     justify-content: center;
     display: flex;
 }
 
-.inputRow {
+.login__input-row {
     flex-direction: row;
     justify-content: center;
     display: flex;
     padding-top: 2ch;
 }
 
-.inputRowWithIcon {
-    padding-left: 4.7vh;
+.login__input-row-with-icon {
+    display: flex;
     flex-direction: row;
     justify-content: center;
-    display: flex;
+    align-items: center;
+    padding-left: 4.7ch;
     padding-top: 2ch;
 }

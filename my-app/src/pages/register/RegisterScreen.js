@@ -168,7 +168,7 @@ export default function RegisterScreen() {
                                 value={password.value}
                                 sx={{m: "10px"}}
                             />
-                            <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+                            <div onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
                                 <IconButton color="primary" component="span">
                                     <Visibility />
                                 </IconButton>

@@ -51,11 +51,8 @@
 .register__input-with-icon {
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     display: flex;
-}
-
-.passwordVisibleIcon {
-    padding-top: 1ch;
 }
 
 .register__input {
