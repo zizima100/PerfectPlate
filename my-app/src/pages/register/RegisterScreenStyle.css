@@ -1,10 +1,10 @@
-.mainRegister {
+.register__main-register {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.inputRowWithIcon {
+.register__input-row-with-icon {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -12,7 +12,7 @@
     padding-top: 2ch;
 }
 
-.inputRow {
+.register__input-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -48,7 +48,7 @@
     color: black;
 }
 
-.inputWithIcon {
+.register__input-with-icon {
     flex-direction: row;
     justify-content: center;
     display: flex;
@@ -58,7 +58,6 @@
     padding-top: 1ch;
 }
 
-.inputWrapper {
-    padding-left: 2ch;
-    padding-right: 2ch;
+.register__input {
+    width: 223px;
 }

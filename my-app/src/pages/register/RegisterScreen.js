@@ -134,7 +134,7 @@ export default function RegisterScreen() {
     }
 
     return (
-        <div className="mainRegister">
+        <div className="register__main-register">
             <Card sx={{ width: 700 }}>
                 <CardContent>
                     <div className="pageTitle">
@@ -142,130 +142,130 @@ export default function RegisterScreen() {
                         <span>Fácil e rápido.</span>
                         <div className="separator" />
                     </div>
-                    <div className="inputRowWithIcon">
-                        <div className="inputWrapper">
+                    <div className="register__input-row-with-icon">
+                        <TextField
+                            className="register__input"
+                            error={email.hasError && email.touched}
+                            label="Email"
+                            placeholder="Insira seu email"
+                            variant="outlined"
+                            type="email"
+                            onChange={e => setEmail({ ...email, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "email")}
+                            value={email.value}
+                            sx={{m: "10px"}}
+                        />
+                        <div className="register__input-with-icon">
                             <TextField
-                                error={email.hasError && email.touched}
-                                label="Email"
-                                placeholder="Insira seu email"
+                                className="register__input"
+                                error={password.hasError && password.touched}
+                                label="Senha"
+                                placeholder="Insira sua senha"
                                 variant="outlined"
-                                type="email"
-                                onChange={e => setEmail({ ...email, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "email")}
-                                value={email.value}
+                                type={isPasswordVisible ? "text" : "password"}
+                                onChange={e => setPassword({ ...password, value: e.target.value })}
+                                onBlur={e => validateField(e.target.value, "senha")}
+                                value={password.value}
+                                sx={{m: "10px"}}
                             />
-                        </div>
-                        <div className="inputWrapper">
-                            <div className="inputWithIcon">
-                                <TextField
-                                    error={password.hasError && password.touched}
-                                    label="Senha"
-                                    placeholder="Insira sua senha"
-                                    variant="outlined"
-                                    type={isPasswordVisible ? "text" : "password"}
-                                    onChange={e => setPassword({ ...password, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "senha")}
-                                    value={password.value}
-                                />
-                                <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-                                    <IconButton color="primary" component="span">
-                                        <Visibility />
-                                    </IconButton>
-                                </div>
+                            <div className="passwordVisibleIcon" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+                                <IconButton color="primary" component="span">
+                                    <Visibility />
+                                </IconButton>
                             </div>
                         </div>
                     </div>
-                    <div className="inputRow">
-                        <div className="inputWrapper">
-                            <TextField
-                                error={name.hasError && name.touched}
-                                label="Nome e sobrenome"
-                                placeholder="Insira seu nome completo"
-                                variant="outlined"
-                                type="text"
-                                onChange={e => setName({ ...name, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "nome")}
-                                value={name.value}
-                            />
-                        </div>
-                        <div className="inputWrapper">
-                            <TextField
-                                error={age.hasError && age.touched}
-                                label="Idade"
-                                placeholder="Insira sua idade"
-                                variant="outlined"
-                                type="number"
-                                onChange={e => setAge({ ...age, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "idade")}
-                                value={age.value}
-                            />
-                        </div>
+                    <div className="register__input-row">
+                        <TextField
+                            className="register__input"
+                            error={name.hasError && name.touched}
+                            label="Nome e sobrenome"
+                            placeholder="Insira seu nome completo"
+                            variant="outlined"
+                            type="text"
+                            onChange={e => setName({ ...name, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "nome")}
+                            value={name.value}
+                            sx={{m: "10px"}}
+                        />
+                        <TextField
+                            className="register__input"
+                            error={age.hasError && age.touched}
+                            label="Idade"
+                            placeholder="Insira sua idade"
+                            variant="outlined"
+                            type="number"
+                            onChange={e => setAge({ ...age, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "idade")}
+                            value={age.value}
+                            sx={{m: "10px"}}
+                        />
                     </div>
-                    <div className="inputRow">
-                        <div className="inputWrapper">
-                            <TextField
-                                error={weight.hasError && weight.touched}
-                                label="Peso (kg)"
-                                placeholder="Insira seu Peso"
-                                variant="outlined"
-                                type="number"
-                                onChange={e => setWeight({ ...weight, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "peso")}
-                                value={weight.value}
-                            />
-                        </div>
-                        <div className="inputWrapper">
-                            <FormControl sx={{ minWidth: 223 }}>
-                                <InputLabel id="demo-simple-select-label">Sexo</InputLabel>
-                                <Select
-                                    error={sex.hasError && sex.touched}
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={sex.value}
-                                    label="Sexo"
-                                    onChange={e => setSex({ ...sex, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "sexo")}
-                                >
-                                    <MenuItem value={UserSex.MASCULINO}>Masculino</MenuItem>
-                                    <MenuItem value={UserSex.FEMININO}>Feminino</MenuItem>
-                                    <MenuItem value={UserSex.NAO_DECLARADO}>Prefiro não informar</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
+                    <div className="register__input-row">
+                        <TextField
+                            className="register__input"
+                            error={weight.hasError && weight.touched}
+                            label="Peso (kg)"
+                            placeholder="Insira seu Peso"
+                            variant="outlined"
+                            type="number"
+                            onChange={e => setWeight({ ...weight, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "peso")}
+                            value={weight.value}
+                            sx={{m: "10px"}}
+                        />
+                        <FormControl sx={{ minWidth: 223 }}>
+                            <InputLabel id="demo-simple-select-label" sx={{m: "10px"}}>Sexo</InputLabel>
+                            <Select
+                                className="register__input"
+                                error={sex.hasError && sex.touched}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={sex.value}
+                                label="Sexo"
+                                onChange={e => setSex({ ...sex, value: e.target.value })}
+                                onBlur={e => validateField(e.target.value, "sexo")}
+                                sx={{m: "10px"}}
+                            >
+                                <MenuItem value={UserSex.MASCULINO}>Masculino</MenuItem>
+                                <MenuItem value={UserSex.FEMININO}>Feminino</MenuItem>
+                                <MenuItem value={UserSex.NAO_DECLARADO}>Prefiro não informar</MenuItem>
+                            </Select>
+                        </FormControl>
                     </div>
-                    <div className="inputRow">
-                        <div className="inputWrapper">
-                            <TextField
-                                error={height.hasError && height.touched}
-                                label="Altura (cm)"
-                                placeholder="Insira sua Altura"
-                                variant="outlined"
-                                type="number"
-                                onChange={e => setHeight({ ...height, value: e.target.value })}
-                                onBlur={e => validateField(e.target.value, "altura")}
-                                value={height.value}
-                            />
-                        </div>
-                        <div className="inputWrapper">
-                            <FormControl sx={{ minWidth: 223 }}>
-                                <InputLabel id="demo-simple-select-label">Classificação</InputLabel>
-                                <Select
-                                    error={userType.hasError && userType.touched}
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={userType.value}
-                                    label="Classificação"
-                                    onChange={e => setUserType({ ...userType, value: e.target.value })}
-                                    onBlur={e => validateField(e.target.value, "classificacao")}
-                                >
-                                    <MenuItem value={UserType.FISICULTURISTA}>Fisiculturista</MenuItem>
-                                    <MenuItem value={UserType.PADRAO}>Frequentador</MenuItem>
-                                    <MenuItem value={UserType.NUTRICIONISTA}>Nutricionista</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
+                    <div className="register__input-row">
+                        <TextField
+                            className="register__input"
+                            error={height.hasError && height.touched}
+                            label="Altura (cm)"
+                            placeholder="Insira sua Altura"
+                            variant="outlined"
+                            type="number"
+                            onChange={e => setHeight({ ...height, value: e.target.value })}
+                            onBlur={e => validateField(e.target.value, "altura")}
+                            value={height.value}
+                            sx={{m: "10px"}}
+                        />
+                        <FormControl sx={{ minWidth: 223 }}>
+                            <InputLabel id="demo-simple-select-label" sx={{m: "10px"}}>Classificação</InputLabel>
+                            <Select
+                                className="register__input"
+                                error={userType.hasError && userType.touched}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={userType.value}
+                                label="Classificação"
+                                onChange={e => setUserType({ ...userType, value: e.target.value })}
+                                onBlur={e => validateField(e.target.value, "classificacao")}
+                                sx={{m: "10px"}}
+                            >
+                                <MenuItem value={UserType.FISICULTURISTA}>Fisiculturista</MenuItem>
+                                <MenuItem value={UserType.PADRAO}>Frequentador</MenuItem>
+                                <MenuItem value={UserType.NUTRICIONISTA}>Nutricionista</MenuItem>
+                            </Select>
+                        </FormControl>
                     </div>
-                    <div className="inputRow">
+                    <div className="register__input-row">
                         <Button
                             disabled={
                                 (email.hasError && !(!email.touched && email.value !== "")) ||
