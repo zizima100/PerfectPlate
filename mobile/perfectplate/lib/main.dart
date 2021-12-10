@@ -41,6 +41,7 @@ class PerfectPlateApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.green,
           ),
+          debugShowCheckedModeBanner: false,
           onGenerateRoute: PerfectPlateRouter.generateRoute,
           initialRoute: Routes.homeOrAuth,
         ),
