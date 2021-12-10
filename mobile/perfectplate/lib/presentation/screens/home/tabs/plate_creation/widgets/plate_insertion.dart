@@ -135,6 +135,8 @@ class _PlateInsertionWidgetState extends State<PlateInsertionWidget> {
                         initialDate: _date,
                         firstDate: now.subtract(oneYear), 
                         lastDate: now.add(oneYear),
+                        helpText: 'Selecione o dia de consumo '
+                          '${_plateName.isNotEmpty ? "de $_plateName" : "do prato"}',
                       );
                       if(picked != null && picked != _date) {
                         setState(() {
